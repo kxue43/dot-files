@@ -10,3 +10,12 @@ zip -r dot-files.zip \
 .zprofile \
 .zshrc
 ```
+
+## Make a new release
+
+After creating `dot-files.zip` in the project root folder, choose a right version tag and run the following
+command. Follow prompts.
+
+```bash
+gh release create <TAG> --latest dot-files.zip
+```
