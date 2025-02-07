@@ -59,7 +59,7 @@ nnoremap <F3> :setlocal spell spelllang=en_us<CR>
 "search for visually selected text by <leader>/
 vnoremap <leader>/ y/\V<C-R>=escape(@",'/\')<CR><CR>
 "set no highlight until next search
-nnoremap <silent> <F2> :noh<CR>
+nnoremap <leader>n :noh<CR>
 "convenient copy and paste
 vnoremap <C-c> "+y
 nnoremap <C-v> "+p
@@ -75,6 +75,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'airblade/vim-gitgutter'
+
+Plug 'kxue43/mdmak-vim-plugin', {'for': 'markdown'}
 
 call plug#end()
 "----------------------------------------------------------------------------
@@ -93,6 +95,11 @@ let &undodir = expand('~/.vimdata/undo//')
 if !isdirectory(&undodir) | call mkdir(&undodir, "p") | endif
 if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
+"----------------------------------------------------------------------------
+"mdmak-vim-plugin settings
+let g:mdmak_executable = '/Users/kxue/Library/Python/3.9/bin/mdmak'
+let g:mdmak_plugin_dir = '/Users/kxue/.vim/plugged/mdmak-vim-plugin'
+let g:mdmak_browser = 'Safari'
 "----------------------------------------------------------------------------
 "nerdtree setting
 "automatically open nerdtree
