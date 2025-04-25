@@ -7,7 +7,6 @@ zip -r dot-files.zip \
 .git-prompt.sh \
 .vim/autoload/plug.vim \
 .vimrc \
-.zprofile \
 .zshrc
 ```
 

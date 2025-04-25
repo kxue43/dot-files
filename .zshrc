@@ -1,4 +1,14 @@
 # ------------------------------------------------------------------------
+# Activate brew on Apple ARM machines.
+eval $(/opt/homebrew/bin/brew shellenv)
+# ------------------------------------------------------------------------
+# PATH.
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$HOME/.local/bin:$PATH"
+# ------------------------------------------------------------------------
+# Activate pyenv.
+eval "$(pyenv init -)"
+# ------------------------------------------------------------------------
 # Aliases.
 alias gproj='cd ~/projects'
 alias gtemp='cd ~/temp'
@@ -40,11 +50,6 @@ fi
 # Activate zsh-autosuggestions.
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
-# ------------------------------------------------------------------------
-# ------------------------------------------------------------------------
-# Ideally the following should be placed in ~/.zprofile, but their current
-# implementations require being put here.
-# ------------------------------------------------------------------------
 # ------------------------------------------------------------------------
 # Activate fnm - doesn't cause a slow down as nvm.
 eval "$(fnm env --use-on-cd --shell zsh)"
