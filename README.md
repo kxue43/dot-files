@@ -17,7 +17,9 @@ xcode-select --install
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval $(/opt/homebrew/bin/brew shellenv)
+if ! [[ -v BREW_PREFIX ]]; then
+    eval $(/opt/homebrew/bin/brew shellenv)
+fi
 brew update
 brew upgrade
 ```
@@ -45,16 +47,19 @@ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 pushd ~/.pyenv && src/configure && make -C src && popd
 ```
 
-## Install `pipx`
+## Install `pipx` and `poetry`
 
 ```bash
 brew install pipx
+pipx ensurepath
+pipx install poetry
 ```
 
-## Install `go`
+## Install `go` and `golangci-lint`
 
 ```bash
 brew install go
+brew install golangci-lint
 ```
 
 ## Install `fnm`
@@ -76,7 +81,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 
 ```bash
 git config --global user.name YOUR_USER_NAME
-git config --global user.name YOUR_EMAIL
+git config --global user.email YOUR_EMAIL
 ```
 
 ## Install GitHub CLI
@@ -93,7 +98,68 @@ brew install gh
 Get baseline dot files from GitHub. Note that they _overwrite_ existing local ones.
 
 ```bash
+rm ~/.zprofile
 curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files.zip
 unzip -o dot-files.zip
 rm dot-files.zip
 ```
+
+## All CLI commands
+
+```bash
+xcode-select --install
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if ! [[ -v BREW_PREFIX ]]; then
+    eval $(/opt/homebrew/bin/brew shellenv)
+fi
+brew update
+brew upgrade
+
+brew install git
+
+brew install openssl readline sqlite3 xz zlib tcl-tk
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+pushd ~/.pyenv && src/configure && make -C src && popd
+
+brew install pipx
+pipx ensurepath
+pipx install poetry
+
+brew install go
+brew install golangci-lint
+
+brew install fnm
+
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+
+git config --global user.name kxue43
+git config --global user.email xueke.kent@gmail.com
+
+brew install awscli aws-sam-cli
+
+rm ~/.zprofile
+curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files.zip
+unzip -o dot-files.zip
+rm dot-files.zip
+
+source ~/.zshrc
+
+brew install gh
+gh auth login
+
+pipx inject poetry poetry-plugin-export
+
+pyenv install 3.11.13
+~/.pyenv/versions/3.11.13/bin/python -m pip install "mdmak@https://github.com/kxue43/mdmak/releases/download/1.0.0/mdmak-1.0.0-py3-none-any.whl"
+
+go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
+```
+
+## GUIs and their links
+
+- [MacVim](https://macvim.org/)
+
+- [DejaVu Sans Mono font](https://www.fontsquirrel.com/fonts/dejavu-sans-mono)
+
+  Download. Unzip. Search for "Font Book" app. `File` --> `Add Fonts to Current User`.

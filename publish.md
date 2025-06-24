@@ -4,8 +4,11 @@ Run the following command from the project root directory.
 
 ```bash
 zip -r dot-files.zip \
-.git-prompt.sh \
+.aws/config \
+.aws/credentials \
 .vim/autoload/plug.vim \
+.git-prompt.sh \
+.gvimrc \
 .vimrc \
 .zshrc
 ```

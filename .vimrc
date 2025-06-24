@@ -97,9 +97,9 @@ if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 "----------------------------------------------------------------------------
 "mdmak-vim-plugin settings
-let g:mdmak_executable = '/Users/kxue/Library/Python/3.9/bin/mdmak'
-let g:mdmak_plugin_dir = '/Users/kxue/.vim/plugged/mdmak-vim-plugin'
-let g:mdmak_browser = 'Safari'
+let g:mdmak_executable = '~/.pyenv/versions/3.11.13/bin/mdmak'
+let g:mdmak_python_executable = '~/.pyenv/versions/3.11.13/bin/python'
+let g:mdmak_plugin_dir = '~/.vim/plugged/mdmak-vim-plugin'
 "----------------------------------------------------------------------------
 "nerdtree setting
 "automatically open nerdtree
