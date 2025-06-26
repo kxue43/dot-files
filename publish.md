@@ -15,9 +15,22 @@ zip -r dot-files.zip \
 
 ## Make a new release
 
-After creating `dot-files.zip` in the project root folder, choose a right version tag and run the following
-command. Follow prompts.
+First commit all changes and push to remote.
+
+```bash
+git push
+```
+
+Then create a new `dot-files.zip` using the command above.
+
+Choose a right version tag and run the following command. Follow prompts.
 
 ```bash
 gh release create <TAG> --latest dot-files.zip
+```
+
+Finally pull the new tag from remote down to local.
+
+```bash
+git pull
 ```
