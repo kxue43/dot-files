@@ -1,8 +1,11 @@
 # ------------------------------------------------------------------------
+# brew settings
 # Activate brew on Apple ARM machines.
 if ! [[ -v BREW_PREFIX ]]; then
     eval $(/opt/homebrew/bin/brew shellenv)
 fi
+export HOMEBREW_NO_CLEANUP_FORMULA=go
+export HOMEBREW_FORBIDDEN_FORMULAE=openjdk
 # ------------------------------------------------------------------------
 # PATH.
 export PYENV_ROOT="$HOME/.pyenv"
@@ -11,10 +14,10 @@ export PATH="$HOME/go/bin:$PYENV_ROOT/bin:$HOME/.local/bin:/Applications/MacVim.
 # Activate pyenv.
 eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
-# Java settings.
+# Java settings
 #export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
 # ------------------------------------------------------------------------
-# Groovy settings.
+# Groovy settings
 #export GROOVY_HOME=$HOME/.local/groovy-<SET-HERE>
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
@@ -39,6 +42,8 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 # ------------------------------------------------------------------------
 alias gproj='cd ~/projects'
 alias gtemp='cd ~/temp'
+alias glearn='cd ~/learning'
+alias gascd='cd ~/ascending'
 alias glg='git log --graph --oneline --all'
 alias venvact='. .venv/bin/activate'
 alias clean-aws-cache="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && unset AWS_ACCESS_KEY_ID && unset AWS_CREDENTIAL_EXPIRATION && rm -rf ~/.aws/cli/cache && rm -rf ~/.aws/toolkit-cache"

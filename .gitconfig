@@ -1,0 +1,10 @@
+[core]
+	editor = vim
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true
+[includeIf "gitdir:~/temp/"]
+  path = .gitconfig-personal
+[includeIf "gitdir:~/ascending/"]
+  path = .gitconfig-personal

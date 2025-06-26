@@ -77,13 +77,6 @@ brew install fnm
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 ```
 
-## Set Git global user.name and user.email
-
-```bash
-git config --global user.name YOUR_USER_NAME
-git config --global user.email YOUR_EMAIL
-```
-
 ## Install GitHub CLI
 
 For authentication against GitHub, the most convenient option is to use the GitHub CLI. To install, run the
@@ -102,6 +95,13 @@ rm ~/.zprofile
 curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files.zip
 unzip -o dot-files.zip
 rm dot-files.zip
+```
+
+## Set Git global user.name and user.email
+
+```bash
+git config --global user.name YOUR_USER_NAME
+git config --global user.email YOUR_EMAIL
 ```
 
 ## Install Java, Maven and Gradle
@@ -170,6 +170,9 @@ Open `~/.zshrc`, uncomment the line containing the following content and set the
 ## All CLI commands
 
 ```bash
+export MY_USERNAME=<FILL-IN>
+export MY_EMAIL=<FILL-IN>
+
 xcode-select --install
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -196,15 +199,15 @@ brew install fnm
 
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 
-git config --global user.name kxue43
-git config --global user.email xueke.kent@gmail.com
-
 brew install awscli aws-sam-cli
 
 rm ~/.zprofile
 curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files.zip
 unzip -o dot-files.zip
 rm dot-files.zip
+
+git config --global user.name $MY_USERNAME
+git config --global user.email $MY_EMAIL
 
 source ~/.zshrc
 
@@ -221,16 +224,19 @@ go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
 # Before manually installing maven and gradle, install Amazon Corretto via GUI and set version numbers below.
 export MVN_VERSION=3.9.10
 export GRADLE_VERSION=8.14.2
+
 curl -o ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip -L https://dlcdn.apache.org/maven/maven-3/${MVN_VERSION}/binaries/apache-maven-${MVN_VERSION}-bin.zip
 unzip -d ~/.local/ ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
 pushd ~/.local/bin && \
 ls ~/.local/apache-maven-${MVN_VERSION}/bin | xargs -I % sh -c "ln -s $HOME/.local/apache-maven-${MVN_VERSION}/bin/%" && \
 popd
+
 curl -o ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 unzip -d ~/.local/ ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 pushd ~/.local/bin && \
 ln -s $HOME/.local/gradle-${GRADLE_VERSION}/bin/gradle && \
 popd
+
 rm ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip 
 rm ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 ```
