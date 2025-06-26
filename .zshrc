@@ -12,7 +12,10 @@ export PATH="$HOME/go/bin:$PYENV_ROOT/bin:$HOME/.local/bin:/Applications/MacVim.
 eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
 # Java settings.
-#export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+#export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
+# ------------------------------------------------------------------------
+# Groovy settings.
+#export GROOVY_HOME=$HOME/.local/groovy-<SET-HERE>
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 source ~/.git-prompt.sh
