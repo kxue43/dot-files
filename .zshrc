@@ -4,7 +4,6 @@
 if ! [[ -v BREW_PREFIX ]]; then
     eval $(/opt/homebrew/bin/brew shellenv)
 fi
-export HOMEBREW_NO_CLEANUP_FORMULA=go
 export HOMEBREW_FORBIDDEN_FORMULAE="openjdk awscli"
 # ------------------------------------------------------------------------
 # PATH.
