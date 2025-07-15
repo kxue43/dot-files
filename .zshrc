@@ -17,7 +17,7 @@ eval "$(pyenv init -)"
 #export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
 # ------------------------------------------------------------------------
 # Groovy settings
-#export GROOVY_HOME=$HOME/.local/groovy-<SET-HERE>
+#export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 source ~/.git-prompt.sh

@@ -123,22 +123,22 @@ source ~/.zshrc
 ```
 
 Manually install Maven and Gradle. Set their desired version numbers first.
-Packages are installed in `~/.local`. Symlinks to the binaries are created in `~/.local/bin`.
+Packages are installed in `~/.local/lib`. Symlinks to the binaries are created in `~/.local/bin`.
 
 ```bash
 export MVN_VERSION=3.9.10
 export GRADLE_VERSION=8.14.2
 
 curl -o ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip -L https://dlcdn.apache.org/maven/maven-3/${MVN_VERSION}/binaries/apache-maven-${MVN_VERSION}-bin.zip
-unzip -d ~/.local/ ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
+unzip -d ~/.local/lib ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
 pushd ~/.local/bin && \
-ls ~/.local/apache-maven-${MVN_VERSION}/bin | xargs -I % sh -c "ln -s $HOME/.local/apache-maven-${MVN_VERSION}/bin/%" && \
+ls ~/.local/lib/apache-maven-${MVN_VERSION}/bin | xargs -I % sh -c "ln -s $HOME/.local/lib/apache-maven-${MVN_VERSION}/bin/%" && \
 popd
 
 curl -o ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
-unzip -d ~/.local/ ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
+unzip -d ~/.local/lib ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 pushd ~/.local/bin && \
-ln -s $HOME/.local/gradle-${GRADLE_VERSION}/bin/gradle && \
+ln -s $HOME/.local/lib/gradle-${GRADLE_VERSION}/bin/gradle && \
 popd
 
 rm ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip 
@@ -153,9 +153,9 @@ Set the `GROOVY_VERSION` environment variable below to the corresponding version
 ```bash
 export GROOVY_VERSION=4.0.27
 
-unzip -d ~/.local/ ~/Downloads/apache-groovy-sdk-${GROOVY_VERSION}.zip
+unzip -d ~/.local/lib ~/Downloads/apache-groovy-sdk-${GROOVY_VERSION}.zip
 pushd ~/.local/bin && \
-ls ~/.local/groovy-${GROOVY_VERSION}/bin | grep -v '\.bat$' | grep -v '\.ico$' | xargs -I % sh -c "ln -s $HOME/.local/groovy-${GROOVY_VERSION}/bin/%" && \
+ls ~/.local/lib/groovy-${GROOVY_VERSION}/bin | grep -v '\.bat$' | grep -v '\.ico$' | xargs -I % sh -c "ln -s $HOME/.local/lib/groovy-${GROOVY_VERSION}/bin/%" && \
 popd
 
 rm ~/Downloads/apache-groovy-sdk-${GROOVY_VERSION}.zip
@@ -164,7 +164,7 @@ rm ~/Downloads/apache-groovy-sdk-${GROOVY_VERSION}.zip
 Open `~/.zshrc`, uncomment the line containing the following content and set the installed Groovy version.
 
 ```bash
-#export GROOVY_HOME=$HOME/.local/groovy-<SET-HERE>
+#export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 ```
 
 ## All CLI commands
@@ -201,6 +201,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 
 brew install aws-sam-cli
 
+# The following only works on x86_64. On arm64, build from source (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-source-install.html).
 cat > ~/choices.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -249,15 +250,15 @@ export MVN_VERSION=3.9.10
 export GRADLE_VERSION=8.14.2
 
 curl -o ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip -L https://dlcdn.apache.org/maven/maven-3/${MVN_VERSION}/binaries/apache-maven-${MVN_VERSION}-bin.zip
-unzip -d ~/.local/ ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
+unzip -d ~/.local/lib ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
 pushd ~/.local/bin && \
-ls ~/.local/apache-maven-${MVN_VERSION}/bin | xargs -I % sh -c "ln -s $HOME/.local/apache-maven-${MVN_VERSION}/bin/%" && \
+ls ~/.local/lib/apache-maven-${MVN_VERSION}/bin | xargs -I % sh -c "ln -s $HOME/.local/lib/apache-maven-${MVN_VERSION}/bin/%" && \
 popd
 
 curl -o ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
-unzip -d ~/.local/ ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
+unzip -d ~/.local/lib ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 pushd ~/.local/bin && \
-ln -s $HOME/.local/gradle-${GRADLE_VERSION}/bin/gradle && \
+ln -s $HOME/.local/lib/gradle-${GRADLE_VERSION}/bin/gradle && \
 popd
 
 rm ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip 
