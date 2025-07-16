@@ -6,6 +6,12 @@ First commit all changes and push to remote.
 git push
 ```
 
+Delete release artifact from last time.
+
+```bash
+rm dot-files.zip
+```
+
 Then create a new `dot-files.zip` by running the following command from project root.
 
 ```bash
