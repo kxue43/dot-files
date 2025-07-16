@@ -199,7 +199,8 @@ brew install fnm
 
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 
-brew install aws-sam-cli
+brew install awscli aws-sam-cli
+brew pin awscli
 
 rm ~/.zprofile
 curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files.zip

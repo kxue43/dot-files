@@ -4,7 +4,7 @@
 if ! [[ -v BREW_PREFIX ]]; then
     eval $(/opt/homebrew/bin/brew shellenv)
 fi
-export HOMEBREW_FORBIDDEN_FORMULAE="openjdk awscli"
+export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
 # ------------------------------------------------------------------------
 # PATH.
 export PYENV_ROOT="$HOME/.pyenv"
