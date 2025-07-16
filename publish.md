@@ -6,12 +6,6 @@ First commit all changes and push to remote.
 git push
 ```
 
-Delete release artifact from last time.
-
-```bash
-rm dot-files.zip
-```
-
 Then create a new `dot-files.zip` by running the following command from project root.
 
 ```bash
@@ -31,6 +25,12 @@ Choose a right version tag and run the following command. Follow prompts.
 
 ```bash
 gh release create <TAG> --latest dot-files.zip
+```
+
+Clean up release artifact.
+
+```bash
+rm dot-files.zip
 ```
 
 Finally pull the new tag from remote down to local.
