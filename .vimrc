@@ -76,7 +76,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'airblade/vim-gitgutter'
 
-Plug 'kxue43/mdmak-vim-plugin', {'for': 'markdown'}
+Plug 'kxue43/showmd-vim-plugin', {'for': 'markdown'}
 
 call plug#end()
 "----------------------------------------------------------------------------
@@ -95,11 +95,6 @@ let &undodir = expand('~/.vimdata/undo//')
 if !isdirectory(&undodir) | call mkdir(&undodir, "p") | endif
 if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
-"----------------------------------------------------------------------------
-"mdmak-vim-plugin settings
-let g:mdmak_executable = '~/.pyenv/versions/3.11.13/bin/mdmak'
-let g:mdmak_python_executable = '~/.pyenv/versions/3.11.13/bin/python'
-let g:mdmak_plugin_dir = '~/.vim/plugged/mdmak-vim-plugin'
 "----------------------------------------------------------------------------
 "nerdtree setting
 "automatically open nerdtree
