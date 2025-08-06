@@ -8,3 +8,7 @@
   path = .gitconfig-personal
 [includeIf "gitdir:~/ascending/"]
   path = .gitconfig-personal
+[submodule]
+	recurse = true
+[push]
+	recurseSubmodules = check
