@@ -12,3 +12,7 @@
 	recurse = true
 [push]
 	recurseSubmodules = check
+[alias]
+	smu = submodule update --init --recursive
+	sms = submodule status
+	sma = submodule add
