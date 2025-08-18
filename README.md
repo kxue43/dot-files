@@ -53,13 +53,13 @@ pushd ~/.pyenv && src/configure && make -C src && popd
 brew install pipx
 pipx ensurepath
 pipx install poetry
+pipx inject poetry poetry-plugin-export
 ```
 
-## Install `go` and `golangci-lint`
+## Install `go`
 
 ```bash
 brew install go
-brew install golangci-lint
 ```
 
 ## Install `fnm`
@@ -191,9 +191,9 @@ pushd ~/.pyenv && src/configure && make -C src && popd
 brew install pipx
 pipx ensurepath
 pipx install poetry
+pipx inject poetry poetry-plugin-export
 
 brew install go
-brew install golangci-lint
 
 brew install fnm
 
@@ -215,12 +215,10 @@ source ~/.zshrc
 brew install gh
 gh auth login
 
-pipx inject poetry poetry-plugin-export
-
-pyenv install 3.11.13
-~/.pyenv/versions/3.11.13/bin/python -m pip install "mdmak@https://github.com/kxue43/mdmak/releases/download/1.0.0/mdmak-1.0.0-py3-none-any.whl"
-
 go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-assume-role@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-serve-static@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
 
 # Before manually installing maven and gradle, install Amazon Corretto via GUI and set version numbers below.
 export MVN_VERSION=3.9.10
