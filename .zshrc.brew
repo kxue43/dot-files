@@ -1,10 +1,14 @@
 # ------------------------------------------------------------------------
+# brew settings
+# Activate brew on Apple ARM machines.
+if ! [[ -v BREW_PREFIX ]]; then
+    eval $(/opt/homebrew/bin/brew shellenv)
+fi
+export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
+# ------------------------------------------------------------------------
 # PATH.
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$HOME/go/bin:$PYENV_ROOT/bin:$HOME/.local/bin:/Applications/MacVim.app/Contents/bin:$PATH"
-# ------------------------------------------------------------------------
-# MacPorts settings
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 # ------------------------------------------------------------------------
 # Activate pyenv.
 eval "$(pyenv init -)"
@@ -18,6 +22,13 @@ eval "$(pyenv init -)"
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 source ~/.git-prompt.sh
 setopt PROMPT_SUBST ; PS1=$'%B%F{cyan}%n@localhost:%F{12}%~%F{11} $(__git_ps1 "(%s)")\n%(?.%F{10}\U2714.%F{9}\U2718)%b%f\$ '
+# ------------------------------------------------------------------------
+# Use installed zsh completions.
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+  autoload -Uz compinit
+  compinit
+fi
 # ------------------------------------------------------------------------
 # Activate zsh-autosuggestions.
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh

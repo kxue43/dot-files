@@ -13,21 +13,26 @@ All commands in this README should be executed from the user's home directory.
 xcode-select --install
 ```
 
-## Install `homebrew` and perform initial `update` and `upgrade`
+## Install MacPorts
+
+Use the GUI installer downloaded from the MacPorts website. Choose to use the "default prefix" during installation.
+
+Set `PATH` for MacPorts in `~/.zshrc`. Restart terminal.
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-if ! [[ -v BREW_PREFIX ]]; then
-    eval $(/opt/homebrew/bin/brew shellenv)
-fi
-brew update
-brew upgrade
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+```
+
+Perform initial `selfupdate`.
+
+```bash
+sudo port selfupdate
 ```
 
 ## Install `git`
 
 ```bash
-brew install git
+sudo port install git
 ```
 
 ## Install `pyenv`
@@ -37,7 +42,7 @@ compiling them from C source code. A C compiler has been installed with Xcode Co
 and here we install various C libraries that are needed to compile Python interpreters. 
 
 ```bash
-brew install openssl readline sqlite3 xz zlib tcl-tk
+sudo port install pkgconfig openssl xz gdbm tcl tk +quartz sqlite3 sqlite3-tcl zstd
 ```
 
 Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
@@ -50,7 +55,7 @@ pushd ~/.pyenv && src/configure && make -C src && popd
 ## Install `pipx` and `poetry`
 
 ```bash
-brew install pipx
+sudo port install pipx
 pipx ensurepath
 pipx install poetry
 pipx inject poetry poetry-plugin-export
@@ -59,7 +64,7 @@ pipx inject poetry poetry-plugin-export
 ## Install `go`
 
 ```bash
-brew install go
+sudo port install go
 ```
 
 ## Install `fnm`
@@ -68,7 +73,7 @@ brew install go
 The CLI interface is largely similar to that of `nvm`.
 
 ```bash
-brew install fnm
+sudo port install fnm
 ```
 
 ## Install `zsh-autosuggestions`
@@ -83,7 +88,7 @@ For authentication against GitHub, the most convenient option is to use the GitH
 following commands.
 
 ```bash
-brew install gh
+sudo port install gh
 ```
 
 ## Get baseline dot files
@@ -92,7 +97,7 @@ Get baseline dot files from GitHub. Note that they _overwrite_ existing local on
 
 ```bash
 rm ~/.zprofile
-curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-brew.zip
+curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-macports.zip
 unzip -o dot-files.zip
 rm dot-files.zip
 ```
@@ -106,7 +111,7 @@ git config --global user.email YOUR_EMAIL
 
 ## Install Java, Maven and Gradle
 
-We install them manually to avoid the Oracle OpenJDK that comes from `brew install ...`.
+Don't install the Oracle OpenJDK.
 
 First google "Amazon Corretto" and install an LTS version (8, 11, 17 or 21).
 
@@ -167,77 +172,13 @@ Open `~/.zshrc`, uncomment the line containing the following content and set the
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 ```
 
-## All CLI commands
+## Install toolkit executables
 
 ```bash
-export MY_USERNAME=<FILL-IN>
-export MY_EMAIL=<FILL-IN>
-
-xcode-select --install
-
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-if ! [[ -v BREW_PREFIX ]]; then
-    eval $(/opt/homebrew/bin/brew shellenv)
-fi
-brew update
-brew upgrade
-
-brew install git
-
-brew install openssl readline sqlite3 xz zlib tcl-tk
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-pushd ~/.pyenv && src/configure && make -C src && popd
-
-brew install pipx
-pipx ensurepath
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-
-brew install go
-
-brew install fnm
-
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-
-brew install awscli aws-sam-cli
-brew pin awscli
-
-rm ~/.zprofile
-curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files.zip
-unzip -o dot-files.zip
-rm dot-files.zip
-
-git config --global user.name $MY_USERNAME
-git config --global user.email $MY_EMAIL
-
-source ~/.zshrc
-
-brew install gh
-gh auth login
-
 go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
 go install github.com/kxue43/cli-toolkit/cmd/toolkit-assume-role@latest
 go install github.com/kxue43/cli-toolkit/cmd/toolkit-serve-static@latest
 go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
-
-# Before manually installing maven and gradle, install Amazon Corretto via GUI and set version numbers below.
-export MVN_VERSION=3.9.10
-export GRADLE_VERSION=8.14.2
-
-curl -o ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip -L https://dlcdn.apache.org/maven/maven-3/${MVN_VERSION}/binaries/apache-maven-${MVN_VERSION}-bin.zip
-unzip -d ~/.local/lib ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
-pushd ~/.local/bin && \
-ls ~/.local/lib/apache-maven-${MVN_VERSION}/bin | xargs -I % sh -c "ln -s $HOME/.local/lib/apache-maven-${MVN_VERSION}/bin/%" && \
-popd
-
-curl -o ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
-unzip -d ~/.local/lib ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
-pushd ~/.local/bin && \
-ln -s $HOME/.local/lib/gradle-${GRADLE_VERSION}/bin/gradle && \
-popd
-
-rm ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip 
-rm ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 ```
 
 ## GUIs and their links
