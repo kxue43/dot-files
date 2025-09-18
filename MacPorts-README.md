@@ -32,7 +32,7 @@ sudo port selfupdate
 ## Install `git`
 
 ```bash
-sudo port install git +bash_completion
+sudo port install git
 ```
 
 ## Install `pyenv`
