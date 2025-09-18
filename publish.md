@@ -25,12 +25,12 @@ zip -r dot-files-macports.zip \
 .aws/config \
 .aws/credentials \
 .vim/autoload/plug.vim \
-.git-prompt.sh \
 .gitconfig \
 .gitconfig-personal \
 .gvimrc \
 .vimrc \
-.zshrc
+.zshrc && \
+rm .zshrc
 ```
 
 Choose a right version tag and run the following command. Follow prompts.
