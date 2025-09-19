@@ -9,28 +9,22 @@ git push
 Then create new `dot-files-brew.zip` and `dot-files-macports.zip` by running the following command from project root.
 
 ```bash
-cp .zshrc.brew .zshrc && \
-zip -r dot-files-brew.zip \
-.aws/config \
-.aws/credentials \
-.vim/autoload/plug.vim \
-.git-prompt.sh \
-.gitconfig \
-.gitconfig-personal \
-.gvimrc \
-.vimrc \
-.zshrc && \
-rm .zshrc && cp .zshrc.macports .zshrc && \
-zip -r dot-files-macports.zip \
-.aws/config \
-.aws/credentials \
-.vim/autoload/plug.vim \
-.gitconfig \
-.gitconfig-personal \
-.gvimrc \
-.vimrc \
-.zshrc && \
-rm .zshrc
+make-zip() {
+  cp .zprofile.${@} .zprofile && \
+  zip -r dot-files-${@}.zip \
+  .aws/config \
+  .aws/credentials \
+  .vim/autoload/plug.vim \
+  .git-prompt.sh \
+  .gitconfig \
+  .gitconfig-personal \
+  .gvimrc \
+  .vimrc \
+  .zprofile \
+  .zshrc && \
+  rm .zprofile
+}
+make-zip brew && make-zip macports
 ```
 
 Choose a right version tag and run the following command. Follow prompts.

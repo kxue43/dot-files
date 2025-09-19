@@ -1,0 +1,34 @@
+# ------------------------------------------------------------------------
+# brew settings
+# Activate brew on Apple ARM machines.
+if ! [[ -v BREW_PREFIX ]]; then
+    eval $(/opt/homebrew/bin/brew shellenv)
+fi
+export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
+# ------------------------------------------------------------------------
+# PATH.
+export PATH="$HOME/go/bin:$HOME/.local/bin:$PYENV_ROOT/bin:/Applications/MacVim.app/Contents/bin:$PATH"
+# ------------------------------------------------------------------------
+# Activate pyenv.
+eval "$(pyenv init -)"
+# ------------------------------------------------------------------------
+# Java settings
+#export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
+# ------------------------------------------------------------------------
+# Groovy settings
+#export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
+# ------------------------------------------------------------------------
+# Use installed zsh completions.
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+  autoload -Uz compinit
+  compinit
+fi
+# ------------------------------------------------------------------------
+# Activate zsh-autosuggestions.
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+bindkey '^ ' autosuggest-accept
+# ------------------------------------------------------------------------
+# Activate fnm - doesn't cause a slow down as nvm.
+eval "$(fnm env --use-on-cd --shell zsh)"
+# ------------------------------------------------------------------------

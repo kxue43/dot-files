@@ -1,35 +1,7 @@
 # ------------------------------------------------------------------------
-# PATH.
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$HOME/go/bin:$PYENV_ROOT/bin:$HOME/.local/bin:/Applications/MacVim.app/Contents/bin:$PATH"
-# ------------------------------------------------------------------------
-# MacPorts settings
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-# ------------------------------------------------------------------------
-# Activate pyenv.
-eval "$(pyenv init -)"
-# ------------------------------------------------------------------------
-# Java settings
-#export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
-# ------------------------------------------------------------------------
-# Groovy settings
-#export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
-# ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
-source /opt/local/share/git/git-prompt.sh
+source ~/.git-prompt.sh
 setopt PROMPT_SUBST ; PS1=$'%B%F{cyan}%n@localhost:%F{12}%~%F{11} $(__git_ps1 "(%s)")\n%(?.%F{10}\U2714.%F{9}\U2718)%b%f\$ '
-# ------------------------------------------------------------------------
-# Activate various CLI completions.
-FPATH="/opt/local/share/zsh/site-functions:$FPATH"
-autoload -Uz compinit
-compinit
-# ------------------------------------------------------------------------
-# Activate zsh-autosuggestions.
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^ ' autosuggest-accept
-# ------------------------------------------------------------------------
-# Activate fnm - doesn't cause a slow down as nvm.
-eval "$(fnm env --use-on-cd --shell zsh)"
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
