@@ -7,11 +7,23 @@ and a few baseline dot files as a GitHub release asset. It is geared towards Go,
 
 All commands in this README should be executed from the user's home directory.
 
+For using MacPorts instead of Homebrew as the package manager, refer to [MacPorts-README](./MacPorts-README.md).
+
 ## Install Xcode Command Line Tools
 
 ```bash
 xcode-select --install
 ```
+
+## Install via GUI
+
+- [Amazon Corretto 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
+
+- [MacVim](https://macvim.org/)
+
+- [DejaVu Sans Mono font](https://www.fontsquirrel.com/fonts/dejavu-sans-mono)
+
+  Download. Unzip. Search for "Font Book" app. `File` --> `Add Fonts to Current User`.
 
 ## Install `homebrew` and perform initial `update` and `upgrade`
 
@@ -77,6 +89,16 @@ brew install fnm
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 ```
 
+## Install AWS CLI v2
+
+After installation, pin it to avoid unnecessary frequent version upgrade. It's enough to upgrade for every minor
+version bump only.
+
+```bash
+brew install awscli
+brew pin awscli
+```
+
 ## Install GitHub CLI
 
 For authentication against GitHub, the most convenient option is to use the GitHub CLI. To install, run the
@@ -102,6 +124,15 @@ rm dot-files.zip
 ```bash
 git config --global user.name YOUR_USER_NAME
 git config --global user.email YOUR_EMAIL
+```
+
+## Install toolkit executables
+
+```bash
+go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-assume-role@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-serve-static@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
 ```
 
 ## Install Java, Maven and Gradle
@@ -166,86 +197,3 @@ Open `~/.zshrc`, uncomment the line containing the following content and set the
 ```bash
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 ```
-
-## All CLI commands
-
-```bash
-export MY_USERNAME=<FILL-IN>
-export MY_EMAIL=<FILL-IN>
-
-xcode-select --install
-
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-if ! [[ -v BREW_PREFIX ]]; then
-    eval $(/opt/homebrew/bin/brew shellenv)
-fi
-brew update
-brew upgrade
-
-brew install git
-
-brew install openssl readline sqlite3 xz zlib tcl-tk
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-pushd ~/.pyenv && src/configure && make -C src && popd
-
-brew install pipx
-pipx ensurepath
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-
-brew install go
-
-brew install fnm
-
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-
-brew install awscli aws-sam-cli
-brew pin awscli
-
-rm ~/.zprofile
-curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files.zip
-unzip -o dot-files.zip
-rm dot-files.zip
-
-git config --global user.name $MY_USERNAME
-git config --global user.email $MY_EMAIL
-
-source ~/.zshrc
-
-brew install gh
-gh auth login
-
-go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
-go install github.com/kxue43/cli-toolkit/cmd/toolkit-assume-role@latest
-go install github.com/kxue43/cli-toolkit/cmd/toolkit-serve-static@latest
-go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
-
-# Before manually installing maven and gradle, install Amazon Corretto via GUI and set version numbers below.
-export MVN_VERSION=3.9.10
-export GRADLE_VERSION=8.14.2
-
-curl -o ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip -L https://dlcdn.apache.org/maven/maven-3/${MVN_VERSION}/binaries/apache-maven-${MVN_VERSION}-bin.zip
-unzip -d ~/.local/lib ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
-pushd ~/.local/bin && \
-ls ~/.local/lib/apache-maven-${MVN_VERSION}/bin | xargs -I % sh -c "ln -s $HOME/.local/lib/apache-maven-${MVN_VERSION}/bin/%" && \
-popd
-
-curl -o ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
-unzip -d ~/.local/lib ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
-pushd ~/.local/bin && \
-ln -s $HOME/.local/lib/gradle-${GRADLE_VERSION}/bin/gradle && \
-popd
-
-rm ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip 
-rm ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
-```
-
-## GUIs and their links
-
-- [Amazon Corretto 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
-
-- [MacVim](https://macvim.org/)
-
-- [DejaVu Sans Mono font](https://www.fontsquirrel.com/fonts/dejavu-sans-mono)
-
-  Download. Unzip. Search for "Font Book" app. `File` --> `Add Fonts to Current User`.

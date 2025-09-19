@@ -7,11 +7,28 @@ and a few baseline dot files as a GitHub release asset. It is geared towards Go,
 
 All commands in this README should be executed from the user's home directory.
 
+This is intended for those Macbooks whose OS has dropped out of Homebrew Tier 1 support.
+For example, when macOS Tahoe was released, Ventura dropped to Homebrew Tier 3 support, and a 2017 Macbook Pro cannot
+upgrade beyond Ventura. Since Tahoe is the last macOS that supports `x86_64`, eventually all Intel-chip Macbooks
+have to use MacPorts instead of Homebrew.
+
 ## Install Xcode Command Line Tools
 
 ```bash
 xcode-select --install
 ```
+
+## Install via GUI
+
+- [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+- [Amazon Corretto 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
+
+- [MacVim](https://macvim.org/)
+
+- [DejaVu Sans Mono font](https://www.fontsquirrel.com/fonts/dejavu-sans-mono)
+
+  Download. Unzip. Search for "Font Book" app. `File` --> `Add Fonts to Current User`.
 
 ## Install MacPorts
 
@@ -109,6 +126,15 @@ git config --global user.name YOUR_USER_NAME
 git config --global user.email YOUR_EMAIL
 ```
 
+## Install toolkit executables
+
+```bash
+go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-assume-role@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-serve-static@latest
+go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
+```
+
 ## Install Java, Maven and Gradle
 
 Don't install the Oracle OpenJDK.
@@ -171,22 +197,3 @@ Open `~/.zshrc`, uncomment the line containing the following content and set the
 ```bash
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 ```
-
-## Install toolkit executables
-
-```bash
-go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
-go install github.com/kxue43/cli-toolkit/cmd/toolkit-assume-role@latest
-go install github.com/kxue43/cli-toolkit/cmd/toolkit-serve-static@latest
-go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
-```
-
-## GUIs and their links
-
-- [Amazon Corretto 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
-
-- [MacVim](https://macvim.org/)
-
-- [DejaVu Sans Mono font](https://www.fontsquirrel.com/fonts/dejavu-sans-mono)
-
-  Download. Unzip. Search for "Font Book" app. `File` --> `Add Fonts to Current User`.
