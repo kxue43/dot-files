@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document covers how to set up a MacBook as a developer machine. It provides installation steps in this README,
+This document covers how to set up a MacBook as a developer machine. It provides installation steps,
 and a few baseline dot files as a GitHub release asset. It is geared towards Go, Java, Python and JavaScript development.
 
 All commands in this README should be executed from the user's home directory.
@@ -34,7 +34,7 @@ xcode-select --install
 
 Use the GUI installer downloaded from the MacPorts website. Choose to use the "default prefix" during installation.
 
-Set `PATH` for MacPorts in `~/.zshrc`. Restart terminal.
+Set `PATH` for MacPorts in `~/.zprofile`. Restart terminal.
 
 ```bash
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
@@ -55,8 +55,7 @@ sudo port install git
 ## Install `pyenv`
 
 `pyenv` is a CLI tool written in shell scripts. It installs multiple versions of Python by downloading and
-compiling them from C source code. A C compiler has been installed with Xcode Command Line Tools,
-and here we install various C libraries that are needed to compile Python interpreters. 
+compiling them from C source code. First we install various tools that are needed to compile Python interpreters. 
 
 ```bash
 sudo port install pkgconfig openssl xz gdbm tcl tk +quartz sqlite3 sqlite3-tcl zstd
@@ -86,7 +85,7 @@ sudo port install go
 
 ## Install `fnm`
 
-`fnm` is a Node versions manager that doesn't cause a noticeable slow down when sourcing `~/.zshrc`.
+`fnm` is a Node versions manager that doesn't cause a noticeable slow down at activation.
 The CLI interface is largely similar to that of `nvm`.
 
 ```bash
@@ -113,7 +112,6 @@ sudo port install gh
 Get baseline dot files from GitHub. Note that they _overwrite_ existing local ones.
 
 ```bash
-rm ~/.zprofile
 curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-macports.zip
 unzip -o dot-files.zip
 rm dot-files.zip
@@ -141,16 +139,16 @@ Don't install the Oracle OpenJDK.
 
 First google "Amazon Corretto" and install an LTS version (8, 11, 17 or 21).
 
-Open `~/.zshrc`, uncomment the line containing the following content and set the installed Java version.
+Open `~/.zprofile`, uncomment the line containing the following content and set the installed Java version.
 
 ```bash
 #export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
 ```
 
-Source `~/.zshrc` to refresh settings.
+Source `~/.zprofile` to refresh settings.
 
 ```bash
-source ~/.zshrc
+source ~/.zprofile
 ```
 
 Manually install Maven and Gradle. Set their desired version numbers first.
@@ -192,7 +190,7 @@ popd
 rm ~/Downloads/apache-groovy-sdk-${GROOVY_VERSION}.zip
 ```
 
-Open `~/.zshrc`, uncomment the line containing the following content and set the installed Groovy version.
+Open `~/.zprofile`, uncomment the line containing the following content and set the installed Groovy version.
 
 ```bash
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
