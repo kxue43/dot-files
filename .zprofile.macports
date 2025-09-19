@@ -11,15 +11,6 @@ eval "$(pyenv init -)"
 # Groovy settings
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 # ------------------------------------------------------------------------
-# Activate various CLI completions.
-FPATH="/opt/local/share/zsh/site-functions:$FPATH"
-autoload -Uz compinit
-compinit
-# ------------------------------------------------------------------------
-# Activate zsh-autosuggestions.
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^ ' autosuggest-accept
-# ------------------------------------------------------------------------
 # Activate fnm - doesn't cause a slow down as nvm.
 eval "$(fnm env --use-on-cd --shell zsh)"
 # ------------------------------------------------------------------------

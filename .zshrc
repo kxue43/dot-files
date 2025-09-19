@@ -1,4 +1,19 @@
 # ------------------------------------------------------------------------
+# Use installed zsh completions.
+if type brew &>/dev/null; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:$FPATH"
+else
+  FPATH="/opt/local/share/zsh/site-functions:$FPATH"
+fi
+autoload -Uz compinit
+compinit
+# ------------------------------------------------------------------------
+# Activate zsh-autosuggestions.
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+bindkey '^ ' autosuggest-accept
+bindkey '^l' forward-word
+bindkey '^h' backward-kill-word
+# ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 source ~/.git-prompt.sh
 setopt PROMPT_SUBST ; PS1=$'%B%F{cyan}%n@localhost:%F{12}%~%F{11} $(__git_ps1 "(%s)")\n%(?.%F{10}\U2714.%F{9}\U2718)%b%f\$ '
