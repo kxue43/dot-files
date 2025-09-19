@@ -197,3 +197,32 @@ Open `~/.zshrc`, uncomment the line containing the following content and set the
 ```bash
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 ```
+
+## VSCode integrated terminal
+
+According to [VSCode documentation](https://code.visualstudio.com/docs/terminal/advanced#_environment-inheritance):
+
+> When VS Code is opened, it launches a login shell environment in order to source a shell environment.
+>
+> By default, the (integrated) terminal inherits this environment.
+
+Therefore, ideally, `.zprofile` should be sourced only once by VSCode on its start-up. When creating a new integrated
+terminal, the environment configurations from `.zprofile` should be inherited and only `.zshrc` should be sourced.
+This aligns with the best practices of using `.zprofile` and `.zshrc`:
+- `PATH` setting and tooling activation should be in `.zprofile`, which is sourced only once on user login
+  (on modern macOS it's sourced on every opening of a terminal emulator, which emulates a user login via a physical console).
+- Prompt customization, alias and function definitions should be in `.zshrc`, which is sourced whenever a new
+  interactive shell is created.
+
+To make this happen, the global `settings.json` of VSCode should contain the following pieces.
+The `-i` option to `/bin/zsh` ensures that the new integrated terminal session is interactive but non-login.
+
+```
+"terminal.integrated.profiles.osx": {
+  "zsh": {
+    "path": "/bin/zsh",
+    "args": ["-i"]
+  }
+},
+"terminal.integrated.defaultProfile.osx": "zsh",
+```
