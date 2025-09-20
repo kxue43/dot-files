@@ -112,7 +112,7 @@ brew install gh
 Get baseline dot files from GitHub. Note that they _overwrite_ existing local ones.
 
 ```bash
-curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-brew.zip
+curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files.zip
 unzip -o dot-files.zip
 rm dot-files.zip
 ```
