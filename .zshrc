@@ -1,10 +1,42 @@
 # ------------------------------------------------------------------------
+# Idempotent PATH settings.
+if ! printenv KXUE43_SHELL_INIT &> /dev/null; then
+  export KXUE43_SHELL_INIT=1
+
+  PATH="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin:$PATH"
+
+  if ! [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
+    # No Homebrew means MacPorts is in use. Add it to PATH.
+    PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+  fi
+  
+  export PATH
+fi
+# -----------------------------------------------------------------------
+if [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
+  # If Homebrew is in use, activate it.
+  export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
+  eval $(/opt/homebrew/bin/brew shellenv)
+fi
+# -----------------------------------------------------------------------
+# Activate pyenv.
+eval "$(pyenv init -)"
+# ------------------------------------------------------------------------
+# Java settings.
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+# ------------------------------------------------------------------------
+# Groovy settings.
+export GROOVY_HOME=$HOME/.local/lib/groovy-4.0.27
+# ------------------------------------------------------------------------
+# Activate fnm.
+eval "$(fnm env --use-on-cd --shell zsh)"
+# ------------------------------------------------------------------------
 # Use installed zsh completions.
-if type brew &>/dev/null; then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:$FPATH"
-else
+if ! [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
+  # No Homebrew means MacPorts is in use. Set FPATH for it.
   FPATH="/opt/local/share/zsh/site-functions:$FPATH"
 fi
+
 autoload -Uz compinit
 compinit
 # ------------------------------------------------------------------------
@@ -18,9 +50,6 @@ bindkey '^h' backward-kill-word
 source ~/.git-prompt.sh
 setopt PROMPT_SUBST
 PS1=$'%B%F{cyan}%n@localhost:%F{12}%~%F{11} $(__git_ps1 "(%s)")\n%(?.%F{10}\U2714.%F{9}\U2718)%b%f\$ '
-# ------------------------------------------------------------------------
-# Activate fnm - if put in .zprofile, it loses the --use-on-cd effect, but basic command such as `fnm use` still works.
-eval "$(fnm env --use-on-cd --shell zsh)"
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
