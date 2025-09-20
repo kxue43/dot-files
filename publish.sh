@@ -2,7 +2,8 @@
 
 make-zip() {
   git push && \
-  zip -r dot-files.zip \
+  cp .zprofile.${1} .zprofile && \
+  zip -r dot-files-${1}.zip \
   .aws/config \
   .aws/credentials \
   .vim/autoload/plug.vim \
@@ -12,12 +13,14 @@ make-zip() {
   .gvimrc \
   .vimrc \
   .zprofile \
-  .zshrc
+  .zshrc && \
+  rm .zprofile
 }
 
 make-release() {
-  gh release create --latest -p=false -n "" ${1} dot-files.zip
+  gh release create --latest -p=false -n "" ${1} dot-files-brew.zip dot-files-macports.zip
   git pull
+  rm dot-files-brew.zip dot-files-macports.zip
 }
 
-make-zip && make-release ${1}
+make-zip brew && make-zip macports && make-release ${1}
