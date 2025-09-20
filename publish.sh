@@ -18,6 +18,7 @@ make-zip() {
 make-release() {
   gh release create --latest -p=false -n "" ${1} dot-files.zip
   git pull
+  rm dot-files.zip
 }
 
 make-zip && make-release ${1}
