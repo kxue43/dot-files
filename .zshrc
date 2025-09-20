@@ -16,7 +16,11 @@ bindkey '^h' backward-kill-word
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 source ~/.git-prompt.sh
-setopt PROMPT_SUBST ; PS1=$'%B%F{cyan}%n@localhost:%F{12}%~%F{11} $(__git_ps1 "(%s)")\n%(?.%F{10}\U2714.%F{9}\U2718)%b%f\$ '
+setopt PROMPT_SUBST
+PS1=$'%B%F{cyan}%n@localhost:%F{12}%~%F{11} $(__git_ps1 "(%s)")\n%(?.%F{10}\U2714.%F{9}\U2718)%b%f\$ '
+# ------------------------------------------------------------------------
+# Activate fnm - if put in .zprofile, it loses the --use-on-cd effect, but basic command such as `fnm use` still works.
+eval "$(fnm env --use-on-cd --shell zsh)"
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
