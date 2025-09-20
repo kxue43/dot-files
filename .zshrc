@@ -22,11 +22,11 @@ fi
 # Activate pyenv.
 eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
-# Java settings.
-export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+# Java settings
+#export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
 # ------------------------------------------------------------------------
-# Groovy settings.
-export GROOVY_HOME=$HOME/.local/lib/groovy-4.0.27
+# Groovy settings
+#export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 # ------------------------------------------------------------------------
 # Activate fnm.
 eval "$(fnm env --use-on-cd --shell zsh)"

@@ -204,23 +204,28 @@ According to [VSCode documentation](https://code.visualstudio.com/docs/terminal/
 >
 > By default, the (integrated) terminal inherits this environment.
 
-Therefore, ideally, `.zprofile` should be sourced only once by VSCode on its start-up. When creating a new integrated
-terminal, the environment configurations from `.zprofile` should be inherited and only `.zshrc` should be sourced.
-This aligns with the best practices of using `.zprofile` and `.zshrc`:
-- `PATH` setting and tooling activation should be in `.zprofile`, which is sourced only once on user login
-  (on modern macOS it's sourced on every opening of a terminal emulator, which emulates a user login via a physical console).
-- Prompt customization, alias and function definitions should be in `.zshrc`, which is sourced whenever a new
-  interactive shell is created.
+After experiment, it was discovered that, as of 2025-09-20, the login shell that VSCode launches at its start-up
+is also interactive. That is, this shell sources both `~/.zprofile` and `~/.zshrc`, and all integrated terminal
+thereafter inherits this environment.
 
-To make this happen, the global `settings.json` of VSCode should contain the following pieces.
-The `-i` option to `/bin/zsh` ensures that the new integrated terminal session is interactive but non-login.
+We should put the following piece in the global `settings.json` of VSCode.
 
 ```
 "terminal.integrated.profiles.osx": {
   "zsh": {
-    "path": "/bin/zsh",
+    "path": "zsh",
     "args": ["-i"]
   }
 },
 "terminal.integrated.defaultProfile.osx": "zsh",
 ```
+
+Otherwise the directories `$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin`
+will be appended to the end of `PATH` instead of prepended to the beginning. The `-i` argument to `zsh` means the
+`~/.zshrc` file is sourced again at the creation of the integrated terminal. This is the cause of the duplicate `PATH`
+entries for `fnm`. We have to run `eval $(fnm env --use-on-cd --shell zsh)` again in the second sourcing of `~/.zshrc`,
+because it defines a hook function that enables use-on-cd (child shell doesn't inherit parent shell's function
+definitions).
+
+The best solution would be for `fnm env --use-on-cd --shell zsh` to output a script that doesn't prepend a `PATH`
+entry when one is already in place. This is what `pyenv` does.
