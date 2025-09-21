@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------
 # Idempotent PATH settings.
-if ! printenv KXUE43_SHELL_INIT &> /dev/null; then
+if [ -z ${KXUE43_SHELL_INIT+x} ]; then
   export KXUE43_SHELL_INIT=1
 
   PATH="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin:$PATH"
@@ -29,7 +29,14 @@ eval "$(pyenv init -)"
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
 # ------------------------------------------------------------------------
 # Activate fnm.
-eval "$(fnm env --use-on-cd --shell zsh)"
+if [ -z ${KXUE43_SHELL_INIT+x} ]; then
+  eval "$(fnm env --use-on-cd --shell zsh)"
+else
+  # Trim the duplicate fnm item in the middle of PATH if exists.
+  export PATH=$(echo -n $PATH | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":")
+  # Then activate fnm again, for the use-on-cd effect.
+  eval "$(fnm env --use-on-cd --shell zsh)"
+fi
 # ------------------------------------------------------------------------
 # Use installed zsh completions.
 if ! [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then

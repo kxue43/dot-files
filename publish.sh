@@ -11,6 +11,7 @@ make-zip() {
   .gitconfig-personal \
   .gvimrc \
   .vimrc \
+  .zlogout \
   .zshrc
 }
 

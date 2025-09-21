@@ -222,10 +222,4 @@ We should put the following piece in the global `settings.json` of VSCode.
 
 Otherwise the directories `$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin`
 will be appended to the end of `PATH` instead of prepended to the beginning. The `-i` argument to `zsh` means the
-`~/.zshrc` file is sourced again at the creation of the integrated terminal. This is the cause of the duplicate `PATH`
-entries for `fnm`. We have to run `eval $(fnm env --use-on-cd --shell zsh)` again in the second sourcing of `~/.zshrc`,
-because it defines a hook function that enables use-on-cd (child shell doesn't inherit parent shell's function
-definitions).
-
-The best solution would be for `fnm env --use-on-cd --shell zsh` to output a script that doesn't prepend a `PATH`
-entry when one is already in place. This is what `pyenv` does.
+`~/.zshrc` file is sourced again at the creation of the integrated terminal.
