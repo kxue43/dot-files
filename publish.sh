@@ -22,4 +22,8 @@ make-release() {
   rm dot-files.zip
 }
 
+delete-release() {
+  gh release delete --cleanup-tag ${1}
+}
+
 make-zip && make-release ${1}

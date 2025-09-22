@@ -39,11 +39,11 @@ else
 fi
 # ------------------------------------------------------------------------
 # Use installed bash completions.
-if ! [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
+if [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
+  source /opt/homebrew/share/bash-completion/bash_completion
+else
   # No Homebrew means MacPorts is in use. Set FPATH for it.
   source /opt/local/share/bash-completion/bash_completion
-
-  # TODO: add for when Homebrew is in use.
 fi
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
@@ -56,6 +56,8 @@ alias gproj='cd ~/projects'
 alias gtemp='cd ~/temp'
 alias glearn='cd ~/learning'
 alias gascd='cd ~/ascending'
+alias gdump='cd ~/temp/dump'
+alias rdump='pushd ~/temp ; rm -rf dump && mkdir dump ; popd'
 alias glg-l='git log --graph --oneline --decorate-refs=refs/heads'
 alias glg-lr='git log --graph --oneline --branches'
 alias glg-a='git log --graph --oneline --all'
@@ -69,6 +71,7 @@ alias gs='git status'
 alias gci='aws sts get-caller-identity'
 alias ls-path='printenv PATH | tr ":" "\n"'
 alias gfpt='git fetch orgin --prune --prune-tags'
+alias gmh='git log --oneline main..HEAD'
 # ------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------

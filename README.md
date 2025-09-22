@@ -47,16 +47,14 @@ eval $(/opt/homebrew/bin/brew shellenv)
 ## Install latest version of `bash` and use it as default shell
 
 ```bash
-#TODO 
-#sudo port install bash bash-completion
+brew install bash bash-completion@2
 ```
 
 Put `bash` inside `/usr/local/bin` (`/bin/bash` is too old).
 
 ```bash
 pushd /usr/local/bin
-#TODO
-#sudo ln -s /opt/local/bin/bash
+sudo ln -s /opt/homebrew/bin/bash
 popd
 ```
 
