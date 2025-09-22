@@ -4,7 +4,7 @@ if [ -d "${HOME}/.local/share/fnm" ]; then
   # Disable exit on error for cleanup.
   set +e
 
-  # We are assuming that fnm is on PATH as this script runs in .zlogout.
+  # We are assuming that fnm is on PATH as this script runs in .bash_logout.
   eval "$(fnm env)"
 
   if [ -n "${FNM_MULTISHELL_PATH:+x}" ]; then

@@ -20,6 +20,8 @@ xcode-select --install
 
 ## Install via GUI
 
+- [iTerm2](https://iterm2.com/)
+
 - [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 - [Amazon Corretto 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
@@ -34,7 +36,8 @@ xcode-select --install
 
 Use the GUI installer downloaded from the MacPorts website. Choose to use the "default prefix" during installation.
 
-Set `PATH` for MacPorts in `~/.zprofile`. Restart terminal.
+Use the macOS default Terminal app. Set `PATH` for MacPorts in `~/.zshrc` and `~/.bash_profile`.
+Restart terminal.
 
 ```bash
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
@@ -45,6 +48,34 @@ Perform initial `selfupdate`.
 ```bash
 sudo port selfupdate
 ```
+
+## Install latest version of `bash` and use it as default shell
+
+```bash
+sudo port install bash bash-completion
+```
+
+Put `bash` inside `/usr/local/bin` (`/bin/bash` is too old).
+
+```bash
+pushd /usr/local/bin
+sudo ln -s /opt/local/bin/bash
+popd
+```
+
+Change the default shell for both human (Admin) user and `root`.
+
+```bash
+chsh -s /bin/bash
+sudo chsh -s /bin/bash
+```
+
+Restart computer for the default shell change to take effect.
+
+Open iTerm2, go to `Settings` -> `Profiles` -> `Default (profile)` -> `General`. For the "Command" configuration option,
+set it to "Command" with a value of `/usr/local/bin/bash -l -i`. Untick "Load shell integration automatically".
+
+From now on perform all CLI operations in iTerm2.
 
 ## Install `git`
 
@@ -92,12 +123,6 @@ The CLI interface is largely similar to that of `nvm`.
 sudo port install fnm
 ```
 
-## Install `zsh-autosuggestions`
-
-```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-```
-
 ## Install GitHub CLI
 
 For authentication against GitHub, the most convenient option is to use the GitHub CLI. To install, run the
@@ -139,16 +164,16 @@ Don't install the Oracle OpenJDK.
 
 First google "Amazon Corretto" and install an LTS version (8, 11, 17 or 21).
 
-Open `~/.zprofile`, uncomment the line containing the following content and set the installed Java version.
+Open `~/.bashrc`, uncomment the line containing the following content and set the installed Java version.
 
 ```bash
 #export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
 ```
 
-Source `~/.zprofile` to refresh settings.
+Source `~/.bashrc` to refresh settings.
 
 ```bash
-source ~/.zprofile
+source ~/.bashrc
 ```
 
 Manually install Maven and Gradle. Set their desired version numbers first.
@@ -190,7 +215,7 @@ popd
 rm ~/Downloads/apache-groovy-sdk-${GROOVY_VERSION}.zip
 ```
 
-Open `~/.zprofile`, uncomment the line containing the following content and set the installed Groovy version.
+Open `~/.bashrc`, uncomment the line containing the following content and set the installed Groovy version.
 
 ```bash
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
@@ -205,21 +230,21 @@ According to [VSCode documentation](https://code.visualstudio.com/docs/terminal/
 > By default, the (integrated) terminal inherits this environment.
 
 After experiment, it was discovered that, as of 2025-09-20, the login shell that VSCode launches at its start-up
-is also interactive. That is, this shell sources both `~/.zprofile` and `~/.zshrc`, and all integrated terminal
-thereafter inherits this environment.
+is also interactive. That is, this shell sources `~/.bash_profile` (which does nothing other than sourcing `~/.bashrc`),
+and all integrated terminal thereafter inherits this environment.
 
 We should put the following piece in the global `settings.json` of VSCode.
 
 ```
-"terminal.integrated.profiles.osx": {
-  "zsh": {
-    "path": "zsh",
-    "args": ["-i"]
-  }
-},
-"terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.profiles.osx": {
+    "bash": {
+      "path": "/usr/local/bin/bash",
+      "args": ["-i"]
+    }
+  },
+  "terminal.integrated.defaultProfile.osx": "bash",
 ```
 
 Otherwise the directories `$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin`
-will be appended to the end of `PATH` instead of prepended to the beginning. The `-i` argument to `zsh` means the
-`~/.zshrc` file is sourced again at the creation of the integrated terminal.
+will be appended to the end of `PATH` instead of prepended to the beginning. The `-i` argument means the
+`~/.bashrc` file is sourced again at the creation of the integrated terminal.

@@ -30,33 +30,25 @@ eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
 # Activate fnm.
 if [ -z ${KXUE43_SHELL_INIT+x} ]; then
-  eval "$(fnm env --use-on-cd --shell zsh)"
+  eval "$(fnm env --use-on-cd --shell bash)"
 else
   # Trim the duplicate fnm item in the middle of PATH if exists.
   export PATH=$(echo -n $PATH | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":")
   # Then activate fnm again, for the use-on-cd effect.
-  eval "$(fnm env --use-on-cd --shell zsh)"
+  eval "$(fnm env --use-on-cd --shell bash)"
 fi
 # ------------------------------------------------------------------------
-# Use installed zsh completions.
+# Use installed bash completions.
 if ! [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
   # No Homebrew means MacPorts is in use. Set FPATH for it.
-  FPATH="/opt/local/share/zsh/site-functions:$FPATH"
-fi
+  source /opt/local/share/bash-completion/bash_completion
 
-autoload -Uz compinit
-compinit
-# ------------------------------------------------------------------------
-# Activate zsh-autosuggestions.
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^ ' autosuggest-accept
-bindkey '^l' forward-word
-bindkey '^h' backward-kill-word
+  # TODO: add for when Homebrew is in use.
+fi
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 source ~/.git-prompt.sh
-setopt PROMPT_SUBST
-PS1=$'%B%F{cyan}%n@localhost:%F{12}%~%F{11} $(__git_ps1 "(%s)")\n%(?.%F{10}\U2714.%F{9}\U2718)%b%f\$ '
+PS1='\[\033[1m\]\[\033[36m\]\u@localhost:\[\033[34m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\n$(if [[ $? == 0 ]]; then echo -e "\[\033[32m\]✔"; else echo -e "\[\033[31m\]✘"; fi)\[\033[0m\]\$ '
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
