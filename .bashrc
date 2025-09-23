@@ -50,6 +50,11 @@ fi
 source ~/.git-prompt.sh
 PS1='\[\033[1m\]\[\033[36m\]\u@localhost:\[\033[34m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\n$(if [[ $? == 0 ]]; then echo -e "\[\033[32m\]✔"; else echo -e "\[\033[31m\]✘"; fi)\[\033[0m\]\$ '
 # ------------------------------------------------------------------------
+# Key bindings.
+# Use up/down arrow keys to search history based on current input.
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+# ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
 alias gproj='cd ~/projects'
