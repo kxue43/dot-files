@@ -78,6 +78,8 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'kxue43/showmd-vim-plugin', {'for': 'markdown'}
 
+Plug 'jez/vim-superman'
+
 call plug#end()
 "----------------------------------------------------------------------------
 "Vim backup file setting
