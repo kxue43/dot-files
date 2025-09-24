@@ -55,6 +55,9 @@ PS1='\[\033[1m\]\[\033[36m\]\u@localhost:\[\033[34m\]\w\[\033[33m\]$(__git_ps1 "
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 # ------------------------------------------------------------------------
+# View man pages in Vim
+export MANPAGER="col -b | vim -c 'set ft=man' -MR - "
+# ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
 alias gproj='cd ~/projects'
