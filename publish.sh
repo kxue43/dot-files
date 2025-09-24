@@ -5,10 +5,10 @@ set -e
 make-zip() {
   git push
 
-  declare -a zfiles=(.gitconfig .gitconfig-personal .gvimrc .vimrc .bash_logout .bash_profile .bashrc)
+  declare -a zfiles=(.gvimrc .vimrc .bash_logout .bash_profile .bashrc)
 
   if [[ "$1" == "--initial" ]]; then
-    zfiles+=(.vim/autoload/plug.vim .git-prompt.sh .aws/config .aws/credentials)
+    zfiles+=(.vim/autoload/plug.vim .git-prompt.sh .gitconfig .gitconfig-personal .aws/config .aws/credentials)
 
     zip -r dot-files-initial.zip ${zfiles[@]}
   else
