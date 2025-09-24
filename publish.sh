@@ -5,14 +5,14 @@ set -e
 make-zip() {
   git push
 
-  declare -a zfiles=(.vim/autoload/plug.vim .git-prompt.sh .gitconfig .gitconfig-personal .gvimrc .vimrc .bash_logout .bash_profile .bashrc)
+  declare -a zfiles=(.gitconfig .gitconfig-personal .gvimrc .vimrc .bash_logout .bash_profile .bashrc)
 
   if [[ "$1" == "--initial" ]]; then
-    zfiles+=(.aws/config .aws/credentials)
+    zfiles+=(.vim/autoload/plug.vim .git-prompt.sh .aws/config .aws/credentials)
 
     zip -r dot-files-initial.zip ${zfiles[@]}
   else
-    zip -r dot-files.zip ${zfiles[@]}
+    zip -r dot-files-nightly.zip ${zfiles[@]}
   fi
 }
 
@@ -20,11 +20,11 @@ publish-release() {
   make-zip
   make-zip --initial
 
-  gh release create --latest ${1} dot-files.zip dot-files-initial.zip
+  gh release create --latest ${1} dot-files-nightly.zip dot-files-initial.zip
 
   git pull
 
-  rm dot-files.zip dot-files-initial.zip
+  rm dot-files-nightly.zip dot-files-initial.zip
 }
 
 delete-release() {

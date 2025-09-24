@@ -76,6 +76,12 @@ alias gfpt='git fetch orgin --prune --prune-tags'
 # ------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------
+update-dot-files() {
+  curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-nightly.zip
+  unzip -o dot-files.zip
+  rm dot-files.zip
+}
+# ------------------------------------------------------------------------
 rm-cdk-docker() {
   docker image rm $(docker images --filter "reference=cdkasset-*:latest" --format "{{.Repository}}:{{.Tag}}") && \
   docker image rm $(docker images --filter "reference=*.amazonaws.com/cdk-hnb659fds-*:*" --format "{{.Repository}}:{{.Tag}}")
