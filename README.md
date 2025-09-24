@@ -172,7 +172,8 @@ We install them manually to avoid the Oracle OpenJDK that comes from `brew insta
 
 First google "Amazon Corretto" and install an LTS version (8, 11, 17 or 21).
 
-Open `~/.bashrc`, uncomment the line containing the following content and set the installed Java version.
+Create a file `~/.env.bashrc` using the starter template in this repo (it's not included in `dot-files-initial.zip`).
+Uncomment the line containing the following content and set the installed Java version.
 
 ```bash
 #export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
@@ -223,7 +224,7 @@ popd
 rm ~/Downloads/apache-groovy-sdk-${GROOVY_VERSION}.zip
 ```
 
-Open `~/.bashrc`, uncomment the line containing the following content and set the installed Groovy version.
+Open `~/.env.bashrc`, uncomment the line containing the following content and set the installed Groovy version.
 
 ```bash
 #export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
