@@ -77,9 +77,18 @@ alias gfpt='git fetch orgin --prune --prune-tags'
 # Functions
 # ------------------------------------------------------------------------
 update-dot-files() {
-  curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-nightly.zip
-  unzip -o dot-files.zip
-  rm dot-files.zip
+  (
+    # Make set -e not affecting parent shell.
+    set -e
+
+    pushd $HOME
+
+    curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-nightly.zip
+    unzip -o dot-files.zip
+    rm dot-files.zip
+
+    popd
+  ) > /dev/null
 }
 # ------------------------------------------------------------------------
 rm-cdk-docker() {
