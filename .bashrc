@@ -80,19 +80,6 @@ alias gmh='git log --oneline main..HEAD'
 # ------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------
-vman() {
-  if [ $# -eq 0 ]; then
-    echo "What manual page do you want?";
-
-    return 0
-  elif ! man -w "$@" > /dev/null; then
-    # Check that manpage exists to prevent visual noise.
-    return 1
-  fi
-
-  vim -c "SuperMan $*"
-}
-# ------------------------------------------------------------------------
 rm-cdk-docker() {
   docker image rm $(docker images --filter "reference=cdkasset-*:latest" --format "{{.Repository}}:{{.Tag}}") && \
   docker image rm $(docker images --filter "reference=*.amazonaws.com/cdk-hnb659fds-*:*" --format "{{.Repository}}:{{.Tag}}")
