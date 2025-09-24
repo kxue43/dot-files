@@ -147,6 +147,9 @@ unzip -o dot-files.zip
 rm dot-files.zip
 ```
 
+Optionally, put environment-specific Bash configurations in `~/.env.bashrc`. It will be sourced by `~/.bashrc` if exists.
+See the same-named file in this repo for a template file.
+
 ## Set Git global user.name and user.email
 
 ```bash

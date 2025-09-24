@@ -22,12 +22,6 @@ fi
 # Activate pyenv.
 eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
-# Java settings
-#export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
-# ------------------------------------------------------------------------
-# Groovy settings
-#export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
-# ------------------------------------------------------------------------
 # Activate fnm.
 if [ -z ${KXUE43_SHELL_INIT+x} ]; then
   eval "$(fnm env --use-on-cd --shell bash)"
@@ -42,7 +36,7 @@ fi
 if [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
   source /opt/homebrew/share/bash-completion/bash_completion
 else
-  # No Homebrew means MacPorts is in use. Set FPATH for it.
+  # No Homebrew means MacPorts is in use.
   source /opt/local/share/bash-completion/bash_completion
 fi
 # ------------------------------------------------------------------------
@@ -69,17 +63,16 @@ alias rdump='pushd ~/temp ; rm -rf dump && mkdir dump ; popd'
 alias glg-l='git log --graph --oneline --decorate-refs=refs/heads'
 alias glg-lr='git log --graph --oneline --branches'
 alias glg-a='git log --graph --oneline --all'
+alias gmh='git log --oneline main..HEAD'
 alias venvact='. .venv/bin/activate'
 alias pea='eval $(poetry env activate)'
 alias pue='poetry config --local virtualenvs.in-project true && poetry env use $(pyenv which python)'
 alias ssp='python -c "import site;print(site.getsitepackages())"'
-alias clean-aws-cache="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && unset AWS_ACCESS_KEY_ID && unset AWS_CREDENTIAL_EXPIRATION && rm -rf ~/.aws/cli/cache && rm -rf ~/.aws/toolkit-cache"
+alias clean-aws-cache="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && unset AWS_ACCESS_KEY_ID && unset AWS_CREDENTIAL_EXPIRATION && rm -rf ~/.aws/toolkit-cache && rm -rf ~/.aws/sso/cache && rm -rf ~/.aws/cli/cache && rm -rf ~/.aws/boto/cache"
 alias clean-aws-env="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && unset AWS_ACCESS_KEY_ID && unset AWS_REGION && unset AWS_DEFAULT_REGION && unset AWS_PROFILE && unset AWS_CREDENTIAL_EXPIRATION"
-alias gs='git status'
 alias gci='aws sts get-caller-identity'
 alias ls-path='printenv PATH | tr ":" "\n"'
 alias gfpt='git fetch orgin --prune --prune-tags'
-alias gmh='git log --oneline main..HEAD'
 # ------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------
@@ -89,47 +82,64 @@ rm-cdk-docker() {
 }
 # ------------------------------------------------------------------------
 set-aws-region() {
-    export AWS_DEFAULT_REGION=${1:-us-east-1}
-    export AWS_REGION=${1:-us-east-1}
+  export AWS_DEFAULT_REGION=${1:-us-east-1}
+  export AWS_REGION=${1:-us-east-1}
 }
 # ------------------------------------------------------------------------
 ls-aws-env() {
-    printenv | grep AWS
+  printenv | grep AWS
 }
 # ------------------------------------------------------------------------
 use-role-profile() {
-    export AWS_PROFILE=${1:-CdkCliRole}
-    aws sts get-caller-identity
+  export AWS_PROFILE=${1:-CdkCliRole}
+  aws sts get-caller-identity
 }
 # ------------------------------------------------------------------------
 set-role-env() {
-    eval $(aws configure export-credentials --format env --profile ${1:-CdkCliRole})
-    unset AWS_PROFILE
+  eval $(aws configure export-credentials --format env --profile ${1:-CdkCliRole})
+  unset AWS_PROFILE
 }
 # ------------------------------------------------------------------------
 glo() {
-    git log --oneline $@
+  git log --oneline $@
 }
 # ------------------------------------------------------------------------
 gsh() {
-    git show --name-only $@
+  git show --name-only $@
 }
 # ------------------------------------------------------------------------
 my-diff() {
-    git diff --no-index $1 $2
+  git diff --no-index $1 $2
 }
 # ------------------------------------------------------------------------
 code() {
-    VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*
+  VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*
 }
 # ------------------------------------------------------------------------
 ls-jdk() {
-    /usr/libexec/java_home -V
+  /usr/libexec/java_home -V
+}
+# ------------------------------------------------------------------------
+open-in-browser() {
+  /usr/bin/python3 -m webbrowser -t $1
 }
 # ------------------------------------------------------------------------
 gtc() {
-    profile=coverage.out
-    go test -coverprofile=${profile} ${1:-./...}
-    go tool cover -html=${profile}
+  profile=coverage.out
+  go test -coverprofile=${profile} ${1:-./...}
+  go tool cover -html=${profile}
 }
+# ------------------------------------------------------------------------
+count-fnm-symlinks() {
+  if [ -d $HOME/.local/state/fnm_multishells ]; then
+    ls -1 $HOME/.local/state/fnm_multishells | wc -l
+  fi
+}
+# ------------------------------------------------------------------------
+# The following must be at the very end!!!
+# ------------------------------------------------------------------------
+# Source env-specific bashrc file if exists.
+if [ -f "$HOME/.env.bashrc" ]; then
+  source "$HOME/.env.bashrc"
+fi
 # ------------------------------------------------------------------------
