@@ -1,19 +1,22 @@
+# -----------------------------------------------------------------------
+if [ -x /opt/homebrew/bin/brew ]; then
+  # Homebrew is in use.
+  KXUE43_USE_BREW=1
+fi
 # ------------------------------------------------------------------------
 # Idempotent PATH settings.
-if [ -z ${KXUE43_SHELL_INIT+x} ]; then
+if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
   export KXUE43_SHELL_INIT=1
 
   PATH="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin:$PATH"
 
-  if ! [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
+  if [ -z "${KXUE43_USE_BREW+x}" ]; then
     # No Homebrew means MacPorts is in use. Add it to PATH.
     PATH="/opt/local/bin:/opt/local/sbin:$PATH"
   fi
-  
-  export PATH
 fi
 # -----------------------------------------------------------------------
-if [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
+if [ -n "${KXUE43_USE_BREW+x}" ]; then
   # If Homebrew is in use, activate it.
   export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
   eval $(/opt/homebrew/bin/brew shellenv)
@@ -23,20 +26,20 @@ fi
 eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
 # Activate fnm.
-if [ -z ${KXUE43_SHELL_INIT+x} ]; then
+if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
   eval "$(fnm env --use-on-cd --shell bash)"
 else
   # Trim the duplicate fnm item in the middle of PATH if exists.
-  export PATH=$(echo -n $PATH | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":")
+  PATH=$(echo -n $PATH | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
   # Then activate fnm again, for the use-on-cd effect.
   eval "$(fnm env --use-on-cd --shell bash)"
 fi
 # ------------------------------------------------------------------------
 # Use installed bash completions.
-if [ -e /opt/homebrew/bin/brew -o -e /usr/local/bin/brew ]; then
+if [ -n "${KXUE43_USE_BREW+x}" ]; then
   source /opt/homebrew/share/bash-completion/bash_completion
 else
-  # No Homebrew means MacPorts is in use.
+  # MacPorts.
   source /opt/local/share/bash-completion/bash_completion
 fi
 # ------------------------------------------------------------------------
@@ -88,7 +91,7 @@ update-dot-files() {
     rm dot-files.zip
 
     popd
-  ) > /dev/null
+  ) > /dev/null 2>&1
 }
 # ------------------------------------------------------------------------
 rm-cdk-docker() {
@@ -141,12 +144,12 @@ open-in-browser() {
 # ------------------------------------------------------------------------
 gtc() {
   profile=coverage.out
-  go test -coverprofile=${profile} ${1:-./...}
+  go test -race -coverprofile=${profile} ${1:-./...}
   go tool cover -html=${profile}
 }
 # ------------------------------------------------------------------------
 count-fnm-symlinks() {
-  if [ -d $HOME/.local/state/fnm_multishells ]; then
+  if [ -d "$HOME/.local/state/fnm_multishells" ]; then
     ls -1 $HOME/.local/state/fnm_multishells | wc -l
   fi
 }
@@ -154,7 +157,7 @@ count-fnm-symlinks() {
 # The following must be at the very end!!!
 # ------------------------------------------------------------------------
 # Source env-specific bashrc file if exists.
-if [ -f "$HOME/.env.bashrc" ]; then
+if [ -r "$HOME/.env.bashrc" ]; then
   source "$HOME/.env.bashrc"
 fi
 # ------------------------------------------------------------------------
