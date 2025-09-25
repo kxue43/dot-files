@@ -52,6 +52,8 @@ if has('syntax') && has('eval')
 endif
 "----------------------------------------------------------------------------
 "vim global setting
+"display row number by default
+set nu
 "change working dir to the dir of the current file and pwd
 nnoremap <leader>w :cd %:p:h<CR>:pwd<CR>
 "turn on spell check for the local buffer
