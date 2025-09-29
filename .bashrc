@@ -41,6 +41,7 @@ if [ -n "${KXUE43_USE_BREW+x}" ]; then
   source /opt/homebrew/share/bash-completion/bash_completion
 else
   # MacPorts.
+  # shellcheck disable=SC1091
   source /opt/local/share/bash-completion/bash_completion
 fi
 # ------------------------------------------------------------------------
@@ -91,7 +92,7 @@ update-dot-files() {
     # Make set -e not affecting parent shell.
     set -e
 
-    pushd $HOME
+    pushd "$HOME"
 
     curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-nightly.zip
     unzip -o dot-files.zip
@@ -112,7 +113,7 @@ set-aws-region() {
   if [ -n "${1:+x}" ]; then
     region=$1
   else
-    region=$(_kxue43_prompt_aws_region $KXUE43_AWS_REGIONS)
+    region=$(_kxue43_prompt_aws_region "$KXUE43_AWS_REGIONS")
   fi
 
   export AWS_DEFAULT_REGION=$region
@@ -177,7 +178,7 @@ set-jdk() {
 }
 # ------------------------------------------------------------------------
 open-in-browser() {
-  /usr/bin/python3 -m webbrowser -t $1
+  /usr/bin/python3 -m webbrowser -t "$1"
 }
 # ------------------------------------------------------------------------
 gtc() {
