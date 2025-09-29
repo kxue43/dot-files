@@ -23,7 +23,15 @@ _kxue43_prompt_aws_profile() {
 }
 # ------------------------------------------------------------------------
 _kxue43_prompt_aws_region() {
-  _kxue43_prompt us-east-1 us-west-2
+  local -a regions
+
+  if [ -z "${1:+x}" ]; then
+    regions=(us-east-1 us-west-2)
+  else
+    regions=( ${1//:/ } )
+  fi
+
+  _kxue43_prompt "${regions[@]}"
 }
 # ------------------------------------------------------------------------
 _kxue43_prompt_jdk_version() {
@@ -31,6 +39,6 @@ _kxue43_prompt_jdk_version() {
     $(/usr/libexec/java_home -V 2>&1 | grep -Eo "^\s*\d+\.\d+\.\d+")
   )
 
-  _kxue43_prompt ${versions[@]}
+  _kxue43_prompt "${versions[@]}"
 }
 # ------------------------------------------------------------------------

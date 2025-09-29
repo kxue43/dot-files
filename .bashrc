@@ -110,7 +110,7 @@ set-aws-region() {
   if [ -n "${1:+x}" ]; then
     region=$1
   else
-    region=$(_kxue43_prompt_aws_region)
+    region=$(_kxue43_prompt_aws_region $KXUE43_AWS_REGIONS)
   fi
 
   export AWS_DEFAULT_REGION=$region
