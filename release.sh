@@ -20,7 +20,7 @@ _publish() {
   _make_zip
   _make_zip --initial
 
-  gh release create --latest "${1}" dot-files-nightly.zip dot-files-initial.zip
+  gh release create -p=false --notes="${1}" --latest "${1}" dot-files-nightly.zip dot-files-initial.zip
 
   git pull
 
@@ -28,7 +28,7 @@ _publish() {
 }
 
 _delete() {
-  gh release delete --cleanup-tag "${1}"
+  gh release delete --cleanup-tag -y "${1}"
 }
 
 main() {
