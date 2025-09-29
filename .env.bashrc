@@ -2,14 +2,15 @@
 # Environment variables.
 # ------------------------------------------------------------------------
 # Java settings
-#export JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
+# JAVA_HOME=$(/usr/libexec/java_home -v <SET-HERE>)
+# export JAVA_HOME
 
 # Groovy settings
-#export GROOVY_HOME=$HOME/.local/lib/groovy-<SET-HERE>
+# export GROOVY_HOME="$HOME/.local/lib/groovy-<SET-HERE>"
 # ------------------------------------------------------------------------
 # Aliases.
 # ------------------------------------------------------------------------
-#alias gs='git status'
+# alias gs='git status'
 # ------------------------------------------------------------------------
 # Functions.
 # ------------------------------------------------------------------------

@@ -10,9 +10,9 @@ _make_zip() {
   if [[ "$1" == "--initial" ]]; then
     zfiles+=(.vim/autoload/plug.vim .git-prompt.sh .gitconfig .gitconfig-personal .aws/config .aws/credentials)
 
-    zip -r dot-files-initial.zip ${zfiles[@]}
+    zip -r dot-files-initial.zip "${zfiles[@]}"
   else
-    zip -r dot-files-nightly.zip ${zfiles[@]}
+    zip -r dot-files-nightly.zip "${zfiles[@]}"
   fi
 }
 
@@ -20,7 +20,7 @@ _publish() {
   _make_zip
   _make_zip --initial
 
-  gh release create --latest ${1} dot-files-nightly.zip dot-files-initial.zip
+  gh release create --latest "${1}" dot-files-nightly.zip dot-files-initial.zip
 
   git pull
 
@@ -28,54 +28,54 @@ _publish() {
 }
 
 _delete() {
-  gh release delete --cleanup-tag ${1}
+  gh release delete --cleanup-tag "${1}"
 }
 
 main() {
   local name
 
-  select name in increment publish delete
-    do
-      echo "Chose to ${name} release."
+  select name in increment publish delete; do
+    echo "Chose to ${name} release."
 
-      break
+    break
   done
 
   local tag
 
   case $name in
-    publish)
-      echo -n "New tag for release: "
+  publish)
+    echo -n "New tag for release: "
 
-      read tag
+    read -r tag
 
-      _publish $tag
-      ;;
-    delete)
-      echo -n "Release tag to delete: "
+    _publish "$tag"
+    ;;
+  delete)
+    echo -n "Release tag to delete: "
 
-      read tag
+    read -r tag
 
-      _delete $tag
-      ;;
-    increment)
-      tag=$(git tag --sort=-version:refname | head -1)
+    _delete "$tag"
+    ;;
+  increment)
+    tag=$(git tag --sort=-version:refname | head -1)
 
-      local version=${tag/#v/}
-      local major=${version/%.?*/}
-      local minor=${version/#?*./}
-      minor=$(( minor + 1 ))
+    local version=${tag/#v/}
+    local major=${version/%.?*/}
+    local minor=${version/#?*./}
+    minor=$((minor + 1))
 
-      _publish "v${major}.${minor}"
+    _publish "v${major}.${minor}"
 
-      _delete $tag
+    _delete "$tag"
 
-      git pull
+    git pull
 
-      echo "Published release v${major}.${minor}. Deleted ${tag}."
-      ;;
-    *)
-      echo "Did not receive a valid option."
+    echo "Published release v${major}.${minor}. Deleted ${tag}."
+    ;;
+  *)
+    echo "Did not receive a valid option."
+    ;;
   esac
 }
 

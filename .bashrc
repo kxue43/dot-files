@@ -19,7 +19,7 @@ fi
 if [ -n "${KXUE43_USE_BREW+x}" ]; then
   # If Homebrew is in use, activate it.
   export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
-  eval $(/opt/homebrew/bin/brew shellenv)
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 # -----------------------------------------------------------------------
 # Activate pyenv.
@@ -30,13 +30,14 @@ if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
   eval "$(fnm env --use-on-cd --shell bash)"
 else
   # Trim the duplicate fnm item in the middle of PATH if exists.
-  PATH=$(echo -n $PATH | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
+  PATH=$(echo -n "$PATH" | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
   # Then activate fnm again, for the use-on-cd effect.
   eval "$(fnm env --use-on-cd --shell bash)"
 fi
 # ------------------------------------------------------------------------
 # Use installed bash completions.
 if [ -n "${KXUE43_USE_BREW+x}" ]; then
+  # shellcheck disable=SC1091
   source /opt/homebrew/share/bash-completion/bash_completion
 else
   # MacPorts.
@@ -44,6 +45,7 @@ else
 fi
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
+# shellcheck disable=SC1090
 source ~/.git-prompt.sh
 PS1='\[\033[1m\]\[\033[36m\]\u@localhost:\[\033[34m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\n$(if [[ $? == 0 ]]; then echo -e "\[\033[32m\]✔"; else echo -e "\[\033[31m\]✘"; fi)\[\033[0m\]\$ '
 # ------------------------------------------------------------------------
@@ -96,12 +98,12 @@ update-dot-files() {
     rm dot-files.zip
 
     popd
-  ) > /dev/null 2>&1
+  ) >/dev/null 2>&1
 }
 # ------------------------------------------------------------------------
 rm-cdk-docker() {
-  docker image rm $(docker images --filter "reference=cdkasset-*:latest" --format "{{.Repository}}:{{.Tag}}") && \
-  docker image rm $(docker images --filter "reference=*.amazonaws.com/cdk-hnb659fds-*:*" --format "{{.Repository}}:{{.Tag}}")
+  docker image rm "$(docker images --filter "reference=cdkasset-*:latest" --format "{{.Repository}}:{{.Tag}}")" &&
+    docker image rm "$(docker images --filter "reference=*.amazonaws.com/cdk-hnb659fds-*:*" --format "{{.Repository}}:{{.Tag}}")"
 }
 # ------------------------------------------------------------------------
 set-aws-region() {
@@ -128,7 +130,8 @@ use-role-profile() {
     return 0
   fi
 
-  export AWS_PROFILE=$(_kxue43_prompt_aws_profile $KXUE43_AWS_PROFILE_PREFIX)
+  AWS_PROFILE=$(_kxue43_prompt_aws_profile "$KXUE43_AWS_PROFILE_PREFIX")
+  export AWS_PROFILE
 }
 # ------------------------------------------------------------------------
 set-role-env() {
@@ -137,27 +140,27 @@ set-role-env() {
   if [ -n "${1:+x}" ]; then
     profile=$1
   else
-    profile=$(_kxue43_prompt_aws_profile $KXUE43_AWS_PROFILE_PREFIX)
+    profile=$(_kxue43_prompt_aws_profile "$KXUE43_AWS_PROFILE_PREFIX")
   fi
 
-  eval $(aws configure export-credentials --format env --profile $profile)
+  eval "$(aws configure export-credentials --format env --profile "$profile")"
   unset AWS_PROFILE
 }
 # ------------------------------------------------------------------------
 glo() {
-  git log --oneline $@
+  git log --oneline "$@"
 }
 # ------------------------------------------------------------------------
 gsh() {
-  git show --name-only $@
+  git show --name-only "$@"
 }
 # ------------------------------------------------------------------------
 my-diff() {
-  git diff --no-index $1 $2
+  git diff --no-index "$1" "$2"
 }
 # ------------------------------------------------------------------------
 code() {
-  VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*
+  VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args "$@"
 }
 # ------------------------------------------------------------------------
 ls-jdk() {
@@ -165,9 +168,12 @@ ls-jdk() {
 }
 # ------------------------------------------------------------------------
 set-jdk() {
-  local jdk_version=$(_kxue43_prompt_jdk_version)
+  local jdk_version
 
-  export JAVA_HOME=$(/usr/libexec/java_home -v $jdk_version)
+  jdk_version=$(_kxue43_prompt_jdk_version)
+
+  JAVA_HOME=$(/usr/libexec/java_home -v "$jdk_version")
+  export JAVA_HOME
 }
 # ------------------------------------------------------------------------
 open-in-browser() {
@@ -176,13 +182,13 @@ open-in-browser() {
 # ------------------------------------------------------------------------
 gtc() {
   local profile=coverage.out
-  go test -race -coverprofile=${profile} ${1:-./...}
+  go test -race -coverprofile=${profile} "${1:-./...}"
   go tool cover -html=${profile}
 }
 # ------------------------------------------------------------------------
 count-fnm-symlinks() {
   if [ -d "$HOME/.local/state/fnm_multishells" ]; then
-    ls -1 $HOME/.local/state/fnm_multishells | wc -l
+    find "$HOME/.local/state/fnm_multishells" -type l | wc -l
   fi
 }
 # ------------------------------------------------------------------------
