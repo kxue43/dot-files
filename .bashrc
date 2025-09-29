@@ -79,6 +79,11 @@ alias gfpt='git fetch orgin --prune --prune-tags'
 # ------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------
+# Source reused functions first.
+if [ -r "$HOME/.fns.bashrc" ]; then
+  source "$HOME/.fns.bashrc"
+fi
+# ------------------------------------------------------------------------
 update-dot-files() {
   (
     # Make set -e not affecting parent shell.
@@ -100,33 +105,24 @@ rm-cdk-docker() {
 }
 # ------------------------------------------------------------------------
 set-aws-region() {
-  export AWS_DEFAULT_REGION=${1:-us-east-1}
-  export AWS_REGION=${1:-us-east-1}
+  local region=
+
+  if [ -n "${1:+x}" ]; then
+    region=$1
+  else
+    region=$(_kxue43_prompt_aws_region)
+  fi
+
+  export AWS_DEFAULT_REGION=$region
+  export AWS_REGION=$region
 }
 # ------------------------------------------------------------------------
 ls-aws-env() {
   printenv | grep AWS
 }
 # ------------------------------------------------------------------------
-_kxue43_prompt_aws_profile() {
-  local -a profiles=(
-    $(cat ~/.aws/config | grep "^\[profile $1" | sed -E -e "s/^\[profile //g" -e "s/]$//g")
-  )
-
-  local env=
-
-  select env in ${profiles[@]}
-    do
-      echo "Chose $env." >&2
-
-      break
-  done
-
-  echo $env
-}
-# ------------------------------------------------------------------------
 use-role-profile() {
-  if [ -n "${1+x}" ]; then
+  if [ -n "${1:+x}" ]; then
     export AWS_PROFILE=$1
 
     return 0
@@ -138,7 +134,7 @@ use-role-profile() {
 set-role-env() {
   local profile=
 
-  if [ -n "${1+x}" ]; then
+  if [ -n "${1:+x}" ]; then
     profile=$1
   else
     profile=$(_kxue43_prompt_aws_profile)
@@ -168,12 +164,18 @@ ls-jdk() {
   /usr/libexec/java_home -V
 }
 # ------------------------------------------------------------------------
+set-jdk() {
+  local jdk_version=$(_kxue43_prompt_jdk_version)
+
+  export JAVA_HOME=$(/usr/libexec/java_home -v $jdk_version)
+}
+# ------------------------------------------------------------------------
 open-in-browser() {
   /usr/bin/python3 -m webbrowser -t $1
 }
 # ------------------------------------------------------------------------
 gtc() {
-  profile=coverage.out
+  local profile=coverage.out
   go test -race -coverprofile=${profile} ${1:-./...}
   go tool cover -html=${profile}
 }
