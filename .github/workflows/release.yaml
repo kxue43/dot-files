@@ -6,6 +6,10 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  packages: write
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -13,10 +17,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Authenticate gh
-        run: echo "${{ secrets.PAT }}" | gh auth login --with-token
-
-      - name: Publish GitHub Release
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./release.sh <<EOF
           1
