@@ -108,13 +108,43 @@ ls-aws-env() {
   printenv | grep AWS
 }
 # ------------------------------------------------------------------------
+_kxue43_prompt_aws_profile() {
+  local -a profiles=(
+    $(cat ~/.aws/config | grep "^\[profile $1" | sed -E -e "s/^\[profile //g" -e "s/]$//g")
+  )
+
+  local env=
+
+  select env in ${profiles[@]}
+    do
+      echo "Chose $env." >&2
+
+      break
+  done
+
+  echo $env
+}
+# ------------------------------------------------------------------------
 use-role-profile() {
-  export AWS_PROFILE=${1:-CdkCliRole}
-  aws sts get-caller-identity
+  if [ -n "${1+x}" ]; then
+    export AWS_PROFILE=$1
+
+    return 0
+  fi
+
+  export AWS_PROFILE=$(_kxue43_prompt_aws_profile)
 }
 # ------------------------------------------------------------------------
 set-role-env() {
-  eval $(aws configure export-credentials --format env --profile ${1:-CdkCliRole})
+  local profile=
+
+  if [ -n "${1+x}" ]; then
+    profile=$1
+  else
+    profile=$(_kxue43_prompt_aws_profile)
+  fi
+
+  eval $(aws configure export-credentials --format env --profile $profile)
   unset AWS_PROFILE
 }
 # ------------------------------------------------------------------------
