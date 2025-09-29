@@ -128,7 +128,7 @@ use-role-profile() {
     return 0
   fi
 
-  export AWS_PROFILE=$(_kxue43_prompt_aws_profile)
+  export AWS_PROFILE=$(_kxue43_prompt_aws_profile $KXUE43_AWS_PROFILE_PREFIX)
 }
 # ------------------------------------------------------------------------
 set-role-env() {
@@ -137,7 +137,7 @@ set-role-env() {
   if [ -n "${1:+x}" ]; then
     profile=$1
   else
-    profile=$(_kxue43_prompt_aws_profile)
+    profile=$(_kxue43_prompt_aws_profile $KXUE43_AWS_PROFILE_PREFIX)
   fi
 
   eval $(aws configure export-credentials --format env --profile $profile)
