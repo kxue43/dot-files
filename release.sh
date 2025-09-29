@@ -2,10 +2,10 @@
 
 set -e
 
-make-zip() {
+_make_zip() {
   git push
 
-  declare -a zfiles=(.gvimrc .vimrc .bash_logout .bash_profile .bashrc .fns.bashrc)
+  local -a zfiles=(.gvimrc .vimrc .bash_logout .bash_profile .bashrc .fns.bashrc)
 
   if [[ "$1" == "--initial" ]]; then
     zfiles+=(.vim/autoload/plug.vim .git-prompt.sh .gitconfig .gitconfig-personal .aws/config .aws/credentials)
@@ -16,9 +16,9 @@ make-zip() {
   fi
 }
 
-publish-release() {
-  make-zip
-  make-zip --initial
+_publish() {
+  _make_zip
+  _make_zip --initial
 
   gh release create --latest ${1} dot-files-nightly.zip dot-files-initial.zip
 
@@ -27,51 +27,58 @@ publish-release() {
   rm dot-files-nightly.zip dot-files-initial.zip
 }
 
-delete-release() {
+_delete() {
   gh release delete --cleanup-tag ${1}
 }
 
-PS3="Option: "
+main() {
+  local name
 
-select name in publish-release delete-release "exit";
-  do
-    case $name in
-      publish-release)
-        chosen=$(echo -n $name | tr "-" " ")
-        echo "Chose to ${chosen}."
+  select name in increment publish delete
+    do
+      echo "Chose to ${name} release."
 
-        echo -n "New tag for release: "
+      break
+  done
 
-        read tag
+  local tag
 
-        publish-release $tag
+  case $name in
+    publish)
+      echo -n "New tag for release: "
 
-        break
-        ;;
-      delete-release)
-        chosen=$(echo -n $name | tr "-" " ")
-        echo "Chose to ${chosen}."
+      read tag
 
-        echo -n "Release tag to delete: "
+      _publish $tag
+      ;;
+    delete)
+      echo -n "Release tag to delete: "
 
-        read tag
+      read tag
 
-        delete-release $tag
+      _delete $tag
+      ;;
+    increment)
+      tag=$(git tag --sort=-version:refname | head -1)
 
-        break
-        ;;
-      exit)
-        echo "Exited without doing anything."
+      local version=${tag/#v/}
+      local major=${version/%.?*/}
+      local minor=${version/#?*./}
+      minor=$(( minor + 1 ))
 
-        break
-        ;;
-      *)
-        cat << EOF
-Please choose:
-1) publish-release
-2) delete-release
-3) exit
-EOF
-        ;;
-    esac
-done
+      _publish "v${major}.${minor}"
+
+      _delete $tag
+
+      git pull
+
+      echo "Published release v${major}.${minor}. Deleted ${tag}."
+      ;;
+    *)
+      echo "Did not receive a valid option."
+  esac
+}
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main
+fi
