@@ -78,7 +78,7 @@ alias clean-aws-cache="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY &&
 alias clean-aws-env="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && unset AWS_ACCESS_KEY_ID && unset AWS_REGION && unset AWS_DEFAULT_REGION && unset AWS_PROFILE && unset AWS_CREDENTIAL_EXPIRATION"
 alias gci='aws sts get-caller-identity'
 alias ls-path='printenv PATH | tr ":" "\n"'
-alias gfpt='git fetch orgin --prune --prune-tags'
+alias gfpt='git fetch origin --prune --prune-tags'
 # ------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------
