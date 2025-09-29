@@ -137,6 +137,12 @@ following commands.
 brew install gh
 ```
 
+## Install `shellcheck`
+
+```bash
+brew install shellcheck
+```
+
 ## Get baseline dot files
 
 Get baseline dot files from GitHub. Note that they _overwrite_ existing local ones.
@@ -157,13 +163,14 @@ git config --global user.name YOUR_USER_NAME
 git config --global user.email YOUR_EMAIL
 ```
 
-## Install toolkit executables
+## Install Go executables
 
 ```bash
 go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
 go install github.com/kxue43/cli-toolkit/cmd/toolkit-assume-role@latest
 go install github.com/kxue43/cli-toolkit/cmd/toolkit-serve-static@latest
 go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
+go install mvdan.cc/sh/v3/cmd/shfmt@latest
 ```
 
 ## Install Java, Maven and Gradle
