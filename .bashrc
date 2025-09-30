@@ -48,10 +48,6 @@ fi
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 # shellcheck disable=SC1090
 source ~/.git-prompt.sh
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWUPSTREAM="auto"
 PROMPT_COMMAND='__git_ps1 "\[\033[1m\]\[\033[34m\]\u@\h: \[\033[96m\]\w\[\033[93m\]" "\n$(if [ $? -eq 0 ]; then echo -e "\[\033[32m\]\U2714"; else echo -e "\[\033[31m\]\U2718"; fi)\[\033[0m\]\$ "'
 # ------------------------------------------------------------------------
 # Key bindings.
