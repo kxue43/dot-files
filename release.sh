@@ -3,8 +3,8 @@
 set -e
 
 _delete_assets() {
-  if [ -d ~+/.vim/autoload ]; then
-    rm -rf ~+/.vim/autoload
+  if [ -d ~+/.vim ]; then
+    rm -rf ~+/.vim
   fi
 
   if [ -f ~+/.git-prompt.sh ]; then
