@@ -1,24 +1,7 @@
-#!/usr/bin/env bash
+# This script should only be executed in GitHub Actions.
+# It's intentionally not given the +x permission.
 
 set -e
-
-_delete_assets() {
-  if [ -d ~+/.vim ]; then
-    rm -rf ~+/.vim
-  fi
-
-  if [ -f ~+/.git-prompt.sh ]; then
-    rm ~+/.git-prompt.sh
-  fi
-
-  local basename
-
-  for basename in dot-files-nightly.zip dot-files-initial.zip; do
-    if [ -f ~+/$basename ]; then
-      rm ~+/$basename
-    fi
-  done
-}
 
 _download_assets() {
   mkdir -p ~+/.vim/autoload
@@ -41,24 +24,12 @@ _make_zip() {
 }
 
 _publish() {
-  if [ -z "${GITHUB_ACTIONS+x}" ]; then
-    git pull && git push
-  fi
-
-  _delete_assets
-
   _download_assets
 
   _make_zip
   _make_zip --initial
 
   gh release create -p=false --notes="${1}" --latest "${1}" dot-files-nightly.zip dot-files-initial.zip
-
-  if [ -z "${GITHUB_ACTIONS+x}" ]; then
-    git pull
-  fi
-
-  _delete_assets
 }
 
 _delete() {
@@ -66,51 +37,23 @@ _delete() {
 }
 
 main() {
-  local name
+  if [ -z "${GITHUB_ACTIONS+x}" ]; then
+    echo "release.sh should only be executed in GitHub Actions."
+    exit 1
+  fi
 
-  select name in increment publish delete; do
-    echo "Chose to ${name} release."
+  tag=$(git tag --sort=-version:refname | head -1)
 
-    break
-  done
+  local version=${tag/#v/}
+  local major=${version/%.?*/}
+  local minor=${version/#?*./}
+  minor=$((minor + 1))
 
-  local tag
+  _publish "v${major}.${minor}"
 
-  case $name in
-  publish)
-    echo -n "New tag for release: "
+  _delete "$tag"
 
-    read -r tag
-
-    _publish "$tag"
-    ;;
-  delete)
-    echo -n "Release tag to delete: "
-
-    read -r tag
-
-    _delete "$tag"
-    ;;
-  increment)
-    tag=$(git tag --sort=-version:refname | head -1)
-
-    local version=${tag/#v/}
-    local major=${version/%.?*/}
-    local minor=${version/#?*./}
-    minor=$((minor + 1))
-
-    _publish "v${major}.${minor}"
-
-    _delete "$tag"
-
-    git pull
-
-    echo "Published release v${major}.${minor}. Deleted ${tag}."
-    ;;
-  *)
-    echo "Did not receive a valid option."
-    ;;
-  esac
+  echo "Published release v${major}.${minor}. Deleted ${tag}."
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
