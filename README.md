@@ -70,6 +70,9 @@ Restart computer for the default shell change to take effect.
 Open iTerm2, go to `Settings` -> `Profiles` -> `Default (profile)` -> `General`. For the "Command" configuration option,
 set it to "Command" with a value of `/usr/local/bin/bash -l -i`. Untick "Load shell integration automatically".
 
+Under `Default (profile)` -> `Colors`, untick both "Use bright version of ANSI colors for bold text" and
+"Use custom color for bold text".
+
 From now on perform all CLI operations in iTerm2.
 
 ## Install `git`
