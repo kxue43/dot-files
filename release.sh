@@ -21,8 +21,6 @@ _delete_assets() {
 }
 
 _download_assets() {
-  _delete_assets
-
   mkdir -p ~+/.vim/autoload
 
   curl -o ~+/.vim/autoload/plug.vim -Lf https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -31,10 +29,6 @@ _download_assets() {
 }
 
 _make_zip() {
-  git push
-
-  _download_assets
-
   local -a zfiles=(.vim/autoload/plug.vim .git-prompt.sh .gvimrc .vimrc .bash_logout .bash_profile .bashrc .fns.bashrc)
 
   if [[ "$1" == "--initial" ]]; then
@@ -47,12 +41,22 @@ _make_zip() {
 }
 
 _publish() {
+  if [ -z "${GITHUB_ACTIONS+x}" ]; then
+    git pull && git push
+  fi
+
+  _delete_assets
+
+  _download_assets
+
   _make_zip
   _make_zip --initial
 
   gh release create -p=false --notes="${1}" --latest "${1}" dot-files-nightly.zip dot-files-initial.zip
 
-  git pull
+  if [ -z "${GITHUB_ACTIONS+x}" ]; then
+    git pull
+  fi
 
   _delete_assets
 }
