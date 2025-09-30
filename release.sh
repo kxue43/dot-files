@@ -2,20 +2,32 @@
 
 set -e
 
-_download_assets() {
-  mkdir -p ~+/.vim/autoload
-
-  if [ -f ~+/.vim/autoload/plug.vim ]; then
-    rm ~+/.vim/autoload/plug.vim
+_delete_assets() {
+  if [ -d ~+/.vim/autoload ]; then
+    rm -rf ~+/.vim/autoload
   fi
 
   if [ -f ~+/.git-prompt.sh ]; then
     rm ~+/.git-prompt.sh
   fi
 
-  curl -o ~+/.vim/autoload/plug.vim -L https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  local basename
 
-  curl -o ~+/.git-prompt.sh -L https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+  for basename in dot-files-nightly.zip dot-files-initial.zip; do
+    if [ -f ~+/$basename ]; then
+      rm ~+/$basename
+    fi
+  done
+}
+
+_download_assets() {
+  _delete_assets
+
+  mkdir -p ~+/.vim/autoload
+
+  curl -o ~+/.vim/autoload/plug.vim -Lf https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  curl -o ~+/.git-prompt.sh -Lf https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 }
 
 _make_zip() {
@@ -42,7 +54,7 @@ _publish() {
 
   git pull
 
-  rm dot-files-nightly.zip dot-files-initial.zip
+  _delete_assets
 }
 
 _delete() {
@@ -98,5 +110,6 @@ main() {
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-  main
+  # Since there is "set -e", use subshell to prevent failure from causing current shell to exit.
+  (main)
 fi
