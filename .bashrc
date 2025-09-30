@@ -92,18 +92,78 @@ if [ -r "$HOME/.fns.bashrc" ]; then
 fi
 # ------------------------------------------------------------------------
 update-dot-files() {
-  (
-    # Make set -e not affecting parent shell.
-    set -e
+  local sep="------------------------------------------------------------------------------------"
 
-    pushd "$HOME"
+  local temp_dir
+  temp_dir=$(mktemp -d)
 
-    curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-nightly.zip
-    unzip -o dot-files.zip
-    rm dot-files.zip
+  curl -o "$temp_dir/dot-files.zip" -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-nightly.zip >/dev/null 2>&1
+  unzip "$temp_dir/dot-files.zip" -d "$temp_dir" >/dev/null
 
-    popd
-  ) >/dev/null 2>&1
+  local -a zfiles
+  mapfile -t zfiles < <(find "$temp_dir" -type f -not -name "*.zip")
+
+  local fullpath basename existing
+
+  local -i count=0
+
+  for fullpath in "${zfiles[@]}"; do
+    basename=$(basename "$fullpath")
+
+    # Deal with plug.vim as it is the only nested file.
+    if [[ "$basename" == "plug.vim" ]]; then
+      basename=".vim/autoload/plug.vim"
+    fi
+
+    existing="$HOME/$basename"
+
+    if ! [ -f "$existing" ]; then
+      touch "$existing"
+    fi
+
+    if ! git diff --no-index --no-patch "$existing" "$fullpath"; then
+      count=$((count + 1))
+
+      printf "\033[1;96m%s\033[0m\n" "$sep"
+
+      printf "\033[1;96m%s changes:\033[0m\n" "$basename"
+
+      git diff --no-index "$existing" "$fullpath"
+    fi
+  done
+
+  if ((count == 0)); then
+    printf "\033[1;96m%s\033[0m\n" "Nothing changed."
+
+    return 0
+  fi
+
+  printf "\033[1;96m%s\033[0m\n" "$sep"
+
+  local update
+
+  printf "\033[1;96m%s\033[0m" "Update files? (Y/n): "
+
+  read -r update
+
+  update=${update:0:1}
+  update=${update@L}
+
+  if [[ "${update}" == "n" ]]; then
+    printf "\033[1;91m%s\033[0m\n" "Chose not to update."
+
+    return 1
+  fi
+
+  if ! unzip -o "$temp_dir/dot-files.zip" -d "$HOME" >/dev/null; then
+    printf "\033[1;91m%s\033[0m\n" "Failed to update dot files."
+
+    return 1
+  fi
+
+  printf "\033[1;96m%s\033[0m\n" "Successfully updated dot files."
+
+  return 0
 }
 # ------------------------------------------------------------------------
 rm-cdk-docker() {
