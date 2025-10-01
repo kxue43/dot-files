@@ -56,7 +56,7 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 # ------------------------------------------------------------------------
 # View man pages in Vim
-export MANPAGER="col -b | vim -c 'set ft=man' -MR - "
+export MANPAGER="col -b | vim -c 'set ft=man nonu' -MR - "
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
