@@ -9,7 +9,7 @@ if [ -x /opt/homebrew/bin/brew ]; then
 
   # shellcheck disable=SC1091
   source /opt/homebrew/share/bash-completion/bash_completion
-elif [ -x /opt/local/bin/port ]; then
+else
   # MacPorts is in use.
   PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
