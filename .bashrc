@@ -1,27 +1,49 @@
-# ------------------------------------------------------------------------
-# PATH and completion settings.
-PATH="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin:$PATH"
-
+# -----------------------------------------------------------------------
 if [ -x /opt/homebrew/bin/brew ]; then
-  # Homebrew is in use..
+  # Homebrew is in use.
+  KXUE43_USE_BREW=1
+fi
+# ------------------------------------------------------------------------
+# Idempotent PATH settings.
+if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
+  export KXUE43_SHELL_INIT=1
+
+  PATH="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin:$PATH"
+
+  if [ -z "${KXUE43_USE_BREW+x}" ]; then
+    # No Homebrew means MacPorts is in use. Add it to PATH.
+    PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+  fi
+fi
+# -----------------------------------------------------------------------
+if [ -n "${KXUE43_USE_BREW+x}" ]; then
+  # If Homebrew is in use, activate it.
   export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
   eval "$(/opt/homebrew/bin/brew shellenv)"
-
-  # shellcheck disable=SC1091
-  source /opt/homebrew/share/bash-completion/bash_completion
-else
-  # MacPorts is in use.
-  PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-
-  # shellcheck disable=SC1091
-  source /opt/local/share/bash-completion/bash_completion
 fi
 # -----------------------------------------------------------------------
 # Activate pyenv.
 eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
 # Activate fnm.
-eval "$(fnm env --use-on-cd --shell bash)"
+if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
+  eval "$(fnm env --shell bash)"
+else
+  # Trim the duplicate fnm item in the middle of PATH if exists.
+  PATH=$(echo -n "$PATH" | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
+  # Then activate fnm again, for the use-on-cd effect.
+  eval "$(fnm env --shell bash)"
+fi
+# ------------------------------------------------------------------------
+# Use installed bash completions.
+if [ -n "${KXUE43_USE_BREW+x}" ]; then
+  # shellcheck disable=SC1091
+  source /opt/homebrew/share/bash-completion/bash_completion
+else
+  # MacPorts.
+  # shellcheck disable=SC1091
+  source /opt/local/share/bash-completion/bash_completion
+fi
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 # shellcheck disable=SC1090
