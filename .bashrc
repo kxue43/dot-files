@@ -27,12 +27,12 @@ eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
 # Activate fnm.
 if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
-  eval "$(fnm env --shell bash)"
+  eval "$(fnm env --use-on-cd --shell bash)"
 else
   # Trim the duplicate fnm item in the middle of PATH if exists.
   PATH=$(echo -n "$PATH" | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
   # Then activate fnm again, for the use-on-cd effect.
-  eval "$(fnm env --shell bash)"
+  eval "$(fnm env --use-on-cd --shell bash)"
 fi
 # ------------------------------------------------------------------------
 # Use installed bash completions.
