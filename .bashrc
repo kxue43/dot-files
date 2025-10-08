@@ -12,7 +12,9 @@ if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
 
   if [ -z "${KXUE43_USE_BREW+x}" ]; then
     # No Homebrew means MacPorts is in use. Add it to PATH.
-    PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+    # Until MacPorts provides Tcl 9.0, put /usr/local/bin in front of
+    # MacPorts bin directories so that the self-built tclsh is used.
+    PATH="/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH"
   fi
 fi
 # -----------------------------------------------------------------------
