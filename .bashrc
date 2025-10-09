@@ -1,51 +1,19 @@
 # -----------------------------------------------------------------------
-if [ -x /opt/homebrew/bin/brew ]; then
-  # Homebrew is in use.
-  KXUE43_USE_BREW=1
+# Source reused functions first.
+if [ -r "$HOME/.fns.bashrc" ]; then
+  source "$HOME/.fns.bashrc"
 fi
 # ------------------------------------------------------------------------
 # Idempotent PATH settings.
-if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
-  export KXUE43_SHELL_INIT=1
-
-  PATH="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin:$PATH"
-
-  if [ -z "${KXUE43_USE_BREW+x}" ]; then
-    # No Homebrew means MacPorts is in use. Add it to PATH.
-    # Until MacPorts provides Tcl 9.0, put /usr/local/bin in front of
-    # MacPorts bin directories so that the self-built tclsh is used.
-    PATH="/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH"
-  fi
-fi
-# -----------------------------------------------------------------------
-if [ -n "${KXUE43_USE_BREW+x}" ]; then
-  # If Homebrew is in use, activate it.
-  export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+_kxue43_set_path
 # -----------------------------------------------------------------------
 # Activate pyenv.
 eval "$(pyenv init -)"
 # ------------------------------------------------------------------------
 # Activate fnm.
-if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
-  eval "$(fnm env --use-on-cd --shell bash)"
-else
-  # Trim the duplicate fnm item in the middle of PATH if exists.
-  PATH=$(echo -n "$PATH" | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
-  # Then activate fnm again, for the use-on-cd effect.
-  eval "$(fnm env --use-on-cd --shell bash)"
-fi
+_kxue43_activate_fnm
 # ------------------------------------------------------------------------
-# Use installed bash completions.
-if [ -n "${KXUE43_USE_BREW+x}" ]; then
-  # shellcheck disable=SC1091
-  source /opt/homebrew/share/bash-completion/bash_completion
-else
-  # MacPorts.
-  # shellcheck disable=SC1091
-  source /opt/local/share/bash-completion/bash_completion
-fi
+_kxue43_enable_completion
 # ------------------------------------------------------------------------
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 # shellcheck disable=SC1090
@@ -58,7 +26,7 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 # ------------------------------------------------------------------------
 # View man pages in Vim
-export MANPAGER="col -b | vim -c 'set ft=man nonu' -MR - "
+export MANPAGER="sh -c 'col -b | vim -c \"set ft=man nonu\" -MR - '"
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
@@ -83,11 +51,6 @@ alias ls-path='printenv PATH | tr ":" "\n"'
 alias gfpt='git fetch origin --prune --prune-tags'
 # ------------------------------------------------------------------------
 # Functions
-# ------------------------------------------------------------------------
-# Source reused functions first.
-if [ -r "$HOME/.fns.bashrc" ]; then
-  source "$HOME/.fns.bashrc"
-fi
 # ------------------------------------------------------------------------
 update-dot-files() {
   local sep="------------------------------------------------------------------------------------"

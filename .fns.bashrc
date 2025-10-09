@@ -45,3 +45,52 @@ _kxue43_prompt_jdk_version() {
   _kxue43_prompt "${versions[@]}"
 }
 # ------------------------------------------------------------------------
+_kxue43_set_path() {
+  # For idempotency.
+  if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
+    export KXUE43_SHELL_INIT=1
+
+    local own_path="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin"
+
+    if [ "$(uname -s)" = "Darwin" ]; then
+      own_path+=":/Applications/MacVim.app/Contents/bin"
+    fi
+
+    PATH="$own_path:$PATH"
+
+    if [ -x /opt/local/bin/port ]; then
+      # MacPorts is in use.
+      # Until MacPorts provides Tcl 9.0, put /usr/local/bin in front of
+      # MacPorts bin directories so that the self-built tclsh is used.
+      PATH="/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH"
+    elif [ -x /opt/homebrew/bin/brew ]; then
+      # Homebrew is in use.
+      export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+  fi
+}
+# ------------------------------------------------------------------------
+_kxue43_enable_completion() {
+  if [ -x /opt/homebrew/bin/brew ]; then
+    # Homebrew.
+    # shellcheck disable=SC1091
+    source /opt/homebrew/share/bash-completion/bash_completion
+  elif [ -x /opt/local/bin/port ]; then
+    # MacPorts.
+    # shellcheck disable=SC1091
+    source /opt/local/share/bash-completion/bash_completion
+  fi
+}
+# ------------------------------------------------------------------------
+_kxue43_activate_fnm() {
+  if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
+    eval "$(fnm env --use-on-cd --shell bash)"
+  else
+    # Trim the duplicate fnm item in the middle of PATH if exists.
+    PATH=$(echo -n "$PATH" | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
+    # Then activate fnm again, for the use-on-cd effect.
+    eval "$(fnm env --use-on-cd --shell bash)"
+  fi
+}
+# ------------------------------------------------------------------------
