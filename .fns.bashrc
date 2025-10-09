@@ -72,14 +72,20 @@ _kxue43_set_path() {
 }
 # ------------------------------------------------------------------------
 _kxue43_enable_completion() {
-  if [ -x /opt/homebrew/bin/brew ]; then
+  if [ -x /opt/homebrew/bin/brew ] && [ -r /opt/homebrew/share/bash-completion/bash_completion ]; then
     # Homebrew.
     # shellcheck disable=SC1091
     source /opt/homebrew/share/bash-completion/bash_completion
-  elif [ -x /opt/local/bin/port ]; then
+  elif [ -x /opt/local/bin/port ] && [ -r /opt/local/share/bash-completion/bash_completion ]; then
     # MacPorts.
     # shellcheck disable=SC1091
     source /opt/local/share/bash-completion/bash_completion
+  elif [ "$(uname -s)" = "Linux" ]; then
+    if [ -r /usr/share/bash-completion/bash_completion ]; then
+      source /usr/share/bash-completion/bash_completion
+    elif [ -r /etc/bash_completion ]; then
+      source /etc/bash_completion
+    fi
   fi
 }
 # ------------------------------------------------------------------------

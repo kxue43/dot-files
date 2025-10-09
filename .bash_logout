@@ -1,6 +1,7 @@
 # ------------------------------------------------------------------------
-# Clean up symlinks in the $HOME/.local/state/fnm_multishells folder
-if [ -d "${HOME}/.local/share/fnm" ]; then
+# Clean up symlinks in the $HOME/.local/state/fnm_multishells folder on macOS.
+# On Debian the symlinks live under /run/user/uid/... and are already temporary.
+if [ "$(uname -s)" = "Darwin" ] && [ -d "${HOME}/.local/share/fnm" ]; then
   # Disable exit on error for cleanup.
   set +e
 

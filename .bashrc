@@ -213,8 +213,11 @@ gtc() {
 }
 # ------------------------------------------------------------------------
 count-fnm-symlinks() {
-  if [ -d "$HOME/.local/state/fnm_multishells" ]; then
-    find "$HOME/.local/state/fnm_multishells" -type l | wc -l
+  local fnm_multishell_dir
+  fnm_multishell_dir="$(dirname "$FNM_MULTISHELL_PATH"/)"
+
+  if [ -d "$fnm_multishell_dir" ]; then
+    find "$fnm_multishell_dir" -type l | wc -l
   fi
 }
 # ------------------------------------------------------------------------
