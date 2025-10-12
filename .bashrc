@@ -26,7 +26,14 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 # ------------------------------------------------------------------------
 # View man pages in Vim
-export MANPAGER="sh -c 'col -b | vim -c \"set ft=man nonu\" -MR - '"
+export MANPAGER="sh -c 'col -b -x | vim -c \"set ft=man nonu\" -MR - '"
+# The MANPAGER above only works with backspace-based formatting,
+# not with the more modern ANSI escape codes. macOS only uses
+# backspace-based formatting. On Linux, we need to set GROFF_NO_SGR
+# to force it.
+if [ "$(uname -s)" = "Linux" ]; then
+  export GROFF_NO_SGR=1
+fi
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------

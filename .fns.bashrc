@@ -82,8 +82,10 @@ _kxue43_enable_completion() {
     source /opt/local/share/bash-completion/bash_completion
   elif [ "$(uname -s)" = "Linux" ]; then
     if [ -r /usr/share/bash-completion/bash_completion ]; then
+      # shellcheck disable=SC1091
       source /usr/share/bash-completion/bash_completion
     elif [ -r /etc/bash_completion ]; then
+      # shellcheck disable=SC1091
       source /etc/bash_completion
     fi
   fi
