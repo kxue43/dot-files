@@ -54,8 +54,6 @@ _kxue43_set_path() {
 
     if [ "$(uname -s)" = "Darwin" ]; then
       own_path+=":/Applications/MacVim.app/Contents/bin"
-    elif [ "$(uname -s)" = "Linux" ]; then
-      own_path+=":/usr/local/go/bin:$HOME/.cargo/bin"
     fi
 
     PATH="$own_path:$PATH"
