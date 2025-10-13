@@ -220,7 +220,7 @@ rm ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 
 ## Install Groovy (optional)
 
-Download a Groovy distribution into the `~/Downloads` folder, e.g. use [this link](https://groovy.apache.org/download.html).
+Download a Groovy _SDK bundle_ into the `~/Downloads` folder, e.g. use [this link](https://groovy.apache.org/download.html).
 Set the `GROOVY_VERSION` environment variable below to the corresponding version.
 
 ```bash
