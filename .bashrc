@@ -65,7 +65,7 @@ update-dot-files() {
   local temp_dir
   temp_dir=$(mktemp -d)
 
-  curl -o "$temp_dir/dot-files.zip" -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-nightly.zip >/dev/null 2>&1
+  curl -o "$temp_dir/dot-files.zip" -L https://github.com/kxue43/dot-files/releases/latest/download/dot-files-nightly.zip >/dev/null 2>&1
   unzip "$temp_dir/dot-files.zip" -d "$temp_dir" >/dev/null
 
   local -a zfiles

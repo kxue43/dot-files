@@ -110,7 +110,7 @@ sudo apt install shellcheck
 ## Get baseline dot files
 
 ```bash
-curl -o dot-files.zip -L https://github.com/kxue43/mac-dot-files/releases/latest/download/dot-files-initial.zip
+curl -o dot-files.zip -L https://github.com/kxue43/dot-files/releases/latest/download/dot-files-initial.zip
 unzip -o dot-files.zip
 rm dot-files.zip
 rm ~/.profile
