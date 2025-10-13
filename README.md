@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document covers how to set up a Macbook as a developer machine. It provides installation steps in this README,
+This document covers how to set up an `arm64` Macbook as a developer machine. It provides installation steps in this README,
 and a few baseline dot files as a GitHub release asset. It is geared towards Go, Java, Python and JavaScript development.
 
 All commands in this README should be executed from the user's home directory.
