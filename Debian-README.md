@@ -7,6 +7,9 @@ All commands in this README should be executed from the user's home directory.
 
 Don't use Wayland. VSCode doesn't work well with it. Use Xorg.
 
+Don't use KDE Plasma. Use Gnome Desktop. KDE doesn't work well with the integrated terminal of VSCode.
+There's something wrong with its login shell configuration.
+
 ## Install Nvidia drivers.
 
 Follow the steps on [Debian wiki](https://wiki.debian.org/NvidiaGraphicsDrivers).
@@ -27,12 +30,6 @@ If using Gnome Desktop.
 sudo apt install gnome-software-plugin-flatpak
 ```
 
-If using KDE Plasma.
-
-```bash
-sudo apt install plasma-discover-backend-flatpak
-```
-
 Add the Flathub repository.
 
 ```bash
@@ -46,6 +43,14 @@ sudo apt purge firefox-esr
 ```
 
 Logout and login again. Install the Flathub version of Firefox.
+
+## Install dash-to-dock
+
+```bash
+sudo apt install gnome-shell-extension-dashtodock
+```
+
+Logout and login again. Open the "Extensions" app. Turn on extensions and configure dash-to-dock.
 
 ## Install VSCode
 
