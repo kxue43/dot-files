@@ -56,6 +56,10 @@ _kxue43_set_path() {
       own_path+=":/Applications/MacVim.app/Contents/bin"
     fi
 
+    if [ "$(uname -s)" = "Linux" ]; then
+      own_path+=":/usr/local/go/bin"
+    fi
+
     PATH="$own_path:$PATH"
 
     if [ -x /opt/local/bin/port ]; then

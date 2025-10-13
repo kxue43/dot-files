@@ -252,7 +252,7 @@ We should put the following piece in the global `settings.json` of VSCode.
 ```
   "terminal.integrated.profiles.osx": {
     "bash": {
-      "path": "/usr/local/bin/bash",
+      "path": "bash",
       "args": ["-i"]
     }
   },

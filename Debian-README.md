@@ -1,6 +1,6 @@
-# Set up a Debian 13 as Developer Machine
+# Set up a Debian 12 as Developer Machine
 
-This document covers how to set up an `x86_64` Debian 13 as a developer machine. It provides installation steps,
+This document covers how to set up an `x86_64` Debian 12 as a developer machine. It provides installation steps,
 and a few baseline dot files as a GitHub release asset. It is geared towards Go, Java, Python and JavaScript development.
 
 All commands in this README should be executed from the user's home directory.
@@ -15,8 +15,27 @@ Reboot.
 
 ## Install Flatpak and Flathub Firefox
 
+Install Flatpak.
+
 ```bash
-sudo apt install flatpak gnome-software-plugin-flatpak
+sudo apt install flatpak
+```
+
+If using Gnome Desktop.
+
+```bash
+sudo apt install gnome-software-plugin-flatpak
+```
+
+If using KDE Plasma.
+
+```bash
+sudo apt install plasma-discover-backend-flatpak
+```
+
+Add the Flathub repository.
+
+```bash
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
 
@@ -27,14 +46,6 @@ sudo apt purge firefox-esr
 ```
 
 Logout and login again. Install the Flathub version of Firefox.
-
-## Install dash-to-dock
-
-```bash
-sudo apt install gnome-shell-extension-dashtodock
-```
-
-Logout and login again. Open the "Extensions" app. Turn on extensions and configure dash-to-dock.
 
 ## Install VSCode
 
@@ -48,10 +59,19 @@ sudo apt install vim git curl
 
 ## Install `pyenv`
 
+Install Python build dependencies.
+
 ```bash
 sudo apt install make build-essential libssl-dev zlib1g-dev \
 libbz2-dev libreadline-dev libsqlite3-dev curl git \
 libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+```
+
+Install `pyenv`.
+
+```bash
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+pushd ~/.pyenv && src/configure && make -C src && popd
 ```
 
 ## Install `pipx` and `poetry`
@@ -65,8 +85,14 @@ pipx inject poetry poetry-plugin-export
 
 ## Install `go`
 
+Download Go installation archive (`.tar.gz` file) from official website.
+
 ```bash
-sudo apt install golang
+export GO_VERSION=1.25.2
+
+pushd ~/Downloads
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+popd
 ```
 
 ## Install `fnm`
@@ -140,7 +166,6 @@ go install mvdan.cc/sh/v3/cmd/shfmt@latest
 ```bash
 wget -O - https://apt.corretto.aws/corretto.key | sudo gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg && \
 echo "deb [signed-by=/usr/share/keyrings/corretto-keyring.gpg] https://apt.corretto.aws stable main" | sudo tee /etc/apt/sources.list.d/corretto.list
-sudo apt modernize-sources
 sudo apt-get update; sudo apt-get install -y java-21-amazon-corretto-jdk
 ```
 
