@@ -70,6 +70,7 @@ _kxue43_set_path() {
     elif [ -x /opt/homebrew/bin/brew ]; then
       # Homebrew is in use.
       export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
+
       eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
   fi
@@ -101,6 +102,7 @@ _kxue43_activate_fnm() {
   else
     # Trim the duplicate fnm item in the middle of PATH if exists.
     PATH=$(echo -n "$PATH" | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
+
     # Then activate fnm again, for the use-on-cd effect.
     eval "$(fnm env --use-on-cd --shell bash)"
   fi

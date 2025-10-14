@@ -149,6 +149,7 @@ set-aws-region() {
   fi
 
   export AWS_DEFAULT_REGION=$region
+
   export AWS_REGION=$region
 }
 # ------------------------------------------------------------------------
@@ -177,6 +178,7 @@ set-role-env() {
   fi
 
   eval "$(aws configure export-credentials --format env --profile "$profile")"
+
   unset AWS_PROFILE
 }
 # ------------------------------------------------------------------------
@@ -215,7 +217,9 @@ open-in-browser() {
 # ------------------------------------------------------------------------
 gtc() {
   local profile=coverage.out
+
   go test -race -coverprofile=${profile} "${1:-./...}"
+
   go tool cover -html=${profile}
 }
 # ------------------------------------------------------------------------

@@ -65,6 +65,8 @@ nnoremap <leader>n :noh<CR>
 "convenient copy and paste
 vnoremap <C-c> "+y
 nnoremap <C-v> "+p
+" set filetype to shell for syntax highlight
+nnoremap <F4> :set ft=sh<CR>
 "----------------------------------------------------------------------------
 call plug#begin('~/.vim/plugged')
 

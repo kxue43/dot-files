@@ -14,6 +14,7 @@ if [ "$(uname -s)" = "Darwin" ] && [ -d "${HOME}/.local/share/fnm" ]; then
 
     # Remove fnm symlinks older than 7 days.
     echo "Cleaning up the $HOME/.local/state/fnm_multishells directory."
+
     find "$(dirname "${FNM_MULTISHELL_PATH}")/" -type l -name '*_*' -mtime +3 -exec rm {} +
   fi
 fi
