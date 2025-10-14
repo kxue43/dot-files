@@ -66,6 +66,7 @@ nnoremap <leader>n :noh<CR>
 vnoremap <C-c> "+y
 nnoremap <C-v> "+p
 " set filetype to shell for syntax highlight
+let g:is_bash = 1
 nnoremap <F4> :set ft=sh<CR>
 "----------------------------------------------------------------------------
 call plug#begin('~/.vim/plugged')
