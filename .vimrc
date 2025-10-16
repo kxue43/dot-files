@@ -8,21 +8,9 @@ endif
 
 set hlsearch
 
-"disable swap files
 set noswapfile
-
-"put al three types of backup files in one directory ~/.vimdata
-let &directory = expand('~/.vimdata/swap//')
-
-set backup
-let &backupdir = expand('~/.vimdata/backup//')
-
+set nobackup
 set undofile
-let &undodir = expand('~/.vimdata/undo//')
-
-if !isdirectory(&undodir) | call mkdir(&undodir, "p") | endif
-if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
-if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 "----------------------------------------------------------------------------
 "personalizations
 

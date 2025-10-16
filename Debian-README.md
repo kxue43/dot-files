@@ -56,10 +56,10 @@ Logout and login again. Open the "Extensions" app. Turn on extensions and config
 
 Download the `.deb` file from official VSCode website. Use `sudo apt install` on the downloaded file.
 
-## Install basic CLI utilities
+## Install basic utilities
 
 ```bash
-sudo apt install vim git curl
+sudo apt install vim git curl xclip
 ```
 
 ## Install `pyenv`
