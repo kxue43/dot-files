@@ -8,9 +8,17 @@ endif
 
 set hlsearch
 
+"Vim backup files setting
 set noswapfile
-set nobackup
+
+set backup
+let &backupdir = expand('~/.vimdata/backup/')
+
 set undofile
+let &undodir = expand('~/.vimdata/undo/')
+
+if !isdirectory(&backupdir) | call mkdir(&backupdir, 'p') | endif
+if !isdirectory(&undodir) | call mkdir(&undodir, 'p') | endif
 "----------------------------------------------------------------------------
 "personalizations
 
