@@ -52,10 +52,6 @@ _kxue43_set_path() {
 
     local own_path="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin"
 
-    if [ "$(uname -s)" = "Darwin" ]; then
-      own_path+=":/Applications/MacVim.app/Contents/bin"
-    fi
-
     if [ "$(uname -s)" = "Linux" ]; then
       own_path+=":/usr/local/go/bin"
     fi

@@ -25,8 +25,8 @@ PS1='\[\033[1m\]\[\033[34m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)"
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 # ------------------------------------------------------------------------
-# View man pages in Vim
-export MANPAGER="sh -c 'col -b -x | vim -c \"set ft=man nonu\" -MR - '"
+# View man pages in NeoVim
+export MANPAGER="sh -c 'col -b -x | nvim -c \"set ft=man nonu nomodifiable\" -R - '"
 # The MANPAGER above only works with backspace-based formatting,
 # not with the more modern ANSI escape codes. macOS only uses
 # backspace-based formatting. On Linux, we need to set GROFF_NO_SGR
@@ -37,6 +37,7 @@ fi
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
+alias vim='nvim '
 alias gproj='cd ~/projects'
 alias gtemp='cd ~/temp'
 alias glearn='cd ~/learning'
@@ -77,11 +78,6 @@ update-dot-files() {
 
   for fullpath in "${zfiles[@]}"; do
     basename=$(basename "$fullpath")
-
-    # Deal with plug.vim as it is the only nested file.
-    if [[ "$basename" == "plug.vim" ]]; then
-      basename=".vim/autoload/plug.vim"
-    fi
 
     existing="$HOME/$basename"
 

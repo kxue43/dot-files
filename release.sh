@@ -4,15 +4,11 @@
 set -e
 
 _download_assets() {
-  mkdir -p ~+/.vim/autoload
-
-  curl -o ~+/.vim/autoload/plug.vim -Lf https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
   curl -o ~+/.git-prompt.sh -Lf https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 }
 
 _make_zip() {
-  local -a zfiles=(.vim/autoload/plug.vim .git-prompt.sh .gvimrc .vimrc .bash_logout .bash_profile .bashrc .fns.bashrc)
+  local -a zfiles=(.git-prompt.sh .bash_logout .bash_profile .bashrc .fns.bashrc)
 
   if [[ "$1" == "--initial" ]]; then
     zfiles+=(.gitconfig .gitconfig-personal .aws/config .aws/credentials)

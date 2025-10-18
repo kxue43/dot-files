@@ -59,8 +59,14 @@ Download the `.deb` file from official VSCode website. Use `sudo apt install` on
 ## Install basic utilities
 
 ```bash
-sudo apt install vim git curl xclip
+sudo apt install git curl xclip
 ```
+
+## Build NeoVim from source
+
+Build the latest version available. The one in Debian 12 repository is too old.
+
+Make sure the `nvim` binary is on `PATH`.
 
 ## Install `pyenv`
 

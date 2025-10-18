@@ -26,8 +26,6 @@ xcode-select --install
 
 - [Amazon Corretto 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
 
-- [MacVim](https://macvim.org/)
-
 - [DejaVu Sans Mono font](https://www.fontsquirrel.com/fonts/dejavu-sans-mono)
 
   Download. Unzip. Search for "Font Book" app. `File` --> `Add Fonts to Current User`.
@@ -84,6 +82,12 @@ From now on perform all CLI operations in iTerm2.
 
 ```bash
 sudo port install git
+```
+
+## Install NeoVim
+
+```bash
+sudo port install neovim
 ```
 
 ## Install `pyenv`
@@ -259,6 +263,6 @@ We should put the following piece in the global `settings.json` of VSCode.
   "terminal.integrated.defaultProfile.osx": "bash",
 ```
 
-Otherwise the directories `$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin:/Applications/MacVim.app/Contents/bin`
+Otherwise the directories `$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin`
 will be appended to the end of `PATH` instead of prepended to the beginning. The `-i` argument means the
 `~/.bashrc` file is sourced again at the creation of the integrated terminal.
