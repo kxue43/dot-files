@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+
+    paths:
+      - ".*"
+      - ".aws/*"
+      - "release.sh"
+      - ".github/workflows/release.yaml"
+
   workflow_dispatch:
 
 permissions:
