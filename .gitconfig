@@ -6,9 +6,9 @@
 	prune = true
 	pruneTags = true
 [includeIf "gitdir:~/temp/"]
-  path = .gitconfig-personal
+	path = .gitconfig-personal
 [includeIf "gitdir:~/ascending/"]
-  path = .gitconfig-personal
+	path = .gitconfig-personal
 [submodule]
 	recurse = true
 [push]
@@ -17,10 +17,10 @@
 	smu = submodule update --init --recursive
 	sms = submodule status
 	sma = submodule add
-  lgl = log --graph --oneline --decorate-refs=refs/heads
-  lgb = log --graph --oneline --branches
-  lga = log --graph --oneline --all
-  lgmh = log --oneline main..HEAD
-  fp = fetch origin --prune --prune-tags
-  df = diff
-  dfc = diff --cached
+	lgl = log --graph --oneline --decorate-refs=refs/heads
+	lgb = log --graph --oneline --branches
+	lga = log --graph --oneline --all
+	lgmh = log --oneline main..HEAD
+	fp = fetch origin --prune --prune-tags
+	df = diff
+	dfc = diff --cached
