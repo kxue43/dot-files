@@ -17,3 +17,10 @@
 	smu = submodule update --init --recursive
 	sms = submodule status
 	sma = submodule add
+  lgl = log --graph --oneline --decorate-refs=refs/heads
+  lgb = log --graph --oneline --branches
+  lga = log --graph --oneline --all
+  lgmh = log --oneline main..HEAD
+  fp = fetch origin --prune --prune-tags
+  df = diff
+  dfc = diff --cached
