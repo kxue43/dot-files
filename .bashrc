@@ -53,13 +53,34 @@ alias clean-aws-env="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && u
 alias gci='aws sts get-caller-identity'
 alias ls-path='printenv PATH | tr ":" "\n"'
 alias nvconfp='pushd ~/.config/nvim ; git pull ; popd'
-alias tmls='tmux ls '
-alias tmns='tmux new -s '
-alias tmas='tmux attach -t '
-alias tmks='tmux kill-session -t '
-alias tmka='tmux kill-session -a'
 # ------------------------------------------------------------------------
 # Functions
+# ------------------------------------------------------------------------
+tl() {
+  tmux ls -F '#{session_name}: #{@long-name}' 2>/dev/null
+}
+# ------------------------------------------------------------------------
+tn() {
+  if (($# < 2)); then
+    echo "Need two positional arguments, but got ${#}: ${*}."
+  fi
+
+  tmux new -d -s "$1"
+  tmux set-option -t "$1" @long-name "$2"
+  tmux attach -t "$1"
+}
+# ------------------------------------------------------------------------
+ta() {
+  tmux attach -t "$1"
+}
+# ------------------------------------------------------------------------
+tks() {
+  tmux kill-session -t "$1"
+}
+# ------------------------------------------------------------------------
+tka() {
+  tmux kill-session -a
+}
 # ------------------------------------------------------------------------
 update-dot-files() {
   local sep="------------------------------------------------------------------------------------"
