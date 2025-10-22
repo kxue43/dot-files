@@ -37,7 +37,6 @@ fi
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
-alias vim='nvim '
 alias gproj='cd ~/projects'
 alias gtemp='cd ~/temp'
 alias glearn='cd ~/learning'

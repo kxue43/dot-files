@@ -50,7 +50,7 @@ _kxue43_set_path() {
   if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
     export KXUE43_SHELL_INIT=1
 
-    local own_path="$HOME/go/bin:$HOME/.local/bin:$HOME/.pyenv/bin"
+    local own_path="$HOME/go/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.pyenv/bin"
 
     if [ "$(uname -s)" = "Linux" ]; then
       own_path+=":/usr/local/go/bin"
