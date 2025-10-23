@@ -8,7 +8,7 @@ _download_assets() {
 }
 
 _make_zip() {
-  local -a zfiles=(.git-prompt.sh .bash_logout .bash_profile .bashrc .fns.bashrc .tmux.conf)
+  local -a zfiles=(.vimrc .gvimrc .git-prompt.sh .bash_logout .bash_profile .bashrc .fns.bashrc .tmux.conf)
 
   if [[ "$1" == "--initial" ]]; then
     zfiles+=(.gitconfig .gitconfig-personal .aws/config .aws/credentials)

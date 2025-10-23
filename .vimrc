@@ -18,7 +18,7 @@ set ttimeoutlen=100	" wait up to 100ms after Esc for special key
 set display=truncate
 
 " Show a few lines of context around the cursor.  Note that this makes the
-" Text scroll if you mouse-click near the start or end of the window.
+" text scroll if you mouse-click near the start or end of the window.
 set scrolloff=5
 
 " Do incremental searching when it's possible to timeout.
@@ -27,7 +27,7 @@ if has('reltime')
 endif
 
 " Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
-" Confusing.
+" confusing.
 set nrformats-=octal
 
 " Don't use Q for Ex mode, use it for formatting.  Except for Select mode.
@@ -36,14 +36,14 @@ map Q gq
 sunmap Q
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" So that you can undo CTRL-U after inserting a line break.
+" so that you can undo CTRL-U after inserting a line break.
 " Revert with ":iunmap <C-U>".
 inoremap <C-U> <C-G>u<C-U>
 
 " In many terminal emulators the mouse works just fine.  By enabling it you
-" Can position the cursor, Visually select and scroll with the mouse.
+" can position the cursor, Visually select and scroll with the mouse.
 " Only xterm can grab the mouse events when using the shift key, for other
-" Terminals use ":", select text and press Esc.
+" terminals use ":", select text and press Esc.
 if has('mouse')
   if &term =~ 'xterm'
     set mouse=a
@@ -62,33 +62,32 @@ filetype plugin indent on
 " Put these in an autocmd group, so that you can revert them with:
 " ":autocmd! vimStartup"
 augroup vimStartup
-autocmd!
+  autocmd!
 
-" When editing a file, always jump to the last known cursor position.
-" Don't do it when the position is invalid, when inside an event handler
-" (happens when dropping a file on gvim), for a commit or rebase message
-" (likely a different one than last time), and when using xxd(1) to filter
-" And edit binary files (it transforms input files back and forth, causing
-" Them to have dual nature, so to speak)
-autocmd BufReadPost *
-\ let line = line("'\"")
-\ | if line >= 1 && line <= line("$") && &filetype !~# 'commit'
-\      && index(['xxd', 'gitrebase'], &filetype) == -1
-\ |   execute "normal! g`\""
-\ | endif
-
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid, when inside an event handler
+  " (happens when dropping a file on gvim), for a commit or rebase message
+  " (likely a different one than last time), and when using xxd(1) to filter
+  " and edit binary files (it transforms input files back and forth, causing
+  " them to have dual nature, so to speak)
+  autocmd BufReadPost *
+  \ let line = line("'\"")
+  \ | if line >= 1 && line <= line("$") && &filetype !~# 'commit'
+  \      && index(['xxd', 'gitrebase'], &filetype) == -1
+  \ |   execute "normal! g`\""
+  \ | endif
 augroup END
 
 " Quite a few people accidentally type "q:" instead of ":q" and get confused
-" By the command line window.  Give a hint about how to get out.
+" by the command line window.  Give a hint about how to get out.
 " If you don't like this you can put this in your vimrc:
 " ":autocmd! vimHints"
 augroup vimHints
-au!
-autocmd CmdwinEnter *
-  \ echohl Todo |
-  \ echo gettext('You discovered the command-line window! You can close it with ":q".') |
-  \ echohl None
+  au!
+  autocmd CmdwinEnter *
+    \ echohl Todo |
+    \ echo gettext('You discovered the command-line window! You can close it with ":q".') |
+    \ echohl None
 augroup END
 
 " Revert with ":syntax off".
@@ -99,7 +98,7 @@ syntax on
 " let c_comment_strings=1
 
 " Convenient command to see the difference between the current buffer and the
-" File it was loaded from, thus the changes you made.
+" file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 " Revert with: ":delcommand DiffOrig".
 if !exists(":DiffOrig")
@@ -109,17 +108,18 @@ endif
 
 if has('langmap') && exists('+langremap')
   " Prevent that the langmap option applies to characters that result from a
-  " mapping.  If set (default), this may break plugins (but it's backward
+  " mapping. If set (default), this may break plugins (but it's backward
   " compatible).
   set nolangremap
 endif
 " ----------------------------------------------------------------------------
-" Add the matchit package to runtimepath, but defer loading.
-"
-" The matchit plugin makes the % command work better, but it is not backwards
-" Compatible.
+" Add some packages to runtimepath, but defer loading.
+
 " The ! means the package won't be loaded right away but when plugins are
-" Loaded during initialization.
+" loaded during initialization.
+
+" The matchit plugin makes the % command work better, but it is not backwards
+" compatible.
 if has('syntax') && has('eval')
   packadd! matchit
 endif
@@ -140,7 +140,9 @@ if !isdirectory(&undodir) | call mkdir(&undodir, "p") | endif
 if !isdirectory(&backupdir) | call mkdir(&backupdir, "p") | endif
 if !isdirectory(&directory) | call mkdir(&directory, "p") | endif
 " ----------------------------------------------------------------------------
-" Personal settings.
+" Personal settings from now on.
+" ----------------------------------------------------------------------------
+" Global options.
 
 " Display row number by default.
 set nu
@@ -150,6 +152,8 @@ set hlsearch
 
 " Use dark background.
 set bg=dark
+" ----------------------------------------------------------------------------
+" Global mappings.
 
 " Set no highlight until next search.
 nnoremap <F2> :noh<CR>
@@ -158,11 +162,44 @@ nnoremap <F2> :noh<CR>
 nnoremap <F3> :setlocal spell spelllang=en_us<CR>
 
 " Set filetype to shell for syntax highlight.
-let g:is_bash = 1
-nnoremap <F4> :set ft=sh<CR>
+" Use <Bar> instead of "|" to assit Vim in parsing the next line.
+nnoremap <F4> :let g:is_bash = 1 <Bar> set ft=sh<CR>
+" ----------------------------------------------------------------------------
+" Global commands.
+
+" Show man page in a new buffer and set it as the only window.
+command! -nargs=+ KMan call s:OpenManPage(<q-args>)
+
+function! s:OpenManPage(args)
+  " Load the man.vim plugin if hasn't.
+  if !exists(':Man')
+    runtime ftplugin/man.vim
+  endif
+
+  execute ':Man ' . a:args
+  only
+endfunction
+" ----------------------------------------------------------------------------
+" Autocommands per filetype.
+
+" For Markdown files, show rendered HTML in browser.
+function! s:SetupMarkdownMappings()
+  nnoremap <buffer> <silent> <leader>ll :call <SID>RenderMarkdownFile()<CR>
+endfunction
+
+function! s:RenderMarkdownFile()
+  let l:curr_file = expand('%:p')
+
+  call system('toolkit-show-md ' . shellescape(l:curr_file) . ' >/dev/null 2>&1')
+endfunction
+
+augroup MarkdownShowFile
+  autocmd!
+  autocmd FileType markdown call s:SetupMarkdownMappings()
+augroup END
 " ----------------------------------------------------------------------------
 " Package settings from now on.
-
+" ----------------------------------------------------------------------------
 " Packages are manually mananged inside the ~/.vim/pack/*/start/* folders.
 " Currently there are no opt files, only start.
 
