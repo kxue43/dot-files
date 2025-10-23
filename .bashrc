@@ -259,7 +259,7 @@ sync-vim-packages() {
 
     if [ -d "$dir" ]; then
       pushd "$dir" || return 1
-      git pull
+      git pull --no-tags
       popd || return 1
     else
       mkdir -p "$dir"
