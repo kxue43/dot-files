@@ -37,6 +37,7 @@ fi
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
+alias ls='ls --color=auto'
 alias gproj='cd ~/projects'
 alias gtemp='cd ~/temp'
 alias glearn='cd ~/learning'
@@ -56,7 +57,7 @@ alias nvconfp='pushd ~/.config/nvim ; git pull ; popd'
 # Functions
 # ------------------------------------------------------------------------
 tl() {
-  tmux ls -F '#{session_name} (#{@long-name}): #{session_windows}win'
+  tmux list-sessions -F '#{session_name} (#{@long-name}): #{session_windows}win'
 }
 # ------------------------------------------------------------------------
 tn() {
@@ -66,13 +67,13 @@ tn() {
     return 1
   fi
 
-  tmux new -d -s "$1"
+  tmux new-session -d -s "$1"
   tmux set-option -t "$1" @long-name "$2"
-  tmux attach -t "$1"
+  tmux attach-session -t "$1"
 }
 # ------------------------------------------------------------------------
 ta() {
-  tmux attach -t "$1"
+  tmux attach-session -t "$1"
 }
 # ------------------------------------------------------------------------
 update-dot-files() {
