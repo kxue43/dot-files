@@ -150,10 +150,11 @@ set nu
 " Use highlight search by default.
 set hlsearch
 
-" Use dark background.
-set bg=dark
 " ----------------------------------------------------------------------------
 " Global mappings.
+
+" Use light background.
+set bg=light
 
 " Set no highlight until next search.
 nnoremap <F2> :noh<CR>
@@ -221,6 +222,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 nmap <C-n> :NERDTreeToggle<CR>
 " ----------------------------------------------------------------------------
 " Gruvbox color scheme setting.
+
+let g:gruvbox_contrast_light = 'hard'
 
 autocmd vimenter * ++nested colorscheme gruvbox
 " ----------------------------------------------------------------------------
