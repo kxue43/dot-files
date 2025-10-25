@@ -52,6 +52,13 @@ if has('mouse')
   endif
 endif
 
+" Enable True Color support.
+" True Color uses 24 bits to represent colors.
+" 256 Color uses 8 bits (hence 256) to represent colors.
+if has('termguicolors')
+  set termguicolors
+endif
+
 " Enable file type detection.
 " Use the default filetype settings, so that mail gets 'tw' set to 72,
 " 'cindent' is on in C files, etc.
@@ -122,6 +129,9 @@ endif
 " compatible.
 if has('syntax') && has('eval')
   packadd! matchit
+  " Need to do the following even if gruvbox-material is added to start/.
+  " See https://github.com/sainnhe/gruvbox-material/issues/60.
+  packadd! gruvbox-material
 endif
 " ----------------------------------------------------------------------------
 " Backup files settings.
@@ -204,7 +214,7 @@ augroup END
 " Currently there are no opt files, only start.
 
 " ~/.vim/pack
-"   ├─ gruvbox/start/gruvbox
+"   ├─ gruvbox-material/start/gruvbox-material
 "   ├─ nerdtree/start/nerdtree
 "   ├─ vim-airline/start/vim-airline
 "   └─ vim-airline-themes/start/vim-airline-themes
@@ -220,9 +230,16 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Toggle nerdtree.
 nmap <C-n> :NERDTreeToggle<CR>
 " ----------------------------------------------------------------------------
-" Gruvbox color scheme setting.
+" gruvbox-material color scheme setting.
 
-autocmd vimenter * ++nested colorscheme gruvbox
+"let g:gruvbox_material_background = 'hard'
+
+if !empty($TMUX)
+  " Disable italic if in Tmux. Tmux doesn't support italic properly.
+  let g:gruvbox_material_disable_italic_comment = 1
+endif
+
+autocmd vimenter * ++nested colorscheme gruvbox-material
 " ----------------------------------------------------------------------------
 " Vim-airline setting.
 
@@ -230,7 +247,8 @@ autocmd vimenter * ++nested colorscheme gruvbox
 let g:airline#extensions#tabline#enabled = 1
 
 " Airline theme.
-let g:airline_theme='base16_gruvbox_dark_hard'
+let g:airline_theme='gruvbox_material'
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
