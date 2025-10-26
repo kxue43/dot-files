@@ -122,7 +122,7 @@ update-dot-files() {
 
   local update
 
-  _kxue43_color_echo cyan "Update files? (Y/n): "
+  _kxue43_color_echo -n cyan "Update files? (Y/n): "
 
   read -r update
 
