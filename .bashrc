@@ -18,7 +18,7 @@ _kxue43_enable_completion
 # Enhance terminal prompt with Git info. This has nothing to do with Git completion.
 # shellcheck disable=SC1090
 source ~/.git-prompt.sh
-PS1='\[\033[1m\]\[\033[34m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[32m\]\U2714"; else echo -e "\[\033[31m\]\U2718"; fi)\[\033[0m\]\$ '
+PS1='\[\033[1m\]\[\033[34m\]\u@\t: \[\033[36m\]\w\[\033[33m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[32m\]\U2714"; else echo -e "\[\033[31m\]\U2718"; fi)\[\033[0m\]\$ '
 # ------------------------------------------------------------------------
 # Key bindings.
 # Use up/down arrow keys to search history based on current input.
@@ -62,7 +62,7 @@ tl() {
 # ------------------------------------------------------------------------
 tn() {
   if (($# < 2)); then
-    echo "Need two positional arguments, but got ${#}: ${*}."
+    _kxue43_color_echo red "Need two positional arguments, but got ${#}: ${*}."
 
     return 1
   fi
@@ -104,25 +104,25 @@ update-dot-files() {
     if ! git diff --no-index --no-patch "$existing" "$fullpath"; then
       count=$((count + 1))
 
-      printf "\033[1;96m%s\033[0m\n" "$sep"
+      _kxue43_color_echo cyan "$sep"
 
-      printf "\033[1;96m%s changes:\033[0m\n" "$basename"
+      _kxue43_color_echo cyan "$basename changes:"
 
       git diff --no-index "$existing" "$fullpath"
     fi
   done
 
   if ((count == 0)); then
-    printf "\033[1;96m%s\033[0m\n" "Nothing changed."
+    _kxue43_color_echo cyan "Nothing changed."
 
     return 0
   fi
 
-  printf "\033[1;96m%s\033[0m\n" "$sep"
+  _kxue43_color_echo cyan "$sep"
 
   local update
 
-  printf "\033[1;96m%s\033[0m" "Update files? (Y/n): "
+  _kxue43_color_echo cyan "Update files? (Y/n): "
 
   read -r update
 
@@ -130,18 +130,18 @@ update-dot-files() {
   update=${update@L}
 
   if [[ "${update}" == "n" ]]; then
-    printf "\033[1;91m%s\033[0m\n" "Chose not to update."
+    _kxue43_color_echo red "Chose not to update."
 
     return 1
   fi
 
   if ! unzip -o "$temp_dir/dot-files.zip" -d "$HOME" >/dev/null; then
-    printf "\033[1;91m%s\033[0m\n" "Failed to update dot files."
+    _kxue43_color_echo red "Failed to update dot files."
 
     return 1
   fi
 
-  printf "\033[1;96m%s\033[0m\n" "Successfully updated dot files."
+  _kxue43_color_echo cyan "Successfully updated dot files."
 
   return 0
 }
@@ -229,6 +229,22 @@ gtc() {
   go test -race -coverprofile=${profile} "${1:-./...}"
 
   go tool cover -html=${profile}
+}
+# ------------------------------------------------------------------------
+clean-up-fnm-symlinks() {
+  if ! [ "$(uname -s)" = "Darwin" ]; then
+    _kxue43_color_echo red "Only use this function on macOS."
+
+    return 1
+  fi
+
+  local nod="${1:-3}"
+
+  if [ -n "${FNM_MULTISHELL_PATH:+x}" ]; then
+    _kxue43_color_echo cyan "Cleaning up the $HOME/.local/state/fnm_multishells directory of symlinks older than ${nod} day(s)."
+
+    find "$(dirname "${FNM_MULTISHELL_PATH}")/" -type l -name '*_*' -mtime "+${nod}d" -exec rm {} +
+  fi
 }
 # ------------------------------------------------------------------------
 count-fnm-symlinks() {

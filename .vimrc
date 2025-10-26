@@ -234,10 +234,7 @@ nmap <C-n> :NERDTreeToggle<CR>
 
 "let g:gruvbox_material_background = 'hard'
 
-if !empty($TMUX)
-  " Disable italic if in Tmux. Tmux doesn't support italic properly.
-  let g:gruvbox_material_disable_italic_comment = 1
-endif
+let g:gruvbox_material_disable_italic_comment = 1
 
 autocmd vimenter * ++nested colorscheme gruvbox-material
 " ----------------------------------------------------------------------------

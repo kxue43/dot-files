@@ -9,12 +9,12 @@ if [ "$(uname -s)" = "Darwin" ] && [ -d "${HOME}/.local/share/fnm" ]; then
   eval "$(fnm env)"
 
   if [ -n "${FNM_MULTISHELL_PATH:+x}" ]; then
-    # Remove fnm symlinks older than 365 days. This is because tmux
+    # Remove fnm symlinks older than 90 days. This is because tmux
     # might have long-living sessions, so we cannot delete directories
     # used by them.
     echo "Cleaning up the $HOME/.local/state/fnm_multishells directory."
 
-    find "$(dirname "${FNM_MULTISHELL_PATH}")/" -type l -name '*_*' -mtime +365d -exec rm {} +
+    find "$(dirname "${FNM_MULTISHELL_PATH}")/" -type l -name '*_*' -mtime +90d -exec rm {} +
   fi
 fi
 # ------------------------------------------------------------------------
