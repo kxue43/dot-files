@@ -61,7 +61,7 @@ tl() {
 }
 # ------------------------------------------------------------------------
 tn() {
-  if (($# < 2)); then
+  if (($# != 2)); then
     _kxue43_color_echo red "Need two positional arguments, but got ${#}: ${*}."
 
     return 1
