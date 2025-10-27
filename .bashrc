@@ -53,6 +53,7 @@ alias clean-aws-env="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && u
 alias gci='aws sts get-caller-identity'
 alias ls-path='printenv PATH | tr ":" "\n"'
 alias nvconfp='pushd ~/.config/nvim ; git pull ; popd'
+alias dotfp='pushd ~/.config/dot-files ; git pull ; popd'
 # ------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------
@@ -74,76 +75,6 @@ tn() {
 # ------------------------------------------------------------------------
 ta() {
   tmux attach-session -t "$1"
-}
-# ------------------------------------------------------------------------
-update-dot-files() {
-  local sep="------------------------------------------------------------------------------------"
-
-  local temp_dir
-  temp_dir=$(mktemp -d)
-
-  curl -o "$temp_dir/dot-files.zip" -L https://github.com/kxue43/dot-files/releases/latest/download/dot-files-nightly.zip >/dev/null 2>&1
-  unzip "$temp_dir/dot-files.zip" -d "$temp_dir" >/dev/null
-
-  local -a zfiles
-  mapfile -t zfiles < <(find "$temp_dir" -type f -not -name "*.zip")
-
-  local fullpath basename existing
-
-  local -i count=0
-
-  for fullpath in "${zfiles[@]}"; do
-    basename=$(basename "$fullpath")
-
-    existing="$HOME/$basename"
-
-    if ! [ -f "$existing" ]; then
-      touch "$existing"
-    fi
-
-    if ! git diff --no-index --no-patch "$existing" "$fullpath"; then
-      count=$((count + 1))
-
-      _kxue43_color_echo cyan "$sep"
-
-      _kxue43_color_echo cyan "$basename changes:"
-
-      git diff --no-index "$existing" "$fullpath"
-    fi
-  done
-
-  if ((count == 0)); then
-    _kxue43_color_echo cyan "Nothing changed."
-
-    return 0
-  fi
-
-  _kxue43_color_echo cyan "$sep"
-
-  local update
-
-  _kxue43_color_echo -n cyan "Update files? (Y/n): "
-
-  read -r update
-
-  update=${update:0:1}
-  update=${update@L}
-
-  if [[ "${update}" == "n" ]]; then
-    _kxue43_color_echo red "Chose not to update."
-
-    return 1
-  fi
-
-  if ! unzip -o "$temp_dir/dot-files.zip" -d "$HOME" >/dev/null; then
-    _kxue43_color_echo red "Failed to update dot files."
-
-    return 1
-  fi
-
-  _kxue43_color_echo cyan "Successfully updated dot files."
-
-  return 0
 }
 # ------------------------------------------------------------------------
 rm-cdk-docker() {
