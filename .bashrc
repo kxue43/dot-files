@@ -189,7 +189,7 @@ count-fnm-symlinks() {
 # ------------------------------------------------------------------------
 sync-vim-packages() {
   local repos=(
-    sainnhe/gruvbox-material
+    morhetz/gruvbox
     preservim/nerdtree
     vim-airline/vim-airline
     vim-airline/vim-airline-themes

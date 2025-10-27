@@ -129,9 +129,6 @@ endif
 " compatible.
 if has('syntax') && has('eval')
   packadd! matchit
-  " Need to do the following even if gruvbox-material is added to start/.
-  " See https://github.com/sainnhe/gruvbox-material/issues/60.
-  packadd! gruvbox-material
 endif
 " ----------------------------------------------------------------------------
 " Backup files settings.
@@ -216,7 +213,7 @@ augroup END
 " Currently there are no opt files, only start.
 
 " ~/.vim/pack
-"   ├─ gruvbox-material/start/gruvbox-material
+"   ├─ gruvbox/start/gruvbox
 "   ├─ nerdtree/start/nerdtree
 "   ├─ vim-airline/start/vim-airline
 "   └─ vim-airline-themes/start/vim-airline-themes
@@ -232,13 +229,13 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Toggle nerdtree.
 nmap <C-n> :NERDTreeToggle<CR>
 " ----------------------------------------------------------------------------
-" gruvbox-material color scheme setting.
+" gruvbox color scheme setting.
 
-"let g:gruvbox_material_background = 'hard'
+let g:gruvbox_italic = 0
 
-let g:gruvbox_material_disable_italic_comment = 1
+"let g:gruvbox_contrast_dark = 'hard'
 
-autocmd vimenter * ++nested colorscheme gruvbox-material
+autocmd vimenter * ++nested colorscheme gruvbox
 " ----------------------------------------------------------------------------
 " Vim-airline setting.
 
