@@ -231,6 +231,7 @@ nmap <C-n> :NERDTreeToggle<CR>
 " ----------------------------------------------------------------------------
 " gruvbox color scheme setting.
 
+let g:gruvbox_bold = 0
 let g:gruvbox_italic = 0
 
 autocmd vimenter * ++nested colorscheme gruvbox
