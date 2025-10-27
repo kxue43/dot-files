@@ -233,8 +233,6 @@ nmap <C-n> :NERDTreeToggle<CR>
 
 let g:gruvbox_italic = 0
 
-"let g:gruvbox_contrast_dark = 'hard'
-
 autocmd vimenter * ++nested colorscheme gruvbox
 " ----------------------------------------------------------------------------
 " Vim-airline setting.
@@ -243,7 +241,7 @@ autocmd vimenter * ++nested colorscheme gruvbox
 let g:airline#extensions#tabline#enabled = 1
 
 " Airline theme.
-let g:airline_theme='gruvbox_material'
+let g:airline_theme='base16_gruvbox_dark_hard'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}

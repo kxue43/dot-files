@@ -23,6 +23,8 @@
 [include]
 	path = .gitconfig.personal
 	path = .gitconfig.work
+[includeIf "gitdir:~/.config/"]
+	path = .gitconfig.personal
 [includeIf "gitdir:~/temp/"]
 	path = .gitconfig.personal
 [includeIf "gitdir:~/ascending/"]
