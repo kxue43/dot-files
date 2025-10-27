@@ -1,14 +1,19 @@
-# Set up a Debian 12 as Developer Machine
+---
+author: Ke Xue
+title: Debian 12 Desktop
+date: 2025-10-27T13:41:19-04:00
+draft: false
+layout: docs
+description: Set up a Debian 12 Linux desktop as developer machine.
+tags:
+- Linux
+- dev machine
+---
 
-This document covers how to set up an `x86_64` Debian 12 as a developer machine. It provides installation steps,
-and a few baseline dot files as a GitHub release asset. It is geared towards Go, Java, Python and JavaScript development.
+This document covers how to set up an x64 Debian 12 as a developer machine.
+It is geared towards Go, Java, Python and JavaScript development.
 
-All commands in this README should be executed from the user's home directory.
-
-Don't use Wayland. VSCode doesn't work well with it. Use Xorg.
-
-Don't use KDE Plasma. Use Gnome Desktop. KDE doesn't work well with the integrated terminal of VSCode.
-There's something wrong with its login shell configuration.
+All commands on this page should be executed from the user's home directory.
 
 ## Install Nvidia drivers.
 
@@ -52,21 +57,17 @@ sudo apt install gnome-shell-extension-dashtodock
 
 Logout and login again. Open the "Extensions" app. Turn on extensions and configure dash-to-dock.
 
-## Install VSCode
-
-Download the `.deb` file from official VSCode website. Use `sudo apt install` on the downloaded file.
-
 ## Install basic utilities
 
 ```bash
-sudo apt install git curl xclip
+sudo apt install git curl jq
 ```
 
 ## Build NeoVim from source
 
 Build the latest version available. The one in Debian 12 repository is too old.
 
-Make sure the `nvim` binary is on `PATH`.
+Make sure the `nvim` binary is on `PATH`. Typically, it should be placed in `~/.local/bin`.
 
 ## Install `pyenv`
 
@@ -144,25 +145,34 @@ popd
 sudo apt install shellcheck
 ```
 
-## Get baseline dot files
+## Install `rustup`
 
 ```bash
-curl -o dot-files.zip -L https://github.com/kxue43/dot-files/releases/latest/download/dot-files-initial.zip
-unzip -o dot-files.zip
-rm dot-files.zip
-rm ~/.profile
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-## Set Git global `user.name` and `user.email`
+## Get dot files
 
 ```bash
-git config --global user.name YOUR_USER_NAME
-git config --global user.email YOUR_EMAIL
+mkdir -p ~/.config
+git clone https://github.com/kxue43/dot-files ~/.config/dot-files
+~/.config/dot-files/set-up.sh --with=untracked
+```
+
+Afterwards, edit the contents of `~/.env.bashrc`, `~/.aws/config` and `~/.aws/credentials` according to
+the development environment (e.g. personal, work). These files are not symlinked and may contain
+environment specific Bash functions/aliases or senstive information (e.g. local development tokens).
+
+Restart the iTerm2 terminal so that Bash start-up files take effect.
+
+## Set Git global name and email
+
+```bash
+git config --global user.name USER_NAME
+git config --global user.email EMAIL
 ```
 
 ## Install Go executables
-
-Logout and login again so that new dot files take effect.
 
 ```bash
 go install github.com/kxue43/cli-toolkit/cmd/toolkit@latest
@@ -171,6 +181,16 @@ go install github.com/kxue43/cli-toolkit/cmd/toolkit-serve-static@latest
 go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
 go install mvdan.cc/sh/v3/cmd/shfmt@latest
 ```
+
+## Set up NeoVim
+
+```bash
+git clone https://github.com/kxue43/nvim-files ~/.config/nvim && nvim
+```
+
+After plugin installation finishes, run `:MasonInstallAll` to install all LSPs.
+
+Run `:checkhealth` to see if there are any problems.
 
 ## Install Amazon Corretto Java
 

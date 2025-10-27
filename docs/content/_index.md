@@ -28,7 +28,7 @@ content_blocks:
     hide-empty: false
     input:
       section: notes
-      reverse: false
+      reverse: true
       sort: date
     more:
       title: More notes
@@ -50,7 +50,7 @@ content_blocks:
     hide-empty: false
     input:
       section: blogs
-      reverse: false
+      reverse: true
       sort: date
     header-style: none
     more:
