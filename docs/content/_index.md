@@ -59,7 +59,6 @@ content_blocks:
     padding: 4
     limit: 6
     icon-style: fa-5x
-    header-style: none
     footer-style: tags
     orientation: horizontal-sm
     class: border-1 card-emphasize
