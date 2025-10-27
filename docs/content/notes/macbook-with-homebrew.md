@@ -210,7 +210,7 @@ Run `:checkhealth` to see if there are any problems.
 ## Install Java, Maven and Gradle
 
 First install [Amazon Corretto 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) or another LTS version.
-This manual installation is to avoid the Oracle OpenJDK that comes from `brew install ...`.
+This manual installation is to avoid the Oracle OpenJDK that comes from `brew install openjdk`.
 
 Open the file `~/.env.bashrc` and uncomment the line containing the following content and set the installed Java version.
 
