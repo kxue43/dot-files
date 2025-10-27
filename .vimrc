@@ -170,10 +170,6 @@ nnoremap <F2> :noh<CR>
 
 " Turn on spell check for the local buffer.
 nnoremap <F3> :setlocal spell spelllang=en_us<CR>
-
-" Set filetype to shell for syntax highlight.
-" Use <Bar> instead of "|" to assit Vim in parsing the next line.
-nnoremap <F4> :let g:is_bash = 1 <Bar> set ft=sh<CR>
 " ----------------------------------------------------------------------------
 " Global commands.
 
@@ -191,6 +187,12 @@ function! s:OpenManPage(args)
 endfunction
 " ----------------------------------------------------------------------------
 " Autocommands per filetype.
+
+" Set extension name for Bash scripts.
+augroup ShellScriptFileType
+  autocmd!
+  autocmd BufRead,BufNewFile *.bashrc let g:is_bash = 1 | set filetype=sh
+augroup END
 
 " For Markdown files, show rendered HTML in browser.
 function! s:SetupMarkdownMappings()
