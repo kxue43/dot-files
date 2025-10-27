@@ -26,7 +26,7 @@ main() {
     [ -f "$HOME/.aws/config" ] && rm "$HOME/.aws/config"
     [ -f "$HOME/.aws/credentials" ] && rm "$HOME/.aws/credentials"
 
-    cat >"$HOME/.aws/config" <<EOF
+    cat >"$HOME/.aws/config" <<'EOF'
 [default]
 output = json
 
@@ -42,7 +42,7 @@ output = json
 credential_process = toolkit-assume-role --mfa-serial arn:aws:iam::572941611575:mfa/AdminUser --profile AdminUser --duration-seconds 7200 arn:aws:iam::572941611575:role/CdkCliRole
 EOF
 
-    cat >"$HOME/.aws/credentials" <<EOF
+    cat >"$HOME/.aws/credentials" <<'EOF'
 [AdminUser]
 aws_access_key_id = 
 aws_secret_access_key = 
@@ -50,7 +50,7 @@ EOF
 
     [ -f "$HOME/.env.bashrc" ] && rm "$HOME/.env.bashrc"
 
-    cat >"$HOME/.env.bashrc" <<EOF
+    cat >"$HOME/.env.bashrc" <<'EOF'
 # ------------------------------------------------------------------------
 # Environment variables.
 # ------------------------------------------------------------------------
