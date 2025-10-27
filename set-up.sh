@@ -7,7 +7,7 @@ main() {
     .bashrc
     .fns.bashrc
     .gitconfig
-    .gitconfig-personal
+    .gitconfig.personal
     .gvimrc
     .tmux.conf
     .vimrc

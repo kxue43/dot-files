@@ -165,11 +165,11 @@ environment specific Bash functions/aliases or senstive information (e.g. local 
 
 Restart the iTerm2 terminal so that Bash start-up files take effect.
 
-## Set Git global name and email
+## Set Git name and email for work environment (optional)
 
 ```bash
-git config --global user.name USER_NAME
-git config --global user.email EMAIL
+git config --file ~/.gitconfig.work user.name USER_NAME
+git config --file ~/.gitconfig.work user.email EMAIL
 ```
 
 ## Install Go executables

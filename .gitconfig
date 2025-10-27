@@ -5,10 +5,6 @@
 [fetch]
 	prune = true
 	pruneTags = true
-[includeIf "gitdir:~/temp/"]
-	path = .gitconfig-personal
-[includeIf "gitdir:~/ascending/"]
-	path = .gitconfig-personal
 [submodule]
 	recurse = true
 [push]
@@ -24,3 +20,10 @@
 	fp = fetch origin --prune --prune-tags
 	df = diff
 	dfc = diff --cached
+[include]
+	path = .gitconfig.personal
+	path = .gitconfig.work
+[includeIf "gitdir:~/temp/"]
+	path = .gitconfig.personal
+[includeIf "gitdir:~/ascending/"]
+	path = .gitconfig.personal
