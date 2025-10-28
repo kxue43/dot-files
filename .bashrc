@@ -83,7 +83,7 @@ rm-cdk-docker() {
 }
 # ------------------------------------------------------------------------
 set-aws-region() {
-  local region=
+  local region
 
   if [ -n "${1:+x}" ]; then
     region=$1
@@ -112,7 +112,7 @@ use-role-profile() {
 }
 # ------------------------------------------------------------------------
 set-role-env() {
-  local profile=
+  local profile
 
   if [ -n "${1:+x}" ]; then
     profile=$1
