@@ -225,7 +225,7 @@ decode-base64() {
     case $opt in
     h)
       cat <<EOF
-Usage: ${FUNCNAME[0]} [-h] [-t] [-s BUFFER_SIZE] [FILE]
+USAGE: ${FUNCNAME[0]} [-h] [-t] [-s BUFFER_SIZE] [FILE]
 
 Read a base64 encoded blob from stdin, decode it and write the output to FILE.
 
@@ -271,21 +271,28 @@ EOF
     return 1
   fi
 
-  local blob
+  local blob input
 
   if [[ -t 0 ]]; then
     read -r -n "$size" -p "Paste in the blob: " blob
+    input="<<<'$blob'"
   else
-    read -r blob
+    input=" <&0"
   fi
 
+  # $blob is single-quoted in $input, so only $1 below is subject to
+  # command injection. Since this is for own use, choose the eval
+  # solution instead of writing more conditional code.
+  local command
   if (($# == 1)) && [[ $tee == "y" ]]; then
-    echo -n "$blob" | base64 -d | jq '.' | tee "$1"
+    command="base64 -d $input | jq '.' | tee $1"
   elif (($# == 1)); then
-    echo -n "$blob" | base64 -d | jq '.' >"$1"
+    command="base64 -d $input | jq '.' >$1"
   else
-    echo -n "$blob" | base64 -d | jq '.'
+    command="base64 -d $input | jq '.'"
   fi
+
+  eval "$command"
 }
 # ------------------------------------------------------------------------
 # The following must be at the very end!!!
