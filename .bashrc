@@ -215,10 +215,84 @@ sync-vim-packages() {
   done
 }
 # ------------------------------------------------------------------------
+decode-base64() {
+  local tee=n
+  local -i size=1048576
+
+  local opt OPTIND OPTARG
+
+  while getopts ":hts:" opt; do
+    case $opt in
+    h)
+      cat <<EOF
+Usage: ${FUNCNAME[0]} [-h] [-t] [-s BUFFER_SIZE] [FILE]
+
+Read a base64 encoded blob from stdin, decode it and write the output to FILE.
+
+If FILE is not provided, echo output to stdout. To both write to FILE and echo to
+stdout, use the -t option.
+
+If there is no piping or redirection to stdin, prompt for input.
+
+OPTIONS:
+    -h                Show this help message
+    -t                Echo decoded JSON to stdout
+    -s BUFFER_SIZE    Buffer size in MB for holding the input blob.
+                      Must be an integer. Defaults to 1. Only necessary for
+                      very large input blob in interactive mode.
+EOF
+
+      return 0
+      ;;
+    t)
+      tee=y
+      ;;
+    s)
+      size=$((size * OPTARG))
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+
+      return 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+
+      return 1
+      ;;
+    esac
+  done
+
+  shift $((OPTIND - 1))
+
+  if (($# > 1)); then
+    echo "Expects at most one positional argument, but $# was given."
+
+    return 1
+  fi
+
+  local blob
+
+  if [[ -t 0 ]]; then
+    read -r -n "$size" -p "Paste in the blob: " blob
+  else
+    read -r blob
+  fi
+
+  if (($# == 1)) && [[ $tee == "y" ]]; then
+    echo -n "$blob" | base64 -d | jq '.' | tee "$1"
+  elif (($# == 1)); then
+    echo -n "$blob" | base64 -d | jq '.' >"$1"
+  else
+    echo -n "$blob" | base64 -d | jq '.'
+  fi
+}
+# ------------------------------------------------------------------------
 # The following must be at the very end!!!
 # ------------------------------------------------------------------------
 # Source env-specific bashrc file if exists.
 if [ -r "$HOME/.env.bashrc" ]; then
+  # shellcheck disable=SC1091
   source "$HOME/.env.bashrc"
 fi
 # ------------------------------------------------------------------------
