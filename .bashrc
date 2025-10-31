@@ -38,6 +38,7 @@ fi
 # Aliases
 # ------------------------------------------------------------------------
 alias ls='ls --color=auto'
+alias awk='gawk'
 alias gproj='cd ~/projects'
 alias gtemp='cd ~/temp'
 alias glearn='cd ~/learning'

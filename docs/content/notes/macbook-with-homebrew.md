@@ -87,6 +87,12 @@ Restart computer for the default shell change to take effect.
 
 From now on perform all CLI operations in iTerm2.
 
+## Install essential utilities
+
+```bash
+brew install gawk
+```
+
 ## Install coding tools
 
 When coding, run NeoVim inside Tmux sessions.

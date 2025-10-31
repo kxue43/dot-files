@@ -91,10 +91,10 @@ Restart computer for the default shell change to take effect.
 
 From now on perform all CLI operations in iTerm2.
 
-## Install basic utilities
+## Install essential utilities
 
 ```bash
-sudo port install curl jq
+sudo port install curl jq gawk
 ```
 
 ## Install coding tools
