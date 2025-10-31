@@ -94,7 +94,7 @@ From now on perform all CLI operations in iTerm2.
 ## Install essential utilities
 
 ```bash
-sudo port install curl jq gawk
+sudo port install curl jq gawk rlwrap
 ```
 
 ## Install coding tools
