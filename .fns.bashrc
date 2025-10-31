@@ -104,6 +104,25 @@ _kxue43_activate_fnm() {
   fi
 }
 # ------------------------------------------------------------------------
+_kxue43_source_env_bashrc() {
+  local prefix
+
+  case "$(hostname)" in
+  MacBookAir.fios-router.home)
+    prefix=kxue43
+    ;;
+  LM*)
+    prefix=gd
+    ;;
+  *)
+    prefix="env"
+    ;;
+  esac
+
+  # shellcheck disable=SC1090
+  [ -r "$HOME/.${prefix}.bashrc" ] && source "$HOME/.${prefix}.bashrc"
+}
+# ------------------------------------------------------------------------
 _kxue43_color_echo() {
   local eol="\n"
   if [ "$1" = "-n" ]; then

@@ -6,6 +6,7 @@ main() {
     .bash_profile
     .bashrc
     .fns.bashrc
+    .kxue43.bashrc
     .gitconfig
     .gitconfig.personal
     .gvimrc
@@ -46,27 +47,6 @@ EOF
 [AdminUser]
 aws_access_key_id = 
 aws_secret_access_key = 
-EOF
-
-    [ -f "$HOME/.env.bashrc" ] && rm "$HOME/.env.bashrc"
-
-    cat >"$HOME/.env.bashrc" <<'EOF'
-# ------------------------------------------------------------------------
-# Environment variables.
-# ------------------------------------------------------------------------
-# Java settings
-# JAVA_HOME=$(/usr/libexec/java_home -v SET_HERE)
-# export JAVA_HOME
-
-# Groovy settings
-# export GROOVY_HOME="$HOME/.local/lib/groovy-SET_HERE"
-# ------------------------------------------------------------------------
-# Aliases.
-# ------------------------------------------------------------------------
-# alias gs='git status'
-# ------------------------------------------------------------------------
-# Functions.
-# ------------------------------------------------------------------------
 EOF
   fi
 }

@@ -1,8 +1,6 @@
 # -----------------------------------------------------------------------
 # Source reused functions first.
-if [ -r "$HOME/.fns.bashrc" ]; then
-  source "$HOME/.fns.bashrc"
-fi
+[ -r "$HOME/.fns.bashrc" ] && source "$HOME/.fns.bashrc"
 # ------------------------------------------------------------------------
 # Idempotent PATH settings.
 _kxue43_set_path
@@ -31,9 +29,7 @@ export MANPAGER="sh -c 'col -b -x | nvim -c \"set ft=man nonu nomodifiable\" -R 
 # not with the more modern ANSI escape codes. macOS only uses
 # backspace-based formatting. On Linux, we need to set GROFF_NO_SGR
 # to force it.
-if [ "$(uname -s)" = "Linux" ]; then
-  export GROFF_NO_SGR=1
-fi
+[ "$(uname -s)" = "Linux" ] && export GROFF_NO_SGR=1
 # ------------------------------------------------------------------------
 # Aliases
 # ------------------------------------------------------------------------
@@ -183,9 +179,7 @@ count-fnm-symlinks() {
   local fnm_multishell_dir
   fnm_multishell_dir="$(dirname "$FNM_MULTISHELL_PATH"/)"
 
-  if [ -d "$fnm_multishell_dir" ]; then
-    find "$fnm_multishell_dir" -type l | wc -l
-  fi
+  [ -d "$fnm_multishell_dir" ] && find "$fnm_multishell_dir" -type l | wc -l
 }
 # ------------------------------------------------------------------------
 sync-vim-packages() {
@@ -297,10 +291,7 @@ EOF
 }
 # ------------------------------------------------------------------------
 # The following must be at the very end!!!
-# ------------------------------------------------------------------------
+
 # Source env-specific bashrc file if exists.
-if [ -r "$HOME/.env.bashrc" ]; then
-  # shellcheck disable=SC1091
-  source "$HOME/.env.bashrc"
-fi
+_kxue_source_env_bashrc
 # ------------------------------------------------------------------------
