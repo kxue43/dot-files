@@ -80,8 +80,8 @@ _kxue43_enable_completion() {
     # git-prompt.sh is not a completion, but it's in the conventional completion folder.
     # Source it to use the __git_ps1 function.
     source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-  elif [ -x /opt/local/bin/port ] && [ -r /opt/local/etc/bash_completion ]; then
-    source /opt/local/etc/bash_completion
+  elif [ -x /opt/local/bin/port ] && [ -r /opt/local/etc/profile.d/bash_completion.sh ]; then
+    source /opt/local/etc/profile.d/bash_completion.sh
 
     source /opt/local/share/git/git-prompt.sh
 
