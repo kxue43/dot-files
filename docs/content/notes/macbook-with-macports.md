@@ -102,7 +102,7 @@ sudo port install curl jq gawk rlwrap
 When coding, run NeoVim inside Tmux sessions.
 
 ```bash
-sudo port install git neovim ripgrep tmux
+sudo port install git neovim ripgrep tmux pre-commit
 ```
 
 ## Install `pyenv`
