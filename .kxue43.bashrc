@@ -2,7 +2,6 @@
 # Environment variables.
 # ------------------------------------------------------------------------
 # Source credentials from untracked file if exists.
-# shellcheck disable=SC1091
 [ -r "$HOME/.creds.bashrc" ] && source "$HOME/.creds.bashrc"
 
 # Java settings.

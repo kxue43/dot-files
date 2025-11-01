@@ -98,7 +98,7 @@ brew install gawk rlwrap
 When coding, run NeoVim inside Tmux sessions.
 
 ```bash
-brew install git neovim ripgrep tmux
+brew install git neovim ripgrep tmux pre-commit
 ```
 
 ## Install `pyenv`

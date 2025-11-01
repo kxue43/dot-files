@@ -2,7 +2,6 @@
 # Secret environment variables.
 # ------------------------------------------------------------------------
 # Source credentials from untracked file if exists.
-# shellcheck disable=SC1091
 [ -r "$HOME/.creds.bashrc" ] && source "$HOME/.creds.bashrc"
 
 # GoDaddy NPM mirror – obtained from running `npm login --registry=https://gdartifactory1.jfrog.io/artifactory/api/npm/node-virt` and going through web auth.
