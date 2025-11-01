@@ -75,15 +75,19 @@ _kxue43_set_path() {
 _kxue43_enable_completion() {
   if [ -x /opt/homebrew/bin/brew ] && [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
     # Enable bash-completion.
+    # shellcheck disable=SC1091
     source /opt/homebrew/etc/profile.d/bash_completion.sh
 
     # git-prompt.sh is not a completion, but it's in the conventional completion folder.
     # Source it to use the __git_ps1 function.
-    source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-  elif [ -x /opt/local/bin/port ] && [ -r /opt/local/share/bash-completion/bash_completion ]; then
-    # MacPorts.
     # shellcheck disable=SC1091
-    source /opt/local/share/bash-completion/bash_completion
+    source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
+  elif [ -x /opt/local/bin/port ] && [ -r /opt/local/etc/bash_completion ]; then
+    # shellcheck disable=SC1091
+    source /opt/local/etc/bash_completion
+
+    # shellcheck disable=SC1091
+    source /opt/local/share/git/git-prompt.sh
   elif [ "$(uname -s)" = "Linux" ]; then
     if [ -r /usr/share/bash-completion/bash_completion ]; then
       # shellcheck disable=SC1091
