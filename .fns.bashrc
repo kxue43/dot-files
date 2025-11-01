@@ -73,10 +73,13 @@ _kxue43_set_path() {
 }
 # ------------------------------------------------------------------------
 _kxue43_enable_completion() {
-  if [ -x /opt/homebrew/bin/brew ] && [ -r /opt/homebrew/share/bash-completion/bash_completion ]; then
-    # Homebrew.
-    # shellcheck disable=SC1091
-    source /opt/homebrew/share/bash-completion/bash_completion
+  if [ -x /opt/homebrew/bin/brew ] && [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+    # Enable bash-completion.
+    source /opt/homebrew/etc/profile.d/bash_completion.sh
+
+    # git-prompt.sh is not a completion, but it's in the conventional completion folder.
+    # Source it to use the __git_ps1 function.
+    source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
   elif [ -x /opt/local/bin/port ] && [ -r /opt/local/share/bash-completion/bash_completion ]; then
     # MacPorts.
     # shellcheck disable=SC1091
@@ -90,6 +93,10 @@ _kxue43_enable_completion() {
       source /etc/bash_completion
     fi
   fi
+
+  # Strictly speaking, PS1 is not about completion. However, it's closely related to it.
+  # Bash-completion uses it to determine where to enable itself, and git-prompt.sh is in a completion folder.
+  PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
 }
 # ------------------------------------------------------------------------
 _kxue43_activate_fnm() {

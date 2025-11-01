@@ -13,11 +13,6 @@ _kxue43_activate_fnm
 # ------------------------------------------------------------------------
 _kxue43_enable_completion
 # ------------------------------------------------------------------------
-# Enhance terminal prompt with Git info. This has nothing to do with Git completion.
-# shellcheck disable=SC1090
-source ~/.git-prompt.sh
-PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
-# ------------------------------------------------------------------------
 # Key bindings.
 # Use up/down arrow keys to search history based on current input.
 bind '"\e[A": history-search-backward'
