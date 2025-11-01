@@ -293,5 +293,5 @@ EOF
 # The following must be at the very end!!!
 
 # Source env-specific bashrc file if exists.
-_kxue_source_env_bashrc
+_kxue43_source_env_bashrc
 # ------------------------------------------------------------------------

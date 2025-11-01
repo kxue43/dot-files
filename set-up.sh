@@ -7,6 +7,7 @@ main() {
     .bashrc
     .fns.bashrc
     .kxue43.bashrc
+    .gd.bashrc
     .gitconfig
     .gitconfig.personal
     .gvimrc

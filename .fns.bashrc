@@ -111,7 +111,7 @@ _kxue43_source_env_bashrc() {
   MacBookAir.fios-router.home)
     prefix=kxue43
     ;;
-  LM*)
+  LM-*)
     prefix=gd
     ;;
   *)

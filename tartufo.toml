@@ -1,0 +1,16 @@
+[tool.tartufo]
+repo-path = "."
+regex = true
+entropy = true
+
+exclude-path-patterns = [
+    {path-pattern = 'tartufo\.toml$', reason = 'contains many high entropy signatures'},
+]
+
+exclude-entropy-patterns = [
+    # {path-pattern = "", pattern = "", reason = ""},
+]
+
+exclude-signatures = [
+    # {signature = "", reason = ""},
+]
