@@ -2,7 +2,7 @@
 author: Ke Xue
 title: Debian 12 Post Installation Steps
 date: 2024-11-05T21:21:56-05:00
-draft: false
+draft: true
 layout: docs
 description: Steps to perform after a fresh Debian 12 installation.
 tags:

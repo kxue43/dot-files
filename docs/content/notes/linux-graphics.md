@@ -2,7 +2,7 @@
 author: Ke Xue
 title: Linux Graphics
 date: 2024-11-04T21:50:02-05:00
-draft: false
+draft: true
 layout: docs
 description: General information on Linux graphics.
 tags: 

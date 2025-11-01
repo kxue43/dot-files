@@ -2,7 +2,7 @@
 author: Ke Xue
 title: Fedora 39 Post Installation Steps
 date: 2024-11-05T17:16:29-05:00
-draft: false
+draft: true
 layout: docs
 description: Steps to perform after a fresh Fedora 39 installation.
 tags: 
