@@ -84,6 +84,9 @@ _kxue43_enable_completion() {
     source /opt/local/etc/bash_completion
 
     source /opt/local/share/git/git-prompt.sh
+
+    # Turn on completion manually for AWS CLI because it's not installed by port.
+    complete -C '/usr/local/bin/aws_completer' aws
   elif [ "$(uname -s)" = "Linux" ]; then
     if [ -r /usr/share/bash-completion/bash_completion ]; then
       source /usr/share/bash-completion/bash_completion
