@@ -105,7 +105,7 @@ _kxue43_activate_fnm() {
     eval "$(fnm env --use-on-cd --shell bash)"
   else
     # Trim the duplicate fnm item in the middle of PATH if exists.
-    PATH=$(echo -n "$PATH" | tr ":" "\n" | grep -v "fnm_multishells" | tr "\n" ":" | sed 's/:$//')
+    PATH=$(sed -E -e 's/:[^:]+fnm_multishells[^:]+//' -e 's/[^:]+fnm_multishells[^:]+://' <<<"$PATH")
 
     # Then activate fnm again, for the use-on-cd effect.
     eval "$(fnm env --use-on-cd --shell bash)"
