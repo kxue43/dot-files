@@ -44,28 +44,16 @@ sso-login() {
 # ------------------------------------------------------------------------
 # Assume SSG Deploy role
 ssg-assume() {
-  case ${1:-dp} in
-  dp)
-    accountId=765712374873
-    ;;
-  dev)
-    accountId=768290660679
-    ;;
-  test)
-    accountId=926654972661
-    ;;
-  ote)
-    accountId=515832443534
-    ;;
-  prod)
-    accountId=871377637535
-    ;;
-  *)
-    _kxue43_color_echo red "Target env must be dp, dev, test, ote or prod."
+  local accountId
+
+  if ! accountId=$(
+    set -o pipefail
+    aws sts get-caller-identity --output json | jq -r ".Arn" | sed -E -e 's/^arn:aws:sts:://' -e 's/:assumed-role.+$//'
+  ); then
+    printf "\033[31m%s\033[0m\n" "Make sure you use a profile that can assume into the SSG deploy role first."
 
     return 1
-    ;;
-  esac
+  fi
 
   local -a values
   mapfile -t values < <(
@@ -99,104 +87,5 @@ EOF
 # ------------------------------------------------------------------------
 slack-test() {
   curl -X POST -H 'Content-type: application/json' --data '{"text":"Kent test."}' "$1"
-}
-# ------------------------------------------------------------------------
-invoke-recon-lambda() {
-  local date
-  local env=dev-private
-
-  local opt OPTIND OPTARG
-
-  while getopts ":hd:e:" opt; do
-    case "$opt" in
-    h)
-      cat <<EOF
-USAGE: ${FUNCNAME[0]} -d DATE [-e ENV] [-h] [OUT_FILE]
-
-Invoke the am-event-bus-producer-recon Lambda so that it collects
-all Event IDs of the given DATE and send a PUBLISHED_EVENTS_LIST
-event to Event Bus.
-
-OPTIONS:
-    -d            Date to collect Event IDs for.
-    -e            Target AWS environment. Must be dev-private or ote.
-                  Defaults to dev-private.
-    -h            Show help message.
-
-ARGUMENTS:
-    OUT_FILE      Path to the file that holds invocation response.
-                  If not given, echo response to stdout.
-EOF
-
-      return 0
-      ;;
-    d)
-      date="$OPTARG"
-      ;;
-    e)
-      env="$OPTARG"
-      ;;
-    \?)
-      echo "Invalid option: -$OPTARG"
-
-      return 1
-      ;;
-    :)
-      echo "Option -$OPTARG requires argument."
-
-      return 1
-      ;;
-    esac
-  done
-
-  shift $((OPTIND - 1))
-
-  if [ -z "$date" ]; then
-    echo "The -d DATE option is required."
-
-    return 1
-  fi
-
-  if ! date=$(date -v +1d -j -f "%Y-%m-%d" "$date" "+%Y-%m-%d" 2>/dev/null); then
-    echo "The DATE option value is not a valid date of the yyyy-mm-dd format."
-
-    return 1
-  fi
-
-  if ! [ "$env" == "dev-private" ] && ! [ "$env" == "ote" ]; then
-    echo "The ENV option value must be dev-private or ote."
-
-    return 1
-  fi
-
-  local payload
-  payload=$(
-    base64 <<EOF
-{
-  "id": "cdc73f9d-aea9-11e3-9d5a-835b769c0d9c",
-  "detail-type": "Scheduled Event",
-  "source": "aws.events",
-  "account": "123456789012",
-  "time": "${date}T07:32:00Z",
-  "region": "us-east-1",
-  "resources": ["arn:aws:events:us-east-1:123456789012:rule/MyScheduledRule"],
-  "detail": {}
-}
-EOF
-  )
-
-  local outfile
-
-  if (($# > 0)); then
-    outfile="$1"
-  else
-    outfile=$(mktemp)
-
-    trap 'rm -f "$outfile"' RETURN
-  fi
-
-  aws lambda invoke --function-name am-event-bus-producer-recon --payload "$payload" "$outfile"
-
-  cat "$outfile"
 }
 # ------------------------------------------------------------------------
