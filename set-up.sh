@@ -22,6 +22,30 @@ main() {
     ln -s "$HOME/.config/dot-files/$name" "$HOME/$name"
   done
 
+  tracked=(decode-base64 fnm-links)
+
+  local prefix="$HOME/.local/share/bash-completion/completions"
+
+  mkdir -p "$prefix"
+
+  for name in "${tracked[@]}"; do
+    [ -f "$prefix/$name" ] && rm "$prefix/$name"
+
+    ln -s "$HOME/.config/dot-files/completions/$name" "$prefix/$name"
+  done
+
+  tracked+=(sync-vim-packages)
+
+  prefix="$HOME/.local/bin"
+
+  mkdir -p "$prefix"
+
+  for name in "${tracked[@]}"; do
+    [ -f "$prefix/$name" ] && rm "$prefix/$name"
+
+    ln -s "$HOME/.config/dot-files/bin/$name" "$prefix/$name"
+  done
+
   if [ "$1" = "--with=untracked" ]; then
     mkdir -p "$HOME/.aws"
 
