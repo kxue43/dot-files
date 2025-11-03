@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+_clean() {
+  if ! [ "$(uname -s)" = "Darwin" ]; then
+    printf "\033[31m%s\033[0m\n" "Only use this function on macOS."
+
+    return 1
+  fi
+
+  if [ -n "${FNM_MULTISHELL_PATH:+x}" ]; then
+    printf "\033[36m%s\033[0m\n" "Cleaning up the $HOME/.local/state/fnm_multishells directory of symlinks older than ${1}."
+
+    find "$(dirname "${FNM_MULTISHELL_PATH}")/" -type l -name '*_*' -mtime "+${1}" -exec rm {} +
+  fi
+}
+
+_count() {
+  local fnm_multishell_dir
+  fnm_multishell_dir="$(dirname "$FNM_MULTISHELL_PATH"/)"
+
+  [ -d "$fnm_multishell_dir" ] && find "$fnm_multishell_dir" -type l | wc -l
+}
+
+main() {
+  if [[ $1 == "-h" ]]; then
+    cat <<EOF
+USAGE: fnm-links [-h] [SUBCOMMAND] [DURATION]
+
+SUBCOMMANDS:
+    count               Count the number of existing symlinks for fnm.
+    clean [DURATION]    Clean up fnm symlinks older than DURATION. Defaults to 1d.
+
+OPTIONS:
+    -h                  Show this help message
+EOF
+
+    return 0
+  fi
+
+  case "$1" in
+  count)
+    _count
+    ;;
+  clean)
+    _clean "${2:-1d}"
+    ;;
+  *)
+    printf "\033[36m%s\033[0m\n" "fnm-links requires a subcommand - count or clean."
+
+    return 1
+    ;;
+  esac
+}
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi

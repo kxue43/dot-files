@@ -1,0 +1,38 @@
+_fnm_links() {
+  COMPREPLY=()
+
+  local cur prev
+
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD - 1]}"
+
+  local -a opts
+  opts=("'-h  (Show help message)'" "'count  (Count symlinks)'" "'clean  (Clean up symlinks)'")
+
+  if ((COMP_CWORD == 1)) && [[ $cur == "" ]]; then
+    mapfile -t COMPREPLY < <(compgen -W "${opts[*]}")
+
+    return 0
+  elif ((COMP_CWORD == 1)) && [[ $cur == "-" ]]; then
+    COMPREPLY=("-h")
+
+    return 0
+  elif ((COMP_CWORD == 1)) && ! [[ $cur =~ ^- ]]; then
+    mapfile -t COMPREPLY < <(compgen -W "count clean" "$cur")
+
+    return 0
+  elif ((COMP_CWORD == 2)) && [[ $prev == "clean" ]] && [[ $cur =~ ^[[:digit:]]+ ]]; then
+    local num
+    num="$(sed -E 's/[^0-9]*$//' <<<"$cur")"
+
+    mapfile -t COMPREPLY < <(compgen -W "${num}s ${num}m ${num}h ${num}d ${num}w " "$cur")
+
+    return 0
+  else
+    COMPREPLY=()
+
+    return 0
+  fi
+} && complete -F _fnm_links fnm-links
+
+# vim: set ft=sh :

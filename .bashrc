@@ -154,29 +154,6 @@ gtc() {
   go tool cover -html=${profile}
 }
 # ------------------------------------------------------------------------
-clean-up-fnm-symlinks() {
-  if ! [ "$(uname -s)" = "Darwin" ]; then
-    _kxue43_color_echo red "Only use this function on macOS."
-
-    return 1
-  fi
-
-  local nod="${1:-3}"
-
-  if [ -n "${FNM_MULTISHELL_PATH:+x}" ]; then
-    _kxue43_color_echo cyan "Cleaning up the $HOME/.local/state/fnm_multishells directory of symlinks older than ${nod} day(s)."
-
-    find "$(dirname "${FNM_MULTISHELL_PATH}")/" -type l -name '*_*' -mtime "+${nod}d" -exec rm {} +
-  fi
-}
-# ------------------------------------------------------------------------
-count-fnm-symlinks() {
-  local fnm_multishell_dir
-  fnm_multishell_dir="$(dirname "$FNM_MULTISHELL_PATH"/)"
-
-  [ -d "$fnm_multishell_dir" ] && find "$fnm_multishell_dir" -type l | wc -l
-}
-# ------------------------------------------------------------------------
 # The following must be at the very end!!!
 
 # Source env-specific bashrc file if exists.
