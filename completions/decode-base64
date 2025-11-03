@@ -1,0 +1,65 @@
+# The hard part of a completion functin is in fact the flow diagram - when to provide what completions.
+# Get it nailed down before writing the completion code.
+_decode_base64() {
+  COMPREPLY=()
+
+  local cur prev
+
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD - 1]}"
+
+  local -a opts
+  opts=("'-h  (Show help message)'" "'-t  (Echo decoded JSON to stdout)'" "'-s BUF_SIZE  (Buffer size in MB for holding the input blob)'")
+
+  if [[ $cur == "-" ]]; then
+    # Completing an option name. Display all without choosing any, because there are texts in parentheses.
+    mapfile -t COMPREPLY < <(compgen -W "${opts[*]}")
+
+    return 0
+  elif [[ $cur =~ ^-[hst]$ ]]; then
+    # It's a known option name. Just add an empty space.
+    COMPREPLY=("$cur")
+
+    return 0
+  elif [[ $cur =~ ^- ]]; then
+    # Unknown option name. Don't complete anything.
+    COMPREPLY=()
+
+    return 0
+  elif [[ $prev == "-s" ]]; then
+    # At option -s, which requires a value.
+    if [[ $cur == "" ]]; then
+      # No value. Provide placeholder.
+      COMPREPLY=("BUF_SIZE")
+    elif [[ $cur =~ ^[[:digit:]]+$ ]]; then
+      # There is a valid value. Add an empty space.
+      COMPREPLY=("$cur")
+    else
+      # Invalid value. Don't complete anything.
+      COMPREPLY=()
+    fi
+
+    return 0
+  elif [[ $prev == "BUF_SIZE" ]]; then
+    # If placeholder value for -s hasn't been updated, don't complete anything.
+    COMPREPLY=()
+
+    return 0
+  fi
+
+  if [[ $COMP_LINE =~ [[:space:]]+-h[[:space:]]* ]] || [[ ${cur} =~ [.]json$ ]] || [[ ${prev} =~ [.]json$ ]]; then
+    # If option contains -h or one JSON file name has been provided as a positional argument,
+    # command is complete and don't provide anything more.
+    COMPREPLY=()
+
+    return 0
+  fi
+
+  # Complete with existing JSON file name(s) in the CWD.
+  local files=(*.json)
+  mapfile -t COMPREPLY < <(compgen -W "${files[*]}" -- "${cur}")
+
+  return 0
+} && complete -F _decode_base64 decode-base64
+
+# vim: set ft=sh :
