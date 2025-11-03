@@ -177,34 +177,6 @@ count-fnm-symlinks() {
   [ -d "$fnm_multishell_dir" ] && find "$fnm_multishell_dir" -type l | wc -l
 }
 # ------------------------------------------------------------------------
-sync-vim-packages() {
-  local repos=(
-    morhetz/gruvbox
-    preservim/nerdtree
-    vim-airline/vim-airline
-    vim-airline/vim-airline-themes
-  )
-
-  local url repo dir name
-
-  for repo in "${repos[@]}"; do
-    url="https://github.com/$repo"
-
-    name=$(basename "$url")
-
-    dir="$HOME/.vim/pack/$name/start/$name/"
-
-    if [ -d "$dir" ]; then
-      pushd "$dir" || return 1
-      git pull --no-tags
-      popd || return 1
-    else
-      mkdir -p "$dir"
-      git clone --depth 1 "$url" "$dir"
-    fi
-  done
-}
-# ------------------------------------------------------------------------
 # The following must be at the very end!!!
 
 # Source env-specific bashrc file if exists.
