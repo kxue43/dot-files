@@ -3,3 +3,15 @@ repos:
     rev: "v5.0.2"
     hooks:
       - id: tartufo
+
+  - repo: https://github.com/kxue43/shell-cmd-on-change
+    rev: "2.0.0"
+    hooks:
+      - id: shell-cmd-on-change
+        name: set-up
+        args:
+          - "-Pset-up.sh"
+          - "~/.config/dot-files/set-up.sh"
+        stages: [post-merge]
+        always_run: true
+        verbose: true
