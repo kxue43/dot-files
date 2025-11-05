@@ -172,7 +172,7 @@ sudo port install shellcheck
 
 ```bash
 mkdir -p ~/.config
-git clone https://github.com/kxue43/dot-files ~/.config/dot-files
+git clone git@github.com:kxue43/dot-files.git ~/.config/dot-files
 ~/.config/dot-files/set-up.sh --with=untracked
 ```
 
@@ -202,7 +202,7 @@ go install mvdan.cc/sh/v3/cmd/shfmt@latest
 ## Set up NeoVim
 
 ```bash
-git clone https://github.com/kxue43/nvim-files ~/.config/nvim && nvim
+git clone git@github.com:kxue43/nvim-files.git ~/.config/nvim && nvim
 ```
 
 After plugin installation finishes, run `:MasonInstallAll` to install all LSPs.
