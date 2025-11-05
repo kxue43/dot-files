@@ -75,7 +75,7 @@ Restart computer for the default shell change to take effect.
 
   Download. Unzip. Search for "Font Book" app. `File` --> `Add Fonts to Current User`.
 
-- [Color scheme files for iTerm2](https://github.com/mbadolato/iTerm2-Color-Schemes/tree/master/schemes)
+- [Color scheme files for iTerm2](https://github.com/morhetz/gruvbox-contrib/tree/master/iterm2)
 
 - [iTerm2](https://iterm2.com/)
 
@@ -176,9 +176,9 @@ git clone https://github.com/kxue43/dot-files ~/.config/dot-files
 ~/.config/dot-files/set-up.sh --with=untracked
 ```
 
-Afterwards, edit the contents of `~/.env.bashrc`, `~/.aws/config` and `~/.aws/credentials` according to
-the development environment (e.g. personal, work). These files are not symlinked and may contain
-environment specific Bash functions/aliases or senstive information (e.g. local development tokens).
+Afterwards, edit the contents of `~/.aws/config` and `~/.aws/credentials`,
+and optionally create and edit `~/.creds.bashrc` according to the development environment (e.g. personal, work).
+These files are not symlinked and may contain senstive information (e.g. local development tokens).
 
 Restart the iTerm2 terminal so that Bash start-up files take effect.
 
@@ -214,7 +214,7 @@ Run `:checkhealth` to see if there are any problems.
 First install [Amazon Corretto 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) or another LTS version.
 This GUI installation is to avoid using Oracle OpenJDK at all.
 
-Open the file `~/.env.bashrc` and uncomment the line containing the following content and set the installed Java version.
+Open the file `~/.${env}.bashrc` (`${env}` depends on environment) and update the default Java version to use.
 
 ```bash
 #export JAVA_HOME=$(/usr/libexec/java_home -v SET_HERE)
@@ -265,7 +265,7 @@ popd
 rm ~/Downloads/apache-groovy-sdk-${GROOVY_VERSION}.zip
 ```
 
-Open `~/.env.bashrc`, uncomment the line containing the following content and set the installed Groovy version.
+Open `~/.${env}.bashrc`, update the installed Groovy version.
 
 ```bash
 #export GROOVY_HOME=$HOME/.local/lib/groovy-SET_HERE

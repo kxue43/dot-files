@@ -24,7 +24,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 11)
 export JAVA_HOME
 
 # Groovy settings
-export GROOVY_HOME=$HOME/.local/lib/groovy-4.0.27
+export GROOVY_HOME=$HOME/.local/lib/groovy-5.0.2
 # ------------------------------------------------------------------------
 # Aliases.
 # ------------------------------------------------------------------------
