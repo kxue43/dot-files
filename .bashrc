@@ -154,6 +154,16 @@ gtc() {
   go tool cover -html=${profile}
 }
 # ------------------------------------------------------------------------
+show-img() {
+  if [[ "$TERM_PROGRAM" != "iTerm.app" ]]; then
+    _kxue43_color_echo red "Only works on iTerm2."
+
+    return 1
+  fi
+
+  echo -e "\033]1337;File=inline=1:$(base64 <"$1")\a"
+}
+# ------------------------------------------------------------------------
 # The following must be at the very end!!!
 
 # Source env-specific bashrc file if exists.
