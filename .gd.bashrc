@@ -39,7 +39,7 @@ tunnel-to-vm() {
 }
 # ------------------------------------------------------------------------
 sso-login() {
-  aws sso login --sso-session sso-afternicint
+  aws sso login --sso-session sso-afternic
 }
 # ------------------------------------------------------------------------
 # Assume SSG Deploy role
