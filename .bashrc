@@ -35,7 +35,7 @@ alias gtemp='cd ~/temp'
 alias glearn='cd ~/learning'
 alias gascd='cd ~/ascending'
 alias gdump='cd ~/temp/dump'
-alias rdump='pushd ~/temp ; rm -rf dump && mkdir dump ; popd'
+alias rdump='pushd ~/temp >/dev/null ; rm -rf dump && mkdir dump ; popd >/dev/null'
 alias venvact='. .venv/bin/activate'
 alias pea='eval $(poetry env activate)'
 alias pue='poetry config --local virtualenvs.in-project true && poetry env use $(pyenv which python)'
@@ -44,8 +44,8 @@ alias clean-aws-cache="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY &&
 alias clean-aws-env="unset AWS_SESSION_TOKEN && unset AWS_SECRET_ACCESS_KEY && unset AWS_ACCESS_KEY_ID && unset AWS_REGION && unset AWS_DEFAULT_REGION && unset AWS_PROFILE && unset AWS_CREDENTIAL_EXPIRATION"
 alias gci='aws sts get-caller-identity'
 alias ls-path='printenv PATH | tr ":" "\n"'
-alias nvconfp='pushd ~/.config/nvim ; git pull ; popd'
-alias dotfp='pushd ~/.config/dot-files ; git pull ; popd'
+alias nvconfp='pushd ~/.config/nvim >/dev/null ; git pull ; popd >/dev/null'
+alias dotfp='pushd ~/.config/dot-files >/dev/null ; git pull ; popd >/dev/null'
 # ------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------
