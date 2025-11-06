@@ -13,7 +13,7 @@ export GD_JFROG_TOKEN
 # Environment variables.
 # ------------------------------------------------------------------------
 # GoDaddy AWS profiles and regions.
-export KXUE43_AWS_PROFILE_PREFIX="afternicint-"
+export KXUE43_AWS_PROFILE_PREFIX="afternic"
 export KXUE43_AWS_REGIONS="us-west-2:us-east-1"
 
 # Go settings
