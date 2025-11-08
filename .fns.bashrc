@@ -93,7 +93,11 @@ _kxue43_enable_completion() {
 
   # Strictly speaking, PS1 is not about completion. However, it's closely related to it.
   # Bash-completion uses it to determine where to enable itself, and git-prompt.sh is in a completion folder.
-  PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
+  if [ "$(uname -s)" = "Linux" ] && [ "$(hostname)" = "fedora" ]; then
+    PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
+  else
+    PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
+  fi
 }
 # ------------------------------------------------------------------------
 _kxue43_activate_fnm() {
