@@ -52,10 +52,6 @@ _kxue43_set_path() {
 
     local own_path="$HOME/go/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.pyenv/bin"
 
-    if [ "$(uname -s)" = "Linux" ]; then
-      own_path+=":/usr/local/go/bin"
-    fi
-
     PATH="$own_path:$PATH"
 
     if [ -x /opt/local/bin/port ]; then
@@ -87,12 +83,12 @@ _kxue43_enable_completion() {
 
     # Turn on completion manually for AWS CLI because it's not installed by port.
     complete -C '/usr/local/bin/aws_completer' aws
-  elif [ "$(uname -s)" = "Linux" ]; then
-    if [ -r /usr/share/bash-completion/bash_completion ]; then
-      source /usr/share/bash-completion/bash_completion
-    elif [ -r /etc/bash_completion ]; then
-      source /etc/bash_completion
-    fi
+  elif [ "$(uname -s)" = "Linux" ] && [ "$(hostname)" = "toolbx" ]; then
+    # On Fedora, scripts in `/etc/profile.d` are automatically sourced,
+    # which includes `bash_completion.sh`.
+
+    # git-prompt.sh comes from git.
+    [ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && source /usr/share/git-core/contrib/completion/git-prompt.sh
   fi
 
   # Strictly speaking, PS1 is not about completion. However, it's closely related to it.
@@ -116,7 +112,7 @@ _kxue43_source_env_bashrc() {
   local prefix
 
   case "$(hostname)" in
-  MacBookAir.fios-router.home)
+  MacBookAir.fios-router.home | fedora | toolbx)
     prefix=kxue43
     ;;
   LM-*)
