@@ -5,8 +5,10 @@
 [ -r "$HOME/.creds.bashrc" ] && source "$HOME/.creds.bashrc"
 
 # Java settings.
-JAVA_HOME=$(/usr/libexec/java_home -v 21)
-export JAVA_HOME
+if [ "$(uname -s)" = "Darwin" ]; then
+  JAVA_HOME=$(/usr/libexec/java_home -v 21)
+  export JAVA_HOME
+fi
 
 # Groovy settings.
 GROOVY_HOME=$HOME/.local/lib/groovy-4.0.27
