@@ -1,6 +1,5 @@
-# ------------------------------------------------------------------------
-# Functions.
-# ------------------------------------------------------------------------
+# Reusable private functions.
+
 _kxue43_prompt() {
   local chosen
 
@@ -12,7 +11,7 @@ _kxue43_prompt() {
 
   echo "$chosen"
 }
-# ------------------------------------------------------------------------
+
 _kxue43_prompt_aws_profile() {
   local -a profiles
 
@@ -24,7 +23,7 @@ _kxue43_prompt_aws_profile() {
 
   _kxue43_prompt "${profiles[@]}"
 }
-# ------------------------------------------------------------------------
+
 _kxue43_prompt_aws_region() {
   local -a regions
 
@@ -36,7 +35,8 @@ _kxue43_prompt_aws_region() {
 
   _kxue43_prompt "${regions[@]}"
 }
-# ------------------------------------------------------------------------
+
+# Only works on macOS.
 _kxue43_prompt_jdk_version() {
   local -a versions
 
@@ -44,7 +44,7 @@ _kxue43_prompt_jdk_version() {
 
   _kxue43_prompt "${versions[@]}"
 }
-# ------------------------------------------------------------------------
+
 _kxue43_set_path() {
   # For idempotency.
   if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
@@ -55,51 +55,36 @@ _kxue43_set_path() {
     PATH="$own_path:$PATH"
 
     if [ -x /opt/local/bin/port ]; then
-      # MacPorts is in use.
-      # Until MacPorts provides Tcl 9.0, put /usr/local/bin in front of
-      # MacPorts bin directories so that the self-built tclsh is used.
-      PATH="/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH"
+      PATH="/opt/local/bin:/opt/local/sbin:$PATH"
     elif [ -x /opt/homebrew/bin/brew ]; then
-      # Homebrew is in use.
       export HOMEBREW_FORBIDDEN_FORMULAE="openjdk"
 
       eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
   fi
 }
-# ------------------------------------------------------------------------
+
 _kxue43_enable_completion() {
-  if [ -x /opt/homebrew/bin/brew ] && [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
-    # Enable bash-completion.
+  if [ -x /opt/homebrew/bin/brew ]; then
     source /opt/homebrew/etc/profile.d/bash_completion.sh
 
-    # git-prompt.sh is not a completion, but it's in the conventional completion folder.
-    # Source it to use the __git_ps1 function.
     source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-  elif [ -x /opt/local/bin/port ] && [ -r /opt/local/etc/profile.d/bash_completion.sh ]; then
+  elif [ -x /opt/local/bin/port ]; then
     source /opt/local/etc/profile.d/bash_completion.sh
 
     source /opt/local/share/git/git-prompt.sh
 
     # Turn on completion manually for AWS CLI because it's not installed by port.
     complete -C '/usr/local/bin/aws_completer' aws
-  elif [ "$(uname -s)" = "Linux" ] && [ "$(hostname)" = "toolbx" ]; then
-    # On Fedora, scripts in `/etc/profile.d` are automatically sourced,
-    # which includes `bash_completion.sh`.
+  elif [ "$(hostname)" = "toolbx" ] || [ "$(hostname)" = "fedora" ]; then
+    # On Fedora, scripts in `/etc/profile.d` are automatically sourced, which includes `bash_completion.sh`.
 
-    # git-prompt.sh comes from git.
-    [ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && source /usr/share/git-core/contrib/completion/git-prompt.sh
+    source /usr/share/git-core/contrib/completion/git-prompt.sh
   fi
 
-  # Strictly speaking, PS1 is not about completion. However, it's closely related to it.
-  # Bash-completion uses it to determine where to enable itself, and git-prompt.sh is in a completion folder.
-  if [ "$(uname -s)" = "Linux" ] && [ "$(hostname)" = "fedora" ]; then
-    PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
-  else
-    PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
-  fi
+  PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
 }
-# ------------------------------------------------------------------------
+
 _kxue43_activate_fnm() {
   if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
     eval "$(fnm env --use-on-cd --shell bash)"
@@ -111,7 +96,22 @@ _kxue43_activate_fnm() {
     eval "$(fnm env --use-on-cd --shell bash)"
   fi
 }
-# ------------------------------------------------------------------------
+
+_kxue43_set_man_pager() {
+  export MANPAGER="sh -c 'col -b -x | nvim -c \"set ft=man nonu nomodifiable\" -R - '"
+
+  if [ "$(hostname)" = "fedora" ]; then
+    # Fedora Silverblue host OS doesn't have NeoVim.
+    MANPAGER="sh -c 'col -b -x | vim -c \"set ft=man nonu nomodifiable\" -R - '"
+  fi
+
+  # The MANPAGER above only works with backspace-based formatting,
+  # not with the more modern ANSI escape codes. macOS only uses
+  # backspace-based formatting. On Linux, we need to set GROFF_NO_SGR
+  # to force it.
+  [ "$(uname -s)" = "Linux" ] && export GROFF_NO_SGR=1
+}
+
 _kxue43_source_env_bashrc() {
   local prefix
 
@@ -127,43 +127,5 @@ _kxue43_source_env_bashrc() {
     ;;
   esac
 
-  [ -r "$HOME/.${prefix}.bashrc" ] && source "$HOME/.${prefix}.bashrc"
+  source "$HOME/.${prefix}.bashrc"
 }
-# ------------------------------------------------------------------------
-_kxue43_color_echo() {
-  local eol="\n"
-  if [ "$1" = "-n" ]; then
-    eol=
-
-    shift
-  fi
-
-  local code
-
-  case "$1" in
-  red)
-    code=31
-    ;;
-  green)
-    code=32
-    ;;
-  yellow)
-    code=33
-    ;;
-  blue)
-    code=34
-    ;;
-  magenta)
-    code=35
-    ;;
-  cyan)
-    code=36
-    ;;
-  *)
-    code=37
-    ;;
-  esac
-
-  printf "\033[${code}m%s\033[0m${eol}" "$2"
-}
-# ------------------------------------------------------------------------

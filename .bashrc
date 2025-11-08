@@ -1,35 +1,25 @@
 # -----------------------------------------------------------------------
-# Source reused functions first.
-[ -r "$HOME/.fns.bashrc" ] && source "$HOME/.fns.bashrc"
-# ------------------------------------------------------------------------
-# Idempotent PATH settings.
-_kxue43_set_path
+# Source private functions.
+source "$HOME/.fns.bashrc"
 # -----------------------------------------------------------------------
-# Activate pyenv.
+_kxue43_set_path
+
 eval "$(pyenv init -)"
-# ------------------------------------------------------------------------
-# Activate fnm.
+
 _kxue43_activate_fnm
-# ------------------------------------------------------------------------
+
 _kxue43_enable_completion
+
+_kxue43_set_man_pager
 # ------------------------------------------------------------------------
-# Key bindings.
+# Bash key bindings.
 # Use up/down arrow keys to search history based on current input.
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 # ------------------------------------------------------------------------
-# View man pages in NeoVim
-export MANPAGER="sh -c 'col -b -x | nvim -c \"set ft=man nonu nomodifiable\" -R - '"
-# The MANPAGER above only works with backspace-based formatting,
-# not with the more modern ANSI escape codes. macOS only uses
-# backspace-based formatting. On Linux, we need to set GROFF_NO_SGR
-# to force it.
-[ "$(uname -s)" = "Linux" ] && export GROFF_NO_SGR=1
-# ------------------------------------------------------------------------
 # Aliases
-# ------------------------------------------------------------------------
+
 alias ls='ls --color=auto'
-alias awk='gawk'
 alias gproj='cd ~/projects'
 alias gtemp='cd ~/temp'
 alias glearn='cd ~/learning'
@@ -48,14 +38,14 @@ alias nvconfp='pushd ~/.config/nvim >/dev/null ; git pull ; popd >/dev/null'
 alias dotfp='pushd ~/.config/dot-files >/dev/null ; git pull ; popd >/dev/null'
 # ------------------------------------------------------------------------
 # Functions
-# ------------------------------------------------------------------------
+
 tl() {
   tmux list-sessions -F '#{session_name} (#{@long-name}): #{session_windows}win'
 }
-# ------------------------------------------------------------------------
+
 tn() {
   if (($# != 2)); then
-    _kxue43_color_echo red "Need two positional arguments, but got ${#}: ${*}."
+    echo "Need two positional arguments, but got ${#}: ${*}."
 
     return 1
   fi
@@ -64,16 +54,11 @@ tn() {
   tmux set-option -t "$1" @long-name "$2"
   tmux attach-session -t "$1"
 }
-# ------------------------------------------------------------------------
+
 ta() {
   tmux attach-session -t "$1"
 }
-# ------------------------------------------------------------------------
-rm-cdk-docker() {
-  docker image rm "$(docker images --filter "reference=cdkasset-*:latest" --format "{{.Repository}}:{{.Tag}}")" &&
-    docker image rm "$(docker images --filter "reference=*.amazonaws.com/cdk-hnb659fds-*:*" --format "{{.Repository}}:{{.Tag}}")"
-}
-# ------------------------------------------------------------------------
+
 set-aws-region() {
   local region
 
@@ -87,11 +72,11 @@ set-aws-region() {
 
   export AWS_REGION=$region
 }
-# ------------------------------------------------------------------------
+
 ls-aws-env() {
   printenv | grep '^AWS'
 }
-# ------------------------------------------------------------------------
+
 use-role-profile() {
   if [ -n "${1:+x}" ]; then
     export AWS_PROFILE=$1
@@ -102,7 +87,7 @@ use-role-profile() {
   AWS_PROFILE=$(_kxue43_prompt_aws_profile "$KXUE43_AWS_PROFILE_PREFIX")
   export AWS_PROFILE
 }
-# ------------------------------------------------------------------------
+
 set-role-env() {
   local profile
 
@@ -116,36 +101,19 @@ set-role-env() {
 
   unset AWS_PROFILE
 }
-# ------------------------------------------------------------------------
+
 glo() {
   git log --oneline "$@"
 }
-# ------------------------------------------------------------------------
+
 gsh() {
   git show --name-only "$@"
 }
-# ------------------------------------------------------------------------
+
 my-diff() {
   git diff --no-index "$1" "$2"
 }
-# ------------------------------------------------------------------------
-ls-jdk() {
-  /usr/libexec/java_home -V
-}
-# ------------------------------------------------------------------------
-set-jdk() {
-  local jdk_version
 
-  jdk_version=$(_kxue43_prompt_jdk_version)
-
-  JAVA_HOME=$(/usr/libexec/java_home -v "$jdk_version")
-  export JAVA_HOME
-}
-# ------------------------------------------------------------------------
-open-in-browser() {
-  /usr/bin/python3 -m webbrowser -t "$1"
-}
-# ------------------------------------------------------------------------
 gtc() {
   local profile=coverage.out
 
@@ -153,19 +121,37 @@ gtc() {
 
   go tool cover -html=${profile}
 }
+
+if [ "$(uname -s)" = "Darwin" ]; then
+  ls-jdk() {
+    /usr/libexec/java_home -V
+  }
+
+  set-jdk() {
+    local jdk_version
+
+    jdk_version=$(_kxue43_prompt_jdk_version)
+
+    JAVA_HOME=$(/usr/libexec/java_home -v "$jdk_version")
+    export JAVA_HOME
+  }
+
+  rm-cdk-docker() {
+    docker image rm "$(docker images --filter "reference=cdkasset-*:latest" --format "{{.Repository}}:{{.Tag}}")" &&
+      docker image rm "$(docker images --filter "reference=*.amazonaws.com/cdk-hnb659fds-*:*" --format "{{.Repository}}:{{.Tag}}")"
+  }
+
+  show-img() {
+    if [[ "$TERM_PROGRAM" != "iTerm.app" ]]; then
+      echo "Only works on iTerm2."
+
+      return 1
+    fi
+
+    echo -e "\033]1337;File=inline=1:$(base64 <"$1")\a"
+  }
+fi
 # ------------------------------------------------------------------------
-show-img() {
-  if [[ "$TERM_PROGRAM" != "iTerm.app" ]]; then
-    _kxue43_color_echo red "Only works on iTerm2."
-
-    return 1
-  fi
-
-  echo -e "\033]1337;File=inline=1:$(base64 <"$1")\a"
-}
-# ------------------------------------------------------------------------
-# The following must be at the very end!!!
-
-# Source env-specific bashrc file if exists.
+# Source env-specific bashrc file.
 _kxue43_source_env_bashrc
 # ------------------------------------------------------------------------

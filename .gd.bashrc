@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------
 # Secret environment variables.
-# ------------------------------------------------------------------------
+
 # Source credentials from untracked file if exists.
 [ -r "$HOME/.creds.bashrc" ] && source "$HOME/.creds.bashrc"
 
@@ -11,7 +11,7 @@ export ARTIFACTORY_KEY
 export GD_JFROG_TOKEN
 # ------------------------------------------------------------------------
 # Environment variables.
-# ------------------------------------------------------------------------
+
 # GoDaddy AWS profiles and regions.
 export KXUE43_AWS_PROFILE_PREFIX="afternic"
 export KXUE43_AWS_REGIONS="us-west-2:us-east-1"
@@ -27,22 +27,21 @@ export JAVA_HOME
 export GROOVY_HOME=$HOME/.local/lib/groovy-5.0.2
 # ------------------------------------------------------------------------
 # Aliases.
-# ------------------------------------------------------------------------
+
 alias gs='git status'
 alias gce='gh copilot explain'
 alias gwv='gh workflow view'
 # ------------------------------------------------------------------------
 # Functions.
-# ------------------------------------------------------------------------
+
 tunnel-to-vm() {
   ssh "kxue1@kxue1#dc1.corp.gd@${1}@psmp.dc1.ca.iam.int.gd3p.tools"
 }
-# ------------------------------------------------------------------------
+
 sso-login() {
   aws sso login --sso-session sso-afternic
 }
-# ------------------------------------------------------------------------
-# Assume SSG Deploy role
+
 ssg-assume() {
   local accountId
 
@@ -70,21 +69,21 @@ ssg-assume() {
 
   unset AWS_PROFILE
 }
-# ------------------------------------------------------------------------
+
 gd-ecr-docker-login() {
   aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 764525110978.dkr.ecr.us-west-2.amazonaws.com
 }
-# ------------------------------------------------------------------------
+
 gd-jfrog-docker-login() {
   docker login --username kxue1@godaddy.com --password "$GD_JFROG_TOKEN" gdartifactory1.jfrog.io
 }
-# ------------------------------------------------------------------------
+
 jsonify-log-file() {
   cat <<EOF
 [$(cat "$1" | tr "\n" "," | sed 's/,$//')]
 EOF
 }
-# ------------------------------------------------------------------------
+
 slack-test() {
   curl -X POST -H 'Content-type: application/json' --data '{"text":"Kent test."}' "$1"
 }

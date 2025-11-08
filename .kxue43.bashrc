@@ -1,8 +1,10 @@
 # ------------------------------------------------------------------------
-# Environment variables.
-# ------------------------------------------------------------------------
+# Secret environment variables.
+
 # Source credentials from untracked file if exists.
 [ -r "$HOME/.creds.bashrc" ] && source "$HOME/.creds.bashrc"
+# ------------------------------------------------------------------------
+# Environment variables.
 
 # Java settings.
 if [ "$(uname -s)" = "Darwin" ]; then
@@ -15,7 +17,7 @@ GROOVY_HOME=$HOME/.local/lib/groovy-4.0.27
 export GROOVY_HOME
 # ------------------------------------------------------------------------
 # Aliases.
-# ------------------------------------------------------------------------
+
 alias gs='git status'
 # ------------------------------------------------------------------------
 # Functions.
