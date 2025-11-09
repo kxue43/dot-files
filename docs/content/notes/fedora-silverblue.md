@@ -160,3 +160,27 @@ After plugin installation finishes, run `:MasonInstallAll` to install all LSPs.
 
 Run `:checkhealth` to see if there are any problems.
 
+## Script version
+
+First clone the [kxue43/dot-files](https://github.com/kxue43/dot-files) project in the host OS.
+
+```bash
+mkdir -p ~/.config
+git clone https://github.com/kxue43/dot-files ~/.config/dot-files
+```
+
+Create a Toolbox container and set it up by running a script.
+
+```bash
+toolbox create dev
+toolbox enter dev
+~/.config/dot-files/silverblue-dev-toolbox.sh
+```
+
+Finally exit container and create symlinks for dot-files.
+
+```bash
+~/.config/dot-files/set-up.sh
+```
+
+Restart terminal.

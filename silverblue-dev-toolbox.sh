@@ -53,3 +53,5 @@ go install github.com/kxue43/cli-toolkit/cmd/toolkit-show-md@latest
 go install mvdan.cc/sh/v3/cmd/shfmt@latest
 go install golang.org/x/tools/cmd/godoc@latest
 go install github.com/air-verse/air@latest
+
+printf "\033[36m%s\033[0m\n" "Remember to run $HOME/.config/dot-files/set-up.sh to create symlinks."
