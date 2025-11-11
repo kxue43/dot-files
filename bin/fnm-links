@@ -66,7 +66,7 @@ EOF
     _list "$@"
     ;;
   *)
-    printf "\033[36m%s\033[0m\n" "fnm-links requires a subcommand - count or clean."
+    printf "\033[36m%s\033[0m\n" "fnm-links requires a subcommand - list, count or clean."
 
     return 1
     ;;
