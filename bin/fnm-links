@@ -21,12 +21,28 @@ _count() {
   [ -d "$fnm_multishell_dir" ] && find "$fnm_multishell_dir" -type l | wc -l
 }
 
+_list() {
+  if [ -z "${FNM_MULTISHELL_PATH:+x}" ] || ! [ -d "$(dirname "$FNM_MULTISHELL_PATH")" ]; then
+    printf "\033[31m%s\033[0m\n" "The FNM_MULTISHELL_PATH environment variable does not have a valid value."
+
+    return 1
+  fi
+
+  if [[ "$1" =~ ^-[[:digit:]]+$ ]]; then
+    # shellcheck disable=SC2012
+    ls -al "$(dirname "$FNM_MULTISHELL_PATH")" | tail "$1"
+  else
+    ls -al "$(dirname "$FNM_MULTISHELL_PATH")"
+  fi
+}
+
 main() {
   if [[ $1 == "-h" ]]; then
     cat <<EOF
-USAGE: fnm-links [-h] [SUBCOMMAND] [DURATION]
+USAGE: fnm-links [-h] [SUBCOMMAND] [-N] [DURATION]
 
 SUBCOMMANDS:
+    list  [-N]          List existing symlinks. If N is an integer, list the newest N links.
     count               Count the number of existing symlinks for fnm.
     clean [DURATION]    Clean up fnm symlinks older than DURATION. Defaults to 1d.
 
@@ -43,6 +59,11 @@ EOF
     ;;
   clean)
     _clean "${2:-1d}"
+    ;;
+  list | ls)
+    shift 1
+
+    _list "$@"
     ;;
   *)
     printf "\033[36m%s\033[0m\n" "fnm-links requires a subcommand - count or clean."

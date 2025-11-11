@@ -7,7 +7,7 @@ _fnm_links() {
   prev="${COMP_WORDS[COMP_CWORD - 1]}"
 
   local -a opts
-  opts=("'-h  (Show help message)'" "'count  (Count symlinks)'" "'clean  (Clean up symlinks)'")
+  opts=("'-h  (Show help message)'" "'list (List symlinks)'" "'count  (Count symlinks)'" "'clean  (Clean up symlinks)'")
 
   if ((COMP_CWORD == 1)) && [[ $cur == "" ]]; then
     mapfile -t COMPREPLY < <(compgen -W "${opts[*]}")
@@ -18,7 +18,7 @@ _fnm_links() {
 
     return 0
   elif ((COMP_CWORD == 1)) && ! [[ $cur =~ ^- ]]; then
-    mapfile -t COMPREPLY < <(compgen -W "count clean" "$cur")
+    mapfile -t COMPREPLY < <(compgen -W "list count clean" "$cur")
 
     return 0
   elif ((COMP_CWORD == 2)) && [[ $prev == "clean" ]] && [[ $cur =~ ^[[:digit:]]+ ]]; then
