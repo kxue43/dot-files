@@ -80,6 +80,10 @@ _kxue43_enable_completion() {
     # On Fedora, scripts in `/etc/profile.d` are automatically sourced, which includes `bash_completion.sh`.
 
     source /usr/share/git-core/contrib/completion/git-prompt.sh
+
+    PS1='\[\033[94m\]\u@\h: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
+
+    return 0
   fi
 
   PS1='\[\033[94m\]\u@\t: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
