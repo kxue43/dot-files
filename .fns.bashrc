@@ -77,7 +77,8 @@ _kxue43_enable_completion() {
     # Turn on completion manually for AWS CLI because it's not installed by port.
     complete -C '/usr/local/bin/aws_completer' aws
   elif [ "$(hostname)" = "toolbx" ] || [ "$(hostname)" = "fedora" ]; then
-    # On Fedora, scripts in `/etc/profile.d` are automatically sourced, which includes `bash_completion.sh`.
+    # On Fedora Server, this file doesn't seem to be automatically sourced.
+    source /etc/profile.d/bash_completion.sh
 
     source /usr/share/git-core/contrib/completion/git-prompt.sh
 
