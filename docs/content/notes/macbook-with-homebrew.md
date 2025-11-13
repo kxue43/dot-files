@@ -132,6 +132,12 @@ pipx inject poetry poetry-plugin-export
 brew install go
 ```
 
+## Install documentation tools
+
+```bash
+brew install hugo sass/sass/sass
+```
+
 ## Install `fnm`
 
 `fnm` is a Node versions manager that doesn't cause a noticeable slow down at activation.
