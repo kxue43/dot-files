@@ -174,13 +174,13 @@ Create a Toolbox container and set it up by running a script.
 ```bash
 toolbox create dev
 toolbox enter dev
-~/.config/dot-files/silverblue-dev-toolbox.sh
+~/.config/dot-files/fedora-dev.sh
 ```
 
 Finally exit container and create symlinks for dot-files.
 
 ```bash
-~/.config/dot-files/set-up.sh
+~/.config/dot-files/set-up.sh  --with=untracked
 ```
 
 Restart terminal.

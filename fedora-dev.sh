@@ -12,7 +12,7 @@ printf "\033[36m%s\033[0m\n" "Installing coding tools."
 sudo dnf install -y vim-enhanced neovim ripgrep luarocks tmux pre-commit
 
 printf "\033[36m%s\033[0m\n" "Installing pyenv build dependencies"
-sudo dnf update -y vte-profile
+[ "$(hostname)" = "toolbx" ] && sudo dnf update -y vte-profile
 sudo dnf install -y zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel findutils tk-devel libzstd-devel
 
 printf "\033[36m%s\033[0m\n" "Installing pyenv."
@@ -34,6 +34,7 @@ printf "\033[36m%s\033[0m\n" "Installing rustup."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 printf "\033[36m%s\033[0m\n" "Installing fnm."
+export PATH="$HOME/.cargo/bin:$PATH"
 cargo install fnm
 
 printf "\033[36m%s\033[0m\n" "Installing AWS CLI v2."
