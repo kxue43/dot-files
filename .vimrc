@@ -158,7 +158,7 @@ set nu
 set hlsearch
 
 " Use dark background.
-set bg=dark
+set bg=light
 " ----------------------------------------------------------------------------
 " Global mappings.
 
@@ -242,7 +242,7 @@ autocmd vimenter * ++nested colorscheme gruvbox
 let g:airline#extensions#tabline#enabled = 1
 
 " Airline theme.
-let g:airline_theme='base16_gruvbox_dark_hard'
+let g:airline_theme='base16_gruvbox_light_medium'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}

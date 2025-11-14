@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 main() {
+  # Make necessary directories first.
+  mkdir -p "$HOME/.newsboat"
+
   local -a tracked=(
     .bash_logout
     .bash_profile
@@ -13,12 +16,16 @@ main() {
     .gvimrc
     .tmux.conf
     .vimrc
+    .newsboat/config
+    .newsboat/urls
   )
 
   local name
   for name in "${tracked[@]}"; do
+    # If the ln target already exists as a regular file, remove it.
     [ -f "$HOME/$name" ] && rm "$HOME/$name"
 
+    # This is a no-ops if the target is already a symlink.
     ln -s "$HOME/.config/dot-files/$name" "$HOME/$name"
   done
 

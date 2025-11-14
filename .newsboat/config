@@ -1,0 +1,4 @@
+browser "w3m %u"
+show-read-feeds no
+show-read-articles no
+refresh-on-startup yes
