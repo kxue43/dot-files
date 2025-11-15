@@ -3,6 +3,7 @@
 main() {
   # Make necessary directories first.
   mkdir -p "$HOME/.newsboat"
+  mkdir -p "$HOME/.w3m"
 
   local -a tracked=(
     .bash_logout
@@ -18,6 +19,9 @@ main() {
     .vimrc
     .newsboat/config
     .newsboat/urls
+    .w3m/config
+    .w3m/keymap
+    .w3m/bookmark.html
   )
 
   local name
