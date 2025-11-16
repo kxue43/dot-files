@@ -163,7 +163,7 @@ set bg=light
 " Global mappings.
 
 " Toggle light/dark background.
-noremap <F1> :let &background = ( &background == "dark" ? "light" : "dark" ) <Bar> let g:airline_theme = ( &background == "dark" ? "base16_gruvbox_light_medium" : "base16_gruvbox_dark_hard" )<CR>
+noremap <F1> :let &background = ( &background == "dark" ? "light" : "dark" ) <Bar> let g:airline_theme = ( &background == "dark" ? "base16_gruvbox_dark_hard" : "base16_gruvbox_light_medium")<CR>
 
 " Set no highlight until next search.
 nnoremap <F2> :noh<CR>
