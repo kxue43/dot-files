@@ -157,10 +157,13 @@ set nu
 " Use highlight search by default.
 set hlsearch
 
-" Use dark background.
+" Use light background.
 set bg=light
 " ----------------------------------------------------------------------------
 " Global mappings.
+
+" Toggle light/dark background.
+noremap <F1> :let &background = ( &background == "dark" ? "light" : "dark" )<CR>
 
 " Set no highlight until next search.
 nnoremap <F2> :noh<CR>

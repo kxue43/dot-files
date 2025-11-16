@@ -1,15 +1,2 @@
-keymap  O   EXTERN
-
-keymap  o   EXTERN_LINK
-
-# Mark URL-like strings as anchors
-keymap  :   MARK_URL
-
-# Mark current word as URL
-keymap  ";" MARK_WORD
-
-# INFO includes the page response HTTP header
-keymap  =   INFO
-
 # reread all config options
 keymap  M-r REINIT
