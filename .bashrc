@@ -14,8 +14,10 @@ _kxue43_set_man_pager
 # ------------------------------------------------------------------------
 # Bash key bindings.
 # Use up/down arrow keys to search history based on current input.
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
+bind '"\e[A": previous-history'
+bind '"\e[B": next-history'
+bind '"\C-p": history-search-backward'
+bind '"\C-n": history-search-forward'
 # ------------------------------------------------------------------------
 # Aliases
 
