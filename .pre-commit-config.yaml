@@ -1,9 +1,8 @@
 repos:
   - repo: https://github.com/godaddy/tartufo
-    rev: "v5.0.2"
+    rev: "v6.0.0"
     hooks:
       - id: tartufo
-        language_version: python3.13
 
   - repo: https://github.com/kxue43/shell-cmd-on-change
     rev: "2.0.0"
