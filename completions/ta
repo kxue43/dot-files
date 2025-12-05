@@ -8,7 +8,7 @@ _ta() {
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD - 1]}"
 
-  if ((COMP_WORD == 1)) && [[ $prev == "ta" ]]; then
+  if ((COMP_CWORD == 1)) && [[ $prev == "ta" ]]; then
     local -a sessions
     mapfile -t sessions < <(tmux list-sessions -F '#{session_name}')
 

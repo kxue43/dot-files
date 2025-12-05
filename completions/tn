@@ -8,8 +8,8 @@ _tn() {
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD - 1]}"
 
-  if ((COMP_WORD == 1)) && [[ $prev == "tn" ]]; then
-    local dirs=(*/)
+  if ((COMP_CWORD == 1)) && [[ $prev == "tn" ]]; then
+    local -a dirs=(*/)
 
     dirs=("${dirs[@]%/}")
 
