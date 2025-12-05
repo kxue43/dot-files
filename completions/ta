@@ -1,0 +1,23 @@
+# The hard part of a completion functin is in fact the flow diagram - when to provide what completions.
+# Get it nailed down before writing the completion code.
+_ta() {
+  COMPREPLY=()
+
+  local cur prev
+
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD - 1]}"
+
+  if ((COMP_WORD == 1)) && [[ $prev == "ta" ]]; then
+    local -a sessions
+    mapfile -t sessions < <(tmux list-sessions -F '#{session_name}')
+
+    mapfile -t COMPREPLY < <(compgen -W "${sessions[*]}" -- "${cur}")
+
+    return 0
+  fi
+
+  return 0
+} && complete -F _ta ta
+
+# vim: set ft=sh :

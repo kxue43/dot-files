@@ -33,7 +33,7 @@ main() {
     ln -s "$HOME/.config/dot-files/$name" "$HOME/$name"
   done
 
-  tracked=(decode-base64 fnm-links)
+  tracked=(decode-base64 fnm-links tn ta)
 
   local prefix="$HOME/.local/share/bash-completion/completions"
 

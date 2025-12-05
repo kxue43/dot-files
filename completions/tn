@@ -1,0 +1,24 @@
+# The hard part of a completion functin is in fact the flow diagram - when to provide what completions.
+# Get it nailed down before writing the completion code.
+_tn() {
+  COMPREPLY=()
+
+  local cur prev
+
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD - 1]}"
+
+  if ((COMP_WORD == 1)) && [[ $prev == "tn" ]]; then
+    local dirs=(*/)
+
+    dirs=("${dirs[@]%/}")
+
+    mapfile -t COMPREPLY < <(compgen -W "${dirs[*]}" -- "${cur}")
+
+    return 0
+  fi
+
+  return 0
+} && complete -F _tn tn
+
+# vim: set ft=sh :

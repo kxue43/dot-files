@@ -42,23 +42,7 @@ alias dotfp='pushd ~/.config/dot-files >/dev/null ; git pull ; popd >/dev/null'
 # Functions
 
 tl() {
-  tmux list-sessions -F '#{session_name} (#{@long-name}): #{session_windows}win'
-}
-
-tn() {
-  if (($# != 2)); then
-    echo "Need two positional arguments, but got ${#}: ${*}."
-
-    return 1
-  fi
-
-  tmux new-session -d -s "$1"
-  tmux set-option -t "$1" @long-name "$2"
-  tmux attach-session -t "$1"
-}
-
-ta() {
-  tmux attach-session -t "$1"
+  tmux list-sessions -F '#{session_name}: #{session_windows}win'
 }
 
 set-aws-region() {
