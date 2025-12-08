@@ -34,6 +34,12 @@ alias gwv='gh workflow view'
 # ------------------------------------------------------------------------
 # Functions.
 
+enable-pyenv() {
+  PATH="$HOME/.pyenv/bin:$PATH"
+
+  eval "$(pyenv init -)"
+}
+
 tunnel-to-vm() {
   ssh "kxue1@kxue1#dc1.corp.gd@${1}@psmp.dc1.ca.iam.int.gd3p.tools"
 }

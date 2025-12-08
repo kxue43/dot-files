@@ -43,12 +43,6 @@ tl() {
   tmux list-sessions -F '#{session_name}: #{session_windows}win'
 }
 
-enable-pyenv() {
-  PATH="$HOME/.pyenv/bin:$PATH"
-
-  eval "$(pyenv init -)"
-}
-
 set-aws-region() {
   local region
 
