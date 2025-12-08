@@ -105,35 +105,16 @@ When coding, run NeoVim inside Tmux sessions.
 sudo port install git neovim ripgrep lua-luarocks tmux pre-commit
 ```
 
-## Install `pyenv`
-
-`pyenv` is a CLI tool written in shell scripts. It installs multiple versions of Python by downloading and
-compiling them from C source code. First we install various tools that are needed to compile Python interpreters. 
-
-```bash
-sudo port install pkgconfig openssl xz gdbm tcl tk +quartz sqlite3 sqlite3-tcl zstd
-```
-
-Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
-
-```bash
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-pushd ~/.pyenv && src/configure && make -C src && popd
-```
-
-## Install `pipx` and `poetry`
-
-```bash
-sudo port install pipx
-pipx ensurepath
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-```
-
 ## Install `go`
 
 ```bash
 sudo port install go
+```
+
+## Install `uv`
+
+```bash
+sudo port install uv
 ```
 
 ## Install `fnm`
@@ -251,7 +232,34 @@ rm ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
 rm ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 ```
 
-## Install Groovy (optional)
+## Optional
+
+### Install `pyenv`
+
+`pyenv` is a CLI tool written in shell scripts. It installs multiple versions of Python by downloading and
+compiling them from C source code. First we install various tools that are needed to compile Python interpreters. 
+
+```bash
+sudo port install pkgconfig openssl xz gdbm tcl tk +quartz sqlite3 sqlite3-tcl zstd
+```
+
+Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
+
+```bash
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+pushd ~/.pyenv && src/configure && make -C src && popd
+```
+
+### Install `pipx` and `poetry`
+
+```bash
+sudo port install pipx
+pipx ensurepath
+pipx install poetry
+pipx inject poetry poetry-plugin-export
+```
+
+### Install Groovy
 
 Download a Groovy _SDK bundle_ into the `~/Downloads` folder, e.g. use [this link](https://groovy.apache.org/download.html).
 Set the `GROOVY_VERSION` environment variable below to the corresponding version.

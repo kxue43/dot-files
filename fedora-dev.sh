@@ -11,22 +11,6 @@ sudo dnf install -y rlwrap jq
 printf "\033[36m%s\033[0m\n" "Installing coding tools."
 sudo dnf install -y vim-enhanced neovim ripgrep luarocks tmux pre-commit
 
-printf "\033[36m%s\033[0m\n" "Installing pyenv build dependencies"
-[ "$(hostname)" = "toolbx" ] && sudo dnf update -y vte-profile
-sudo dnf install -y zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel findutils tk-devel libzstd-devel
-
-printf "\033[36m%s\033[0m\n" "Installing pyenv."
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-pushd ~/.pyenv && src/configure && make -C src && popd
-
-printf "\033[36m%s\033[0m\n" "Installing pipx."
-sudo dnf install -y pipx
-pipx ensurepath
-
-printf "\033[36m%s\033[0m\n" "Installing poetry."
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-
 printf "\033[36m%s\033[0m\n" "Installing Go."
 sudo dnf install -y golang
 

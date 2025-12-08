@@ -57,37 +57,16 @@ sudo dnf install rlwrap jq
 sudo dnf install vim-enhanced neovim ripgrep luarocks tmux pre-commit
 ```
 
-## Install `pyenv`
-
-`pyenv` is a CLI tool written in shell scripts. It installs multiple versions of Python by downloading and
-compiling them from C source code. First we install various tools that are needed to compile Python interpreters.
-
-```bash
-sudo dnf update vte-profile  # https://github.com/containers/toolbox/issues/390
-sudo dnf install zlib-devel bzip2 bzip2-devel readline-devel sqlite \
-sqlite-devel openssl-devel xz xz-devel libffi-devel findutils tk-devel libzstd-devel
-```
-
-Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
-
-```bash
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-pushd ~/.pyenv && src/configure && make -C src && popd
-```
-
-## Install `pipx` and `poetry`
-
-```bash
-sudo dnf install pipx
-pipx ensurepath
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-```
-
 ## Install `go`
 
 ```bash
 sudo dnf install golang
+```
+
+## Install `uv`
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | UV_NO_MODIFY_PATH=1 sh
 ```
 
 ## Install `rustup`
@@ -184,3 +163,32 @@ Finally exit container and create symlinks for dot-files.
 ```
 
 Restart terminal.
+
+## Optional
+
+### Install `pyenv`
+
+`pyenv` is a CLI tool written in shell scripts. It installs multiple versions of Python by downloading and
+compiling them from C source code. First we install various tools that are needed to compile Python interpreters.
+
+```bash
+sudo dnf update vte-profile  # https://github.com/containers/toolbox/issues/390
+sudo dnf install zlib-devel bzip2 bzip2-devel readline-devel sqlite \
+sqlite-devel openssl-devel xz xz-devel libffi-devel findutils tk-devel libzstd-devel
+```
+
+Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
+
+```bash
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+pushd ~/.pyenv && src/configure && make -C src && popd
+```
+
+### Install `pipx` and `poetry`
+
+```bash
+sudo dnf install pipx
+pipx ensurepath
+pipx install poetry
+pipx inject poetry poetry-plugin-export
+```

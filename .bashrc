@@ -4,8 +4,6 @@ source "$HOME/.fns.bashrc"
 # -----------------------------------------------------------------------
 _kxue43_set_path
 
-eval "$(pyenv init -)"
-
 _kxue43_activate_fnm
 
 _kxue43_enable_completion
@@ -43,6 +41,12 @@ alias dotfp='pushd ~/.config/dot-files >/dev/null ; git pull ; popd >/dev/null'
 
 tl() {
   tmux list-sessions -F '#{session_name}: #{session_windows}win'
+}
+
+enable-pyenv() {
+  PATH="$HOME/.pyenv/bin:$PATH"
+
+  eval "$(pyenv init -)"
 }
 
 set-aws-region() {

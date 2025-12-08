@@ -11,7 +11,7 @@ tags:
 ---
 
 This document covers how to set up an x64 Debian 12 as a developer machine.
-It is geared towards Go, Java, Python and JavaScript development.
+It is geared towards Go, Java, Python, JavaScript and Java development.
 
 All commands on this page should be executed from the user's home directory.
 
@@ -69,32 +69,6 @@ Build the latest version available. The one in Debian 12 repository is too old.
 
 Make sure the `nvim` binary is on `PATH`. Typically, it should be placed in `~/.local/bin`.
 
-## Install `pyenv`
-
-Install Python build dependencies.
-
-```bash
-sudo apt install make build-essential libssl-dev zlib1g-dev \
-libbz2-dev libreadline-dev libsqlite3-dev curl git \
-libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-```
-
-Install `pyenv`.
-
-```bash
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-pushd ~/.pyenv && src/configure && make -C src && popd
-```
-
-## Install `pipx` and `poetry`
-
-```bash
-sudo apt install pipx
-pipx ensure path
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-```
-
 ## Install `go`
 
 Download Go installation archive (`.tar.gz` file) from official website.
@@ -105,6 +79,12 @@ export GO_VERSION=1.25.2
 pushd ~/Downloads
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
 popd
+```
+
+## Install `uv`
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | UV_NO_MODIFY_PATH=1 sh
 ```
 
 ## Install `fnm`
@@ -232,7 +212,35 @@ rm ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
 rm ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 ```
 
-## Install Groovy (optional)
+## Optional
+
+### Install `pyenv`
+
+Install Python build dependencies.
+
+```bash
+sudo apt install make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev curl git \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+```
+
+Install `pyenv`.
+
+```bash
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+pushd ~/.pyenv && src/configure && make -C src && popd
+```
+
+### Install `pipx` and `poetry`
+
+```bash
+sudo apt install pipx
+pipx ensure path
+pipx install poetry
+pipx inject poetry poetry-plugin-export
+```
+
+### Install Groovy
 
 Download a Groovy _SDK bundle_ into the `~/Downloads` folder, e.g. use [this link](https://groovy.apache.org/download.html).
 Set the `GROOVY_VERSION` environment variable below to the corresponding version.

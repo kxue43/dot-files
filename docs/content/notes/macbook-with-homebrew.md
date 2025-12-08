@@ -13,7 +13,7 @@ tags:
 ## Introduction
 
 This document covers how to set up an ARM64 Macbook as a developer machine.
-It is geared towards Go, Java, Python and JavaScript development.
+It is geared towards Go, Python, JavaScript and Java development.
 
 All commands on this page should be executed from the user's home directory.
 
@@ -101,35 +101,16 @@ When coding, run NeoVim inside Tmux sessions.
 brew install git neovim ripgrep luarocks tmux pre-commit
 ```
 
-## Install `pyenv`
-
-`pyenv` is a CLI tool written in shell scripts. It installs multiple versions of Python by downloading and
-compiling them from C source code. First we install various tools that are needed to compile Python interpreters.
-
-```bash
-brew install openssl readline sqlite3 xz zlib tcl-tk
-```
-
-Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
-
-```bash
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-pushd ~/.pyenv && src/configure && make -C src && popd
-```
-
-## Install `pipx` and `poetry`
-
-```bash
-brew install pipx
-pipx ensurepath
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-```
-
 ## Install `go`
 
 ```bash
 brew install go
+```
+
+## Install `uv`
+
+```bash
+brew install uv
 ```
 
 ## Install documentation tools
@@ -261,7 +242,34 @@ rm ~/Downloads/apache-maven-${MVN_VERSION}-bin.zip
 rm ~/Downloads/gradle-${GRADLE_VERSION}-bin.zip
 ```
 
-## Install Groovy (optional)
+## Optional
+
+### Install `pyenv`
+
+`pyenv` is a CLI tool written in shell scripts. It installs multiple versions of Python by downloading and
+compiling them from C source code. First we install various tools that are needed to compile Python interpreters.
+
+```bash
+brew install openssl readline sqlite3 xz zlib tcl-tk
+```
+
+Now install `pyenv` via `git clone` into the `~/.pyenv` folder.
+
+```bash
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+pushd ~/.pyenv && src/configure && make -C src && popd
+```
+
+### Install `pipx` and `poetry`
+
+```bash
+brew install pipx
+pipx ensurepath
+pipx install poetry
+pipx inject poetry poetry-plugin-export
+```
+
+### Install Groovy
 
 Download a Groovy _SDK bundle_ into the `~/Downloads` folder, e.g. use [this link](https://groovy.apache.org/download.html).
 Set the `GROOVY_VERSION` environment variable below to the corresponding version.

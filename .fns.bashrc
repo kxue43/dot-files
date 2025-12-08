@@ -50,7 +50,7 @@ _kxue43_set_path() {
   if [ -z "${KXUE43_SHELL_INIT+x}" ]; then
     export KXUE43_SHELL_INIT=1
 
-    local own_path="$HOME/go/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.pyenv/bin"
+    local own_path="$HOME/go/bin:$HOME/.cargo/bin:$HOME/.local/bin"
 
     PATH="$own_path:$PATH"
 
@@ -65,6 +65,12 @@ _kxue43_set_path() {
 }
 
 _kxue43_enable_completion() {
+  if type -a uv uvx &>/dev/null; then
+    eval "$(uv generate-shell-completion bash)"
+
+    eval "$(uvx --generate-shell-completion bash)"
+  fi
+
   if [ -x /opt/homebrew/bin/brew ]; then
     source /opt/homebrew/etc/profile.d/bash_completion.sh
 
