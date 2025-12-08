@@ -65,12 +65,6 @@ _kxue43_set_path() {
 }
 
 _kxue43_enable_completion() {
-  if type -a uv uvx &>/dev/null; then
-    eval "$(uv generate-shell-completion bash)"
-
-    eval "$(uvx --generate-shell-completion bash)"
-  fi
-
   if [ -x /opt/homebrew/bin/brew ]; then
     source /opt/homebrew/etc/profile.d/bash_completion.sh
 
@@ -80,13 +74,17 @@ _kxue43_enable_completion() {
 
     source /opt/local/share/git/git-prompt.sh
 
-    # Turn on completion manually for AWS CLI because it's not installed by port.
+    # Activate completion manually for AWS CLI because it's not installed by port.
     complete -C '/usr/local/bin/aws_completer' aws
   elif [ "$(hostname)" = "toolbx" ] || [ "$(hostname)" = "fedora" ]; then
     # On Fedora Server, this file doesn't seem to be automatically sourced.
     source /etc/profile.d/bash_completion.sh
 
     source /usr/share/git-core/contrib/completion/git-prompt.sh
+
+    # Activate completion for uv and uvx.
+    eval "$(uv generate-shell-completion bash)"
+    eval "$(uvx --generate-shell-completion bash)"
 
     PS1='\[\033[94m\]\u@\h: \[\033[96m\]\w\[\033[93m\]$(__git_ps1 " (%s)")\n$(if [ $? -eq 0 ]; then echo -e "\[\033[92m\]\U2714"; else echo -e "\[\033[91m\]\U2718"; fi)\[\033[0m\]\$ '
 
