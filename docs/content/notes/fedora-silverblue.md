@@ -81,6 +81,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 The CLI interface is largely similar to that of `nvm`.
 
 ```bash
+export PATH="$HOME/.cargo/bin:$PATH"
 cargo install fnm
 ```
 

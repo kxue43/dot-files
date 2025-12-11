@@ -9,10 +9,13 @@ printf "\033[36m%s\033[0m\n" "Installing essential utilities."
 sudo dnf install -y rlwrap jq
 
 printf "\033[36m%s\033[0m\n" "Installing coding tools."
-sudo dnf install -y vim-enhanced neovim ripgrep luarocks tmux pre-commit
+sudo dnf install -y neovim ripgrep luarocks tmux pre-commit
 
 printf "\033[36m%s\033[0m\n" "Installing Go."
 sudo dnf install -y golang
+
+printf "\033[36m%s\033[0m\n" "Installing uv."
+curl -LsSf https://astral.sh/uv/install.sh | UV_NO_MODIFY_PATH=1 sh
 
 printf "\033[36m%s\033[0m\n" "Installing rustup."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
